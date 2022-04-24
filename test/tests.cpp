@@ -16,11 +16,11 @@ TEST(test2, recordFormation) {
     TextGenerator g = TextGenerator("test2.txt", "", 2, 1000);
     g.readFromFile();
     prefix expected;
-    expected.push_back("Это");
-    expected.push_back("второй");
+    expected.push_back("Р­С‚Рѕ");
+    expected.push_back("РІС‚РѕСЂРѕР№");
     table::iterator r = g.stateTab.find(expected);
     if (r != g.stateTab.end()) {
-        ASSERT_EQ(r->second[0], "тест");
+        ASSERT_EQ(r->second[0], "С‚РµСЃС‚");
     }
     else {
         FAIL();
@@ -31,20 +31,20 @@ TEST(test3, wordChoice) {
     TextGenerator g = TextGenerator("test3.txt", "", 2, 1000);
     g.readFromFile();
     prefix expected;
-    expected.push_back("я");
-    expected.push_back("полюбил");
+    expected.push_back("Гї");
+    expected.push_back("ГЇГ®Г«ГѕГЎГЁГ«");
     std::string nextStr = g.selectNewStr(expected);
-    ASSERT_EQ(nextStr, "программирование");
+    ASSERT_EQ(nextStr, "ГЇГ°Г®ГЈГ°Г Г¬Г¬ГЁГ°Г®ГўГ Г­ГЁГҐ");
 }
 
 TEST(test4, multipleChoice) {
     TextGenerator g = TextGenerator("test4.txt", "", 2, 1000);
     g.readFromFile();
     prefix expected;
-    expected.push_back("с");
-    expected.push_back("ходу");
+    expected.push_back("Г±");
+    expected.push_back("ГµГ®Г¤Гі");
     std::string nextStr = g.selectNewStr(expected);
-    ASSERT_TRUE((nextStr == "подоспевшие") || (nextStr == "с"));
+    ASSERT_TRUE((nextStr == "ГЇГ®Г¤Г®Г±ГЇГҐГўГёГЁГҐ") || (nextStr == "Г±"));
 }
 
 TEST(test5, dimensionalCheck) {
