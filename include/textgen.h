@@ -28,3 +28,4 @@ class TextGenerator {
     std::string selectNewStr(prefix);
     std::vector<std::string> formText();
 };
+
