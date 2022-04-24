@@ -21,8 +21,7 @@ TEST(test2, recordFormation) {
     table::iterator r = g.stateTab.find(expected);
     if (r != g.stateTab.end()) {
         ASSERT_EQ(r->second[0], "тест");
-    }
-    else {
+    } else {
         FAIL();
     }
 }
@@ -58,8 +57,7 @@ TEST(test5, dimensionalCheck) {
         while (in >> str) {
             count++;
         }
-    }
-    else {
+    } else {
         FAIL();
     }
     in.close();
