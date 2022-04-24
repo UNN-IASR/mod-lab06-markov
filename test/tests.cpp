@@ -43,7 +43,7 @@ TEST(test4, multipleChoice) {
     expected.push_back("с");
     expected.push_back("ходу");
     std::string nextStr = g.selectNewStr(expected);
-    ASSERT_TRUE((nextStr == "подоспевшие") || (nextStr == "ñ"));
+    ASSERT_TRUE((nextStr == "подоспевшие") || (nextStr == "с"));
 }
 
 TEST(test5, dimensionalCheck) {
