@@ -6,3 +6,4 @@ int main() {
     TextGenerator Gen = TextGenerator("FileIn.txt", "Solution.txt", 2, 1);
     Gen.generate();
 }
+
