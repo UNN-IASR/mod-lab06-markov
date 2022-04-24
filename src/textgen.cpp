@@ -30,8 +30,7 @@ std::string TextGenerator::selectNewStr(prefix currentPref) {
     table::iterator it = stateTab.find(currentPref);
     if (it != stateTab.end()) {
         return it->second[rand() % (it->second).size()];
-    }
-    else {
+    } else {
         return "";
     }
 }
@@ -58,8 +57,7 @@ std::vector<std::string> TextGenerator::formText() {
             resultOfGeneration.push_back(nextStr);
             next.pop_front();
             next.push_back(nextStr);
-        }
-        else {
+        } else {
             break;
         }
     }
@@ -70,3 +68,4 @@ void TextGenerator::generate() {
     readFromFile();
     writeToFile();
 }
+
