@@ -31,20 +31,20 @@ TEST(test3, wordChoice) {
     TextGenerator g = TextGenerator("test3.txt", "", 2, 1000);
     g.readFromFile();
     prefix expected;
-    expected.push_back("ÿ");
-    expected.push_back("ïîëþáèë");
+    expected.push_back("я");
+    expected.push_back("полюбил");
     std::string nextStr = g.selectNewStr(expected);
-    ASSERT_EQ(nextStr, "ïðîãðàììèðîâàíèå");
+    ASSERT_EQ(nextStr, "программирование");
 }
 
 TEST(test4, multipleChoice) {
     TextGenerator g = TextGenerator("test4.txt", "", 2, 1000);
     g.readFromFile();
     prefix expected;
-    expected.push_back("ñ");
-    expected.push_back("õîäó");
+    expected.push_back("с");
+    expected.push_back("ходу");
     std::string nextStr = g.selectNewStr(expected);
-    ASSERT_TRUE((nextStr == "ïîäîñïåâøèå") || (nextStr == "ñ"));
+    ASSERT_TRUE((nextStr == "подоспевшие") || (nextStr == "ñ"));
 }
 
 TEST(test5, dimensionalCheck) {
