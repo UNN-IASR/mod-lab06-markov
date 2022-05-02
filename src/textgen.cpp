@@ -1,13 +1,12 @@
+// Copyright 2022 UNN-IASR
 #include <time.h>
 #include "textgen.h"
 
-Markov::Markov(vector<string> words, int prfx_count, int gen_count)
-{
+Markov::Markov(vector<string> words, int prfx_count, int gen_count) {
     NPREF = prfx_count;
     MAXGEN = gen_count;
 
-    for (int i = 0; i < words.size() - NPREF + 1; i++)
-    {
+    for (int i = 0; i < words.size() - NPREF + 1; i++) {
         prefix prfx;
         for (int j = 0; j < NPREF; j++)
             prfx.push_back(words.at(i + j));
@@ -18,15 +17,13 @@ Markov::Markov(vector<string> words, int prfx_count, int gen_count)
     }
 }
 
-Markov::Markov(map<prefix, vector<string>> Gen, int gen_count)
-{
+Markov::Markov(map<prefix, vector<string>> Gen, int gen_count) {
     statelab = Gen;
     NPREF = statelab.begin()->first.size();
     MAXGEN = gen_count;
 }
 
-string Markov::TextGen()
-{
+string Markov::TextGen() {
     srand(time(NULL));
     string output;
     deque<string> words;
@@ -36,14 +33,12 @@ string Markov::TextGen()
     for (int i = 0; i < NPREF; i++)
         words.push_back(it->first.at(i));
 
-    while (output.size() < MAXGEN)
-    {
+    while (output.size() < MAXGEN) {
         prefix prfx;
         for (int i = 0; i < NPREF; i++)
             prfx.push_back(words.at(i));
-        int random = rand() % statelab.find(prfx)->second.size();
-        if (statelab.find(prfx)->second.at(random) == "<Last_Prefix>")
-        {
+        int random = rand_r() % statelab.find(prfx)->second.size();
+        if (statelab.find(prfx)->second.at(random) == "<Last_Prefix>") {
             for (int i = 0; i < NPREF; i++)
                 output += words.at(i) + ' ';
             break;
