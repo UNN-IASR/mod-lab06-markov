@@ -1,3 +1,4 @@
+// Copyright 2022 UNN-IASR
 #include <gtest/gtest.h>
 #include "textgen.h"
 TEST(task1, test1) {
