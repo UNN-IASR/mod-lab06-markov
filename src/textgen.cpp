@@ -40,7 +40,7 @@ std::string PROG::getText()
 {
     prefix str;
     for (int i = 0; i < NPREF; i++) str.push_back(words[i]);
-    string answer = "";
+    std::string answer = "";
     int count = 1;
     while (answer.size() < MAXPROG)
     {
@@ -60,7 +60,7 @@ std::string PROG::getText()
             count++;
             answer = answer + '\n';
         }
-        string tmp = statetab[str][val];
+        std::string tmp = statetab[str][val];
         for (int i = 0; i < NPREF - 1; i++) str[i] = str[i + 1];
         str[NPREF - 1] = tmp;
     }
