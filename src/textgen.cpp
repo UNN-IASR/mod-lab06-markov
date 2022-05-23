@@ -36,7 +36,7 @@ PROG::PROG(std::string arr, int val1, int val2)
         else statetab[prf].push_back("END_OF_FILE");
     }
 }
-string PROG::getText()
+std::string PROG::getText()
 {
     prefix str;
     for (int i = 0; i < NPREF; i++) str.push_back(words[i]);
@@ -66,7 +66,7 @@ string PROG::getText()
     }
     return answer;
 }
-PROG::PROG(map<prefix, std::vector<std::string> > val, std::vector<std::string> word, int val1, int val2)
+PROG::PROG(std::map<prefix, std::vector<std::string> > val, std::vector<std::string> word, int val1, int val2)
 {
     NPREF = val1;
     MAXPROG = val2;
