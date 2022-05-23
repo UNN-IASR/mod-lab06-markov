@@ -1,9 +1,7 @@
 // Copyright 2022 UNN-IASR
 #include"textgen.h"
 
-using namespace std;
-
-PROG::PROG(string arr, int val1, int val2)
+PROG::PROG(std::string arr, int val1, int val2)
 {
     srand(4561);
     NPREF = val1;
@@ -68,7 +66,7 @@ string PROG::getText()
     }
     return answer;
 }
-PROG::PROG(map<prefix, vector<string> > val, vector<string> word, int val1, int val2)
+PROG::PROG(map<prefix, std::vector<std::string> > val, std::vector<std::string> word, int val1, int val2)
 {
     NPREF = val1;
     MAXPROG = val2;
