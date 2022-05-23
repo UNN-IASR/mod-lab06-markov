@@ -38,7 +38,7 @@ PROG::PROG(string arr, int val1, int val2)
         else statetab[prf].push_back("END_OF_FILE");
     }
 }
-string PROG::PROG()
+string PROG::getText()
 {
     prefix str;
     for (int i = 0; i < NPREF; i++) str.push_back(words[i]);
