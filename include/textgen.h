@@ -1,9 +1,10 @@
 // Copyright 2022 UNN-IASR
+#pragma once
 #include <string>
 #include <deque>
 #include <vector>
 #include <map>
-namespace std;
+
 class PROG {
  private:
     string data;
