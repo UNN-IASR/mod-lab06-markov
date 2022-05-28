@@ -1,0 +1,15 @@
+{
+  "version": "0.2.1",
+  "tasks": [
+    {
+      "taskLabel": "задача-test",
+      "appliesTo": "test/",
+      "type": "launch"
+    },
+    {
+      "taskLabel": "задача-test",
+      "appliesTo": "test/",
+      "type": "launch"
+    }
+  ]
+}
