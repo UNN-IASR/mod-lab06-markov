@@ -1,3 +1,4 @@
+// Copyright 2022 UNN
 #pragma once
 #include <stdio.h>
 #include <string>
