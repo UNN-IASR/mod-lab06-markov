@@ -1,3 +1,4 @@
+// Copyright 2022 UNN
 #include "textgen.h"
 
 int main() {
