@@ -32,11 +32,9 @@ void TextGenerator::readFile() {
             words.push_back("");
             words[n] = words[n] + textfile[i];
             n++;
-        }
-        else if (j == 1 && (textfile[i] == ' ')) {
+        } else if (j == 1 && (textfile[i] == ' ')) {
             j = 0;
-        }
-        else if (j == 1 && textfile[i] != ' ') {
+        } else if (j == 1 && textfile[i] != ' ') {
             words[n - 1] = words[n - 1] + textfile[i];
         }
         i++;
@@ -49,8 +47,7 @@ void TextGenerator::readFile() {
         }
         if (i + NPREF < words.size()) {
             stateTab[pref].push_back(words[i + NPREF]);
-        }
-        else {
+        } else {
             stateTab[pref].push_back("end_file");
         }
     }
