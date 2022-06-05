@@ -39,7 +39,7 @@ std::string Generator::newText() {
         if (currSuffix.size() == 0)
             break;
 
-        int ind = rand() % currSuffix.size();
+        int ind = rand_r() % currSuffix.size();
         newtext += currSuffix[ind] + " ";
         currPrefix.erase(currPrefix.begin());
         currPrefix.push_back(currSuffix[ind]);
@@ -54,6 +54,6 @@ std::string Generator::Suffix(std::deque<std::string> pref) {
 
     srand(time(NULL));
     std::vector <std::string> suffix = statetab.at(prefixes);
-    int ind = rand() % suffix.size();
+    int ind = rand_r() % suffix.size();
     return suffix[ind];
 }
