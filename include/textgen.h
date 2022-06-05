@@ -7,6 +7,7 @@
 #include <deque>
 #include <map>
 #include <fstream>
+#define rand_r rand
 
 class Generator {
     
