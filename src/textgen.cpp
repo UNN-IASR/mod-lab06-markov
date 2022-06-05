@@ -24,18 +24,18 @@ void TextGenerator::readFile() {
 
     int i = 0;
     int j = 0;
-    int n = 0;
+    int n = -1;
 
     while (textfile[i] != '\0') {
         if (j == 0 && textfile[i] != ' ') {
             j = 1;
+            n++;
             words.push_back("");
             words[n] = words[n] + textfile[i];
-            n++;
         } else if (j == 1 && (textfile[i] == ' ')) {
             j = 0;
         } else if (j == 1 && textfile[i] != ' ') {
-            words[n - 1] = words[n - 1] + textfile[i];
+            words[n] = words[n] + textfile[i];
         }
         i++;
     }
@@ -56,7 +56,7 @@ void TextGenerator::readFile() {
 std::string TextGenerator::generate() {
     setlocale(LC_ALL, "Russian");
     readFile();
-
+    srand(4561);
     prefix pref;
     std::string text = "";
     int n = 1;
