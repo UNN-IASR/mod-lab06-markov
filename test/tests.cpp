@@ -3,7 +3,7 @@
 #include "textgen.h"
 
 TEST(task1, test1) {
-    TextGenerator gentext = TextGenerator("test1.txt", 2, 1000);
-    gentext.generate();
-    ASSERT_EQ(gentext.words.size(), 6);
+    TextGenerator gtext = TextGenerator("test1.txt", 2, 1000);
+    gtext.readFile();
+    ASSERT_EQ(gtext.words.size(), 6);
 }
