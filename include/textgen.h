@@ -16,14 +16,14 @@
 typedef std::deque<std::string> prefix;
 
 class TextGenerator {
-public:
-	int NPREF;
-	int MAXGEN;
-	std::string NFILE;
-	std::string text;
-	std::vector<std::string> words;
+ public:
+  int NPREF;
+  int MAXGEN;
+  std::string NFILE;
+  std::string text;
+  std::vector<std::string> words;
   std::map<prefix, std::vector<std::string>> stateTab;
-	std::string generate();
-	void readFile();
-	TextGenerator(std::string, int, int);
+  std::string generate();
+  void readFile();
+  TextGenerator(std::string, int, int);
 };
