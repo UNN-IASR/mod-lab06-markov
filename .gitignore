@@ -1,0 +1,5 @@
+build/
+build.sh
+test_insert.h
+.vscode/
+*.exe
