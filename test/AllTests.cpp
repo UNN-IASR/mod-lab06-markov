@@ -1,4 +1,4 @@
-// Copyright 2020 GHA Test Team
+// Copyright 2024 StatsenkoArs
 
 #include <gtest/gtest.h>
 
