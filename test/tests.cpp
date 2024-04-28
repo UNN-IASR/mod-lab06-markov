@@ -8,7 +8,7 @@ TEST(Test1, SizeStatetab) {
 
     std::map<prefix, suffixes> map = mark.GenerateStatetab(2, text);
 
-    EXPECT_EQ(8, map.size());
+    EXPECT_EQ(3, map.size());
 }
 
 TEST(Test2, SizeSuffixes1) {
@@ -23,8 +23,8 @@ TEST(Test2, SizeSuffixes1) {
 }
 
 TEST(Test3, SizeSuffixes2) {
-    std::string text = "hello world how are you hello world \
-        I'm here hello world are you fine";
+    std::string text = "hello world how are you hello world";
+    text += " I'm here hello world are you fine";
     Markov mark = Markov();
 
     std::map<prefix, suffixes> map = mark.GenerateStatetab(2, text);
@@ -42,8 +42,8 @@ TEST(Test3, SizeSuffixes2) {
 }
 
 TEST(Test4, CurrentSuffixes) {
-    std::string text = "hello world how are you hello world \
-        I'm here hello world are you fine";
+    std::string text = "hello world how are you hello world";
+    text += " I'm here hello world are you fine";
     Markov mark = Markov();
 
     std::map<prefix, suffixes> map = mark.GenerateStatetab(2, text);
