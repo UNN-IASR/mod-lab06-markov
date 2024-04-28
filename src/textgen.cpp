@@ -24,7 +24,8 @@ std::string Markov::GenerateText(std::string text, int sizePref, int maxLen) {
     return resStr;
 }
 
-std::map<prefix, suffixes> Markov::GenerateStatetab(int sizePref, std::string text) {
+std::map<prefix, suffixes> Markov::GenerateStatetab
+(int sizePref, std::string text) {
     auto splitText = Split(text);
 
     std::map<prefix, suffixes> statetab;
