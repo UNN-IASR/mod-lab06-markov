@@ -132,6 +132,9 @@ const int MAXGEN=1000; //объем текста на выходе
 - **src/textgen.cpp**
 - **src/main.cpp**
 - **test/tests.cpp**
+- **result/gen.txt**
+
+В файле **gen.txt** должен содержаться пример сгенерированного текста из 1000-1500 слов
 
 
 
