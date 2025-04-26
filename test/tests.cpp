@@ -1,7 +1,6 @@
 // Copyright 2021 GHA Test Team
 #include <gtest/gtest.h>
 #include <string>
-
 #include "textgen.h"
 
 // Тесты для формирования префикса из заданного числа слов
@@ -26,7 +25,8 @@ TEST(PrefixTest, PrefixContent) {
 
 TEST(PrefixTest, EmptyPrefix) {
     TextGenerator generator;
-    EXPECT_THROW(generator.build_state_table("nonexistent.txt", 2), std::runtime_error);
+    EXPECT_THROW(generator.build_state_table("nonexistent.txt", 2),
+    std::runtime_error);
 }
 
 TEST(PrefixTest, PrefixShorterThanText) {
@@ -34,7 +34,6 @@ TEST(PrefixTest, PrefixShorterThanText) {
     generator.build_state_table(INPUT_FILE_PATH, 1);
     ASSERT_EQ(generator.get_init_pref().size(), 1);
 }
-
 
 
 // Тесты для формирования записи "префикс-суффикс"
@@ -88,7 +87,7 @@ TEST(SuffixSelectionTest, MultipleSuffixSelection) {
     generator.add_pref(pref, "a");
     generator.add_pref(pref, "b");
     generator.add_pref(pref, "c");
-    
+
     std::string result = generator.random_suff(pref);
     EXPECT_TRUE(result == "a" || result == "b" || result == "c");
 }
@@ -98,7 +97,7 @@ TEST(SuffixSelectionTest, SuffixDistribution) {
     prefix pref = {"test", "distribution"};
     generator.add_pref(pref, "a");
     generator.add_pref(pref, "b");
-    
+
     // Проверяем, что оба варианта могут быть выбраны
     bool hasA = false, hasB = false;
     for (int i = 0; i < 100; ++i) {
@@ -128,18 +127,19 @@ TEST(TextGenerationTest, ExactLengthGeneration) {
     generator.add_pref({"start", "text"}, "middle");
     generator.add_pref({"text", "middle"}, "end");
     generator.generate_text(OUTPUT_FILE_PATH, 4);
-    
+
     std::ifstream file(OUTPUT_FILE_PATH);
     int wordCount = 0;
     std::string word;
     while (file >> word) wordCount++;
-    
+
     ASSERT_EQ(wordCount, 4);
 }
 
 TEST(TextGenerationTest, EmptyStateTable) {
     TextGenerator generator;
-    EXPECT_THROW(generator.generate_text(OUTPUT_FILE_PATH, 10), std::runtime_error);
+    EXPECT_THROW(generator.generate_text(OUTPUT_FILE_PATH, 10),
+    std::runtime_error);
 }
 
 TEST(TextGenerationTest, EndPrefixReached) {
@@ -148,12 +148,12 @@ TEST(TextGenerationTest, EndPrefixReached) {
     generator.add_pref({"b", "c"}, "d");
     generator.add_end_pref({"c", "d"});
     generator.generate_text(OUTPUT_FILE_PATH, 100);
-    
+
     std::ifstream file(OUTPUT_FILE_PATH);
     int wordCount = 0;
     std::string word;
     while (file >> word) wordCount++;
-    
+
     EXPECT_LT(wordCount, 100);
 }
 
@@ -161,7 +161,7 @@ TEST(TextGenerationTest, LineBreaksInOutput) {
     TextGenerator generator;
     generator.add_pref({"line", "break"}, "test");
     generator.generate_text(OUTPUT_FILE_PATH, 20);
-    
+
     std::ifstream file(OUTPUT_FILE_PATH);
     std::string line;
     bool hasLineBreak = false;
@@ -177,24 +177,26 @@ TEST(TextGenerationTest, WordCleaningVerification) {
     TextGenerator generator;
     generator.add_pref({"clean", "word"}, "test!");
     generator.generate_text("output.txt", 3);
-    
+
     std::ifstream file(OUTPUT_FILE_PATH);
     std::string content;
     std::getline(file, content);
-    
+
     EXPECT_EQ(content.find("test!"), std::string::npos);
     EXPECT_NE(content.find("test"), std::string::npos);
 }
 
 TEST(TextGenerationTest, GeneralTest) {
     TextGenerator generator_markova;
-    generator_markova.build_state_table(INPUT_FILE_PATH, generator_markova.NPREF);
-    generator_markova.generate_text(OUTPUT_FILE_PATH, generator_markova.MAXGEN);
-    
+    generator_markova.build_state_table(INPUT_FILE_PATH,
+        generator_markova.NPREF);
+    generator_markova.generate_text(OUTPUT_FILE_PATH,
+        generator_markova.MAXGEN);
+
     std::ifstream file(OUTPUT_FILE_PATH);
     int wordCount = 0;
     std::string word;
     while (file >> word) wordCount++;
-    
+
     ASSERT_EQ(wordCount, 1000);
 }
