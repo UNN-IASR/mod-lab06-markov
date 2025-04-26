@@ -27,7 +27,7 @@ std::string TextGenerator::genText(int text_len = MAXGEN) {
   for (int i = 0; i < pref.size(); i++) {
     text += pref[i] + " ";
   }
-  for (int i = 0; i < text_len; i++) {
+  for (int i = 0; i < text_len - pref.size(); i++) {
     if (pref == end_pref) return text;
     std::string word = genSuffix(pref);
     text += word + " ";
@@ -42,4 +42,9 @@ std::string TextGenerator::genSuffix(prefix pref) {
   std::mt19937 generator(random_device());
   std::uniform_int_distribution<> distribution(0, statetab[pref].size() - 1);
   return statetab[pref][distribution(generator)];
+}
+void TextGenerator::addTransition(prefix pref, std::string word) {
+  if (init_pref.size() == 0) init_pref = pref;
+  statetab[pref].push_back(word);
+  end_pref = {pref[pref.size() - 1], word};
 }

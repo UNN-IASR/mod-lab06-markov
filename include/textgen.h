@@ -14,8 +14,11 @@ class TextGenerator {
     prefix_len = prefix_le;
     analyzeText(FilePath);
   }
+  TextGenerator(int prefix_le) { prefix_len = prefix_le; }
   std::string genText(int text_len);
   std::string genSuffix(prefix pref);
+  void addTransition(prefix pref, std::string word);
+  prefix getEnd() { return end_pref; }
 
  private:
   int prefix_len;
