@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include <utility>
+#include <map>
 #include "textgen.h"
 
 
@@ -46,7 +47,7 @@ std::vector<std::string> TextGenerator::read_words_from_file(
     return words;
 }
 
-void TextGenerator::build_state_table(const std::string& filename, 
+void TextGenerator::build_state_table(const std::string& filename,
     int len_pref = NPREF) {
     auto words = read_words_from_file(filename);
 
@@ -73,7 +74,7 @@ void TextGenerator::build_state_table(const std::string& filename,
     }
 }
 
-void TextGenerator::generate_text(const std::string& output_filename, 
+void TextGenerator::generate_text(const std::string& output_filename,
     int max_word) {
     if (state_table.empty()) {
         throw std::runtime_error("State table is empty - nothing to generate");
