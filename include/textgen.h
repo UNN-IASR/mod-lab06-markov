@@ -7,6 +7,8 @@
 #include <random>
 #include <fstream>
 #include <cctype>
+#include <vector>
+#include <string>
 
 typedef std::deque<std::string> prefix;
 
@@ -15,6 +17,8 @@ class TextGenerator {
     std::map<prefix, std::vector<std::string>> state_table;
     prefix current_prefix;
     std::mt19937 gen;
+    prefix init_pref;  
+    prefix end_pref;   
 
     static constexpr int NPREF = 2;
     static constexpr int MAXGEN = 1000;
@@ -28,6 +32,6 @@ class TextGenerator {
     TextGenerator();
     void set_seed(unsigned int seed);
     void build_state_table(const std::string& filename);
-    void generate_text(const std::string& output_filename);     
+    void generate_text(const std::string& output_filename);
 };
 #endif // INCLUDE_TEXTGEN_H_
