@@ -17,13 +17,6 @@ void TextGenerator::set_seed(unsigned int seed) {
     gen.seed(seed);
 }
 
-void TextGenerator::generation(
-    const std::string& filename, const std::string& output_filename,
-    int len_pref, int max_word) {
-    build_state_table(filename, len_pref);
-    generate_text(output_filename, max_word);
-}
-
 std::string TextGenerator::clean_word(const std::string& word) {
     std::string result;
     for (unsigned char c : word) {
@@ -53,7 +46,8 @@ std::vector<std::string> TextGenerator::read_words_from_file(
     return words;
 }
 
-void TextGenerator::build_state_table(const std::string& filename, int len_pref = NPREF) {
+void TextGenerator::build_state_table(const std::string& filename, 
+    int len_pref = NPREF) {
     auto words = read_words_from_file(filename);
 
     if (words.size() < len_pref) {
@@ -79,7 +73,8 @@ void TextGenerator::build_state_table(const std::string& filename, int len_pref 
     }
 }
 
-void TextGenerator::generate_text(const std::string& output_filename, int max_word) {
+void TextGenerator::generate_text(const std::string& output_filename, 
+    int max_word) {
     if (state_table.empty()) {
         throw std::runtime_error("State table is empty - nothing to generate");
     }
@@ -114,10 +109,12 @@ void TextGenerator::generate_text(const std::string& output_filename, int max_wo
     out_file.close();
 }
 
-std::string TextGenerator::random_suff(prefix prefix) {
-    auto suffixes = state_table.find(prefix);
-    std::uniform_int_distribution<> dist(
-        0, suffixes->second.size() - 1);
+std::string TextGenerator::random_suff(prefix pref) {
+    auto suffixes = state_table.find(pref);
+    if (suffixes == state_table.end() || suffixes->second.empty()) {
+        throw std::runtime_error("No suffixes found for the given prefix");
+    }
+    std::uniform_int_distribution<> dist(0, suffixes->second.size() - 1);
     return suffixes->second[dist(gen)];
 }
 
@@ -127,4 +124,19 @@ void TextGenerator::add_pref(prefix pref, std::string word) {
     end_pref = {pref[pref.size() - 1], word};
 }
 
+std::map<prefix, std::vector<std::string>> TextGenerator::get_table() {
+    return state_table;
+}
+
+prefix TextGenerator::get_init_pref() {
+    return init_pref;
+}
+
+prefix TextGenerator::get_end_pref() {
+    return end_pref;
+}
+
+void TextGenerator::add_end_pref(prefix end_preff) {
+    end_pref = end_preff;
+}
 

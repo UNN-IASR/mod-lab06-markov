@@ -7,7 +7,8 @@
 int main() {
     try {
         TextGenerator generator_markova;
-        generator_markova.generation(INPUT_FILE_PATH, OUTPUT_FILE_PATH, generator_markova.NPREF, generator_markova.MAXGEN);
+        generator_markova.build_state_table(INPUT_FILE_PATH, generator_markova.NPREF);
+        generator_markova.generate_text(OUTPUT_FILE_PATH, generator_markova.MAXGEN);
         std::cout << "Text generation completed successfully!" << std::endl;
     }
     catch (const std::exception& e) {

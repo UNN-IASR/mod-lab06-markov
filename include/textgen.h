@@ -17,21 +17,25 @@ class TextGenerator {
     std::map<prefix, std::vector<std::string>> state_table;
     prefix current_prefix;
     std::mt19937 gen;
-    prefix init_pref;  
+    prefix init_pref;
     prefix end_pref;
+
     std::string clean_word(const std::string& word);
     std::vector<std::string> read_words_from_file(const std::string& filename);
     void set_seed(unsigned int seed);
-    void build_state_table(const std::string& filename, int len_pref);
-
 
  public:
     static constexpr int NPREF = 2;
     static constexpr int MAXGEN = 1000;
+
     TextGenerator();
-    void generation(const std::string& filename, const std::string& output_filename, int len_pref, int max_word);
+    void build_state_table(const std::string& filename, int len_pref);
     void generate_text(const std::string& output_filename, int max_word);
     std::string random_suff(prefix prefix);
     void add_pref(prefix pref, std::string word);
+    std::map<prefix, std::vector<std::string>> get_table();
+    prefix get_init_pref();
+    prefix get_end_pref();
+    void add_end_pref(prefix end_preff);
 };
 #endif // INCLUDE_TEXTGEN_H_
