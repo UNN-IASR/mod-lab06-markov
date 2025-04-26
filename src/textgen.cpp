@@ -1,9 +1,12 @@
 // Copyright 2022 UNN-IASR
-#include "textgen.h"
 #include <iostream>
 #include <sstream>
 #include <algorithm>
 #include <ctime>
+#include <vector>
+#include <string>
+#include "textgen.h"
+
 
 TextGenerator::TextGenerator() {
     set_seed(std::time(nullptr));
@@ -23,7 +26,8 @@ std::string TextGenerator::clean_word(const std::string& word) {
     return result;
 }
 
-std::vector<std::string> TextGenerator::read_words_from_file(const std::string& filename) {
+std::vector<std::string> TextGenerator::read_words_from_file(
+    const std::string& filename) {
     std::ifstream file(filename);
     if (!file.is_open()) {
         throw std::runtime_error("Failed to open file: " + filename);
@@ -47,9 +51,10 @@ std::vector<std::string> TextGenerator::read_words_from_file(const std::string& 
 
 void TextGenerator::build_state_table(const std::string& filename) {
     auto words = read_words_from_file(filename);
-    
+
     if (words.size() < NPREF) {
-        std::cerr << "Warning: Input text is shorter than prefix length" << std::endl;
+        std::cerr << "Warning: Input text is shorter than prefix length"
+        << std::endl;
         return;
     }
 
@@ -67,13 +72,15 @@ void TextGenerator::build_state_table(const std::string& filename) {
 
 void TextGenerator::generate_text(const std::string& output_filename) {
     if (state_table.empty()) {
-        std::cerr << "Error: State table is empty - nothing to generate" << std::endl;
+        std::cerr << "Error: State table is empty - nothing to generate"
+        << std::endl;
         return;
     }
 
     std::ofstream out_file(output_filename);
     if (!out_file.is_open()) {
-        std::cerr << "Error: Cannot open output file " << output_filename << std::endl;
+        std::cerr << "Error: Cannot open output file "
+        << output_filename << std::endl;
         return;
     }
 
