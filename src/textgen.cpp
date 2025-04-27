@@ -1,4 +1,9 @@
+// Copyright 2022 UNN-IASR
 #include "textgen.h"
+
+#include <iostream>
+#include <string>
+
 const int NPREF = 2;      // количество слов в префиксе
 const int MAXGEN = 1000;  // объем текста на выходе
 void TextGenerator::analyzeText(std::string filepath) {

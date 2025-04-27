@@ -1,3 +1,6 @@
+// Copyright 2022 UNN-IASR
+#ifndef INCLUDE_TEXTGEN_H_
+#define INCLUDE_TEXTGEN_H_
 #include <deque>
 #include <fstream>
 #include <iostream>
@@ -14,7 +17,7 @@ class TextGenerator {
     prefix_len = prefix_le;
     analyzeText(FilePath);
   }
-  TextGenerator(int prefix_le) { prefix_len = prefix_le; }
+  explicit TextGenerator(int prefix_le) { prefix_len = prefix_le; }
   std::string genText(int text_len);
   std::string genSuffix(prefix pref);
   void addTransition(prefix pref, std::string word);
@@ -27,3 +30,4 @@ class TextGenerator {
   std::map<prefix, std::vector<std::string> > statetab;  // префикс-суффиксы
   void analyzeText(std::string FilePath);
 };
+#endif  // INCLUDE_TEXTGEN_H_
