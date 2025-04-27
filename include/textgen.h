@@ -1,3 +1,4 @@
+// Copyright 2022 UNN-IASR
 #ifndef TEXTGEN_H
 #define TEXTGEN_H
 
@@ -12,11 +13,12 @@ typedef std::map<prefix, std::vector<std::string>> statetab;
 
 class TextGenerator {
  private:
-  statetab table;
-  prefix firstPrefix;
+  int prefLenght = 0;
   std::vector<std::string> readFile(const std::string& filename);
 
  public:
+  statetab table;
+  prefix firstPrefix;
   TextGenerator();
   void createTable(const std::string& filename, int prefLenght);
   void generateText(int maxCount, const std::string& filename);
