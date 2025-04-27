@@ -1,3 +1,5 @@
+// Copyright 1901 Romanchik333
+
 #include "textgen.h"
 
 #include <algorithm>
@@ -63,7 +65,7 @@ std::string TextGenerator::Generate(size_t size, unsigned int seed) {
             if (current_size % 7 == 0) {
                 text += "\n";
             }
-            
+
             start.push_front(statetab_[start][rand_r(&seed) % suff_size]);
             start.pop_back();
 
@@ -71,7 +73,7 @@ std::string TextGenerator::Generate(size_t size, unsigned int seed) {
             start = GetRandomPrefix_(seed);
         }
     }
- 
+
     return text;
 }
 
