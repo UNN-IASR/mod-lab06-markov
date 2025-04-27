@@ -51,7 +51,6 @@ TextGenerator::TextGenerator(std::ifstream& input_file, size_t pref_len)
 }
 
 std::string TextGenerator::Generate(size_t size, unsigned int seed) {
-    srand(seed);
     size_t current_size = 0;
     std::string text = "";
     prefix start = GetRandomPrefix_(seed);
