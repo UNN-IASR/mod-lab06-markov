@@ -2,12 +2,18 @@
 
 #include <algorithm>
 #include <codecvt>
+#include <deque>
+#include <fstream>
 #include <locale>
+#include <map>
 #include <random>
 #include <regex>
+#include <string>
+#include <vector>
 
 // да я знаю что есть stl split, но в симэйке стандарт 17 а там рэнжей нема.
-std::vector<std::string> Split(const std::string& string, const std::string& delimiter = " ") {
+std::vector<std::string> Split(const std::string& string,
+                               const std::string& delimiter = " ") {
     std::vector<std::string> out;
 
     if (string.empty()) {
@@ -28,7 +34,8 @@ std::vector<std::string> Split(const std::string& string, const std::string& del
 TextGenerator::TextGenerator(size_t pref_len) : NPREF(pref_len) {
 }
 
-TextGenerator::TextGenerator(std::ifstream& input_file, size_t pref_len) : NPREF(pref_len) {
+TextGenerator::TextGenerator(std::ifstream& input_file, size_t pref_len)
+    : NPREF(pref_len) {
     // считаем и обработаем входную строку
     std::string prepared = PrepareText_(ReadAllFromFile(input_file));
     auto all_words = Split(prepared);
@@ -43,27 +50,29 @@ TextGenerator::TextGenerator(std::ifstream& input_file, size_t pref_len) : NPREF
     }
 }
 
-std::string TextGenerator::Generate(size_t size, int seed) {
+std::string TextGenerator::Generate(size_t size, unsigned int seed) {
     srand(seed);
     size_t current_size = 0;
     std::string text = "";
-    prefix start = GetRandomPrefix_();
+    prefix start = GetRandomPrefix_(seed);
     while (current_size < size) {
-        if (statetab_.find(start) != statetab_.end() && !statetab_[start].empty()) {
+        if (statetab_.find(start) != statetab_.end() &&
+            !statetab_[start].empty()) {
             size_t suff_size = statetab_[start].size();
             text += start.back() + " ";
             ++current_size;
             if (current_size % 7 == 0) {
                 text += "\n";
             }
-            start.push_front(statetab_[start][rand() % suff_size]);
+            
+            start.push_front(statetab_[start][rand_r(&seed) % suff_size]);
             start.pop_back();
 
         } else {
-            start = GetRandomPrefix_();
+            start = GetRandomPrefix_(seed);
         }
     }
-
+ 
     return text;
 }
 
@@ -96,9 +105,9 @@ std::map<prefix, std::vector<std::string>>& TextGenerator::statetab() {
     return statetab_;
 }
 
-prefix TextGenerator::GetRandomPrefix_() {
+prefix TextGenerator::GetRandomPrefix_(unsigned int seed) {
     prefix answer;
-    int rnd_index = rand() % statetab_.size();
+    int rnd_index = rand_r(&seed) % statetab_.size();
     for (const auto& pair : statetab_) {
         --rnd_index;
         if (rnd_index == 0) {
