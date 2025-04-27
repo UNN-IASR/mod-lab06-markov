@@ -3,6 +3,8 @@
 
 #include <fstream>
 #include <iostream>
+#include <vector>
+#include <string>
 
 TextGenerator::TextGenerator() {}
 

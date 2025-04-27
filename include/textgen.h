@@ -1,6 +1,6 @@
 // Copyright 2022 UNN-IASR
-#ifndef TEXTGEN_H
-#define TEXTGEN_H
+#ifndef INCLUDE_TEXTGEN_H_
+#define INCLUDE_TEXTGEN_H_
 
 #include <deque>
 #include <map>
@@ -24,4 +24,4 @@ class TextGenerator {
   void generateText(int maxCount, const std::string& filename);
 };
 
-#endif  // TEXTGEN_H
+#endif  // INCLUDE_TEXTGEN_H_

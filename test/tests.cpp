@@ -2,6 +2,10 @@
 #include <gtest/gtest.h>
 #include <fstream>
 #include <sstream>
+#include <vector>
+#include <iostream>
+#include <set>
+#include <string>
 
 #include "textgen.h"
 
@@ -195,7 +199,7 @@ TEST(TextGenTest, MaxLengthTextGeneration) {
   std::string word;
   while (iss >> word) wordCount++;
 
-  ASSERT_TRUE(wordCount < 101);
+  ASSERT_LT(wordCount, 101);
 }
 
 TEST(TextGenTest, UniquePrefixesInTable) {
