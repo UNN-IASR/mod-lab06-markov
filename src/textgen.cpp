@@ -31,7 +31,7 @@ void TextGenerator::gatherData(std::string filename) {
             words.push_back(word);
         }
         for (const auto& word : words) {
-			if (deq.size() < NPREF) {
+            if (deq.size() < NPREF) {
                 deq.push_back(word);
             } else {
                 if (!prefixSaved) {

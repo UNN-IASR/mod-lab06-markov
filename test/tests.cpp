@@ -11,7 +11,7 @@
 
 TEST(TextGeneratorTest, FileNotFoundThrowsException) {
     TextGenerator generator(2, 100);
-    EXPECT_THROW(generator.gatherData("non_existent_file.txt"), 
+    EXPECT_THROW(generator.gatherData("non_existent_file.txt"),
         std::runtime_error);
 }
 
@@ -96,7 +96,7 @@ TEST(TextGeneratorTest, SelectRandomSuffix) {
     std::uniform_int_distribution<int> dist(0, suffix.size() - 1);
     std::string nextWord = suffix[dist(gen)];
     std::vector<std::string> variants = { "two", "four" };
-    EXPECT_NE(std::find(variants.begin(), variants.end(), nextWord), 
+    EXPECT_NE(std::find(variants.begin(), variants.end(), nextWord),
         variants.end());
 }
 
@@ -131,7 +131,7 @@ TEST(TextGeneratorTest, NonExistentPrefixHandling) {
     out << "one two three two three four one two";
     out.close();
     generator.gatherData("test3.txt");
-    std::vector<std::string> suffixes = 
+    std::vector<std::string> suffixes =
         generator.getSuffixes({ "apple", "orange" });
     EXPECT_TRUE(suffixes.empty());
 }
