@@ -1,6 +1,6 @@
 // Copyright 2022 UNN-IASR
-#ifndef INCLUDE_TEXTGENERATOR_H_
-#define INCLUDE_TEXTGENERATOR_H_
+#ifndef INCLUDE_TEXTGEN_H_
+#define INCLUDE_TEXTGEN_H_
 #include <string>
 #include <map>
 #include <vector>
@@ -8,30 +8,29 @@
 #include <iostream>
 #include <random>
 #include <deque>
-#include <random>
+//#include <random>
 
 const int NPREF = 2;
 const int MAXGEN = 1000;
 
 typedef std::deque<std::string> prefix;
 
-class TextGeneratorClass
-{
-public:
-    TextGeneratorClass(std::string Filepath);
+class TextGeneratorClass {
+public: 
+    explicit TextGeneratorClass(std::string Filepath);
     std::string generateText();
-    std::map < prefix, std::vector<std::string>> buildStateTab(std::vector<std::string> words);
+    std::map < prefix, std::vector<std::string>> buildStateTab
+    (std::vector<std::string> words);
     prefix GetStartPrefix();
     void SetStartPrefix(prefix newStartPrefix);
     std::map < prefix, std::vector<std::string>> GetStateTab();
     void SetStateTab(std::map < prefix, std::vector<std::string>> newStateTab);
     std::string chooseNextWord(prefix pref, std::mt19937 gen);
-
-private:
+private: 
     std::vector<std::string> readWords(std::string Filepath);
     std::map < prefix, std::vector<std::string>> stateTab;
     prefix start_prefix;
     prefix end_prefix;
 };
 
-#endif
+#endif  // INCLUDE_TEXTGEN_H_
