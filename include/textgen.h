@@ -1,3 +1,4 @@
+// Copyright 2022 UNN-IASR
 #ifndef INCLUDE_TEXTGENERATOR_H_
 #define INCLUDE_TEXTGENERATOR_H_
 #include <string>
@@ -19,12 +20,18 @@ class TextGeneratorClass
 public:
     TextGeneratorClass(std::string Filepath);
     std::string generateText();
+    std::map < prefix, std::vector<std::string>> buildStateTab(std::vector<std::string> words);
+    prefix GetStartPrefix();
+    void SetStartPrefix(prefix newStartPrefix);
+    std::map < prefix, std::vector<std::string>> GetStateTab();
+    void SetStateTab(std::map < prefix, std::vector<std::string>> newStateTab);
+    std::string chooseNextWord(prefix pref, std::mt19937 gen);
 
 private:
     std::vector<std::string> readWords(std::string Filepath);
     std::map < prefix, std::vector<std::string>> stateTab;
-    std::map < prefix, std::vector<std::string>> buildStateTab(std::vector<std::string> words);
     prefix start_prefix;
+    prefix end_prefix;
 };
 
 #endif

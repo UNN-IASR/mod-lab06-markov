@@ -1,12 +1,12 @@
+// Copyright 2022 UNN-IASR
 #include "textgen.h"
 
 int main()
 {
-    TextGeneratorClass tg("C:/VScode/mod-lab06-markov/src/data.txt");
+    TextGeneratorClass tg(INPUT_FILE_PATH);
     std::string text = tg.generateText();
-    std::ofstream file("C:/VScode/mod-lab06-markov/result/gen.txt");
+    std::ofstream file(OUTPUT_FILE_PATH);
     file << text;
-    std::cout << text;
     file.close();
     return 0;
 }

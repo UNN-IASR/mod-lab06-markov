@@ -1,3 +1,4 @@
+// Copyright 2022 UNN-IASR
 #include "textgen.h"
 
 TextGeneratorClass::TextGeneratorClass(std::string Filepath)
@@ -6,11 +7,35 @@ TextGeneratorClass::TextGeneratorClass(std::string Filepath)
     stateTab = buildStateTab(words);
 }
 
+prefix TextGeneratorClass::GetStartPrefix()
+{
+    return start_prefix;
+}
+
+void TextGeneratorClass::SetStartPrefix(prefix newStartPrefix)
+{
+    start_prefix = newStartPrefix;
+}
+
+std::map < prefix, std::vector<std::string>> TextGeneratorClass::GetStateTab()
+{
+    return stateTab;
+}
+
+void TextGeneratorClass::SetStateTab(std::map < prefix, std::vector<std::string>> newStateTab)
+{
+    stateTab = newStateTab;
+}
+
 std::vector<std::string> TextGeneratorClass::readWords(std::string Filepath)
 {
     std::vector<std::string> words;
     std::string word;
     std::ifstream file(Filepath);
+    if (!file)
+    {
+        return words;
+    }
     while (file >> word)
     {
         words.push_back(word);
@@ -31,6 +56,7 @@ std::map<prefix, std::vector<std::string>> TextGeneratorClass::buildStateTab(std
         curPrefix.pop_front();
         curPrefix.push_back(words[i]);
     }
+    end_prefix = curPrefix;
     return newStateTab;
 }
 
@@ -48,12 +74,9 @@ std::string TextGeneratorClass::generateText()
     std::mt19937 gen(rd());
     for (int count = NPREF; count < MAXGEN; ++count)
     {
-        auto it = stateTab.find(curPrefix);
-        if (it == stateTab.end() || it->second.empty())
-            break;
-        std::vector<std::string> suffixes = it->second;
-        std::uniform_int_distribution<> dis(0, suffixes.size() - 1);
-        std::string nextWord = suffixes[dis(gen)];
+        if(curPrefix == end_prefix)
+            return genText;
+        std::string nextWord = chooseNextWord(curPrefix, gen);
         genText += nextWord + " ";
         if (count % 10 == 0)
             genText += "\n";
@@ -61,4 +84,14 @@ std::string TextGeneratorClass::generateText()
         curPrefix.push_back(nextWord);
     }
     return genText;
+}
+
+std::string TextGeneratorClass::chooseNextWord(prefix pref, std::mt19937 gen)
+{
+    auto it = stateTab.find(pref);
+    if (it->second.empty())
+        return "";
+    std::vector<std::string> suffixes = it->second;
+    std::uniform_int_distribution<> dis(0, suffixes.size() - 1);
+    return suffixes[dis(gen)];
 }
