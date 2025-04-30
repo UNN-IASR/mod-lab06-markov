@@ -1,7 +1,7 @@
 // Copyright 2021 GHA Test Team
 #include <textgen.h>
-#include <map>
 #include <string>
+#include <map>
 #include <vector>
 #include <gtest/gtest.h>
 
