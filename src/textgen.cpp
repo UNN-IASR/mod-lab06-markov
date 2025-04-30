@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
+#include <string>
 
 TextGeneratorMarkov::TextGeneratorMarkov(int prefixSize, int maxWords)
     : NPREF(prefixSize), MAXGEN(maxWords) {

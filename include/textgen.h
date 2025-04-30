@@ -1,6 +1,6 @@
 // Copyright 2021 GHA Test Team
-#ifndef TEXTGEN_H
-#define TEXTGEN_H
+#ifndef INCLUDE_TEXTGEN_H_
+#define INCLUDE_TEXTGEN_H_
 
 #include <deque>
 #include <map>
@@ -11,6 +11,7 @@
 typedef std::deque<std::string> Prefix;
 
 class TextGeneratorMarkov {
+
 public:
   TextGeneratorMarkov(int prefixSize = 2, int maxWords = 1000);
   void loadText(const std::string &filename);
@@ -33,4 +34,4 @@ private:
   std::string getRandomSuffix(const Prefix &prefix);
 };
 
-#endif // TEXTGEN_H
+#endif // INCLUDE_TEXTGEN_H_
