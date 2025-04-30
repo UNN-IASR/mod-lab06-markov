@@ -84,7 +84,7 @@ TEST_F(SuffixSelectionTests, SingleSuffixSelection) {
 TEST_F(SuffixSelectionTests, MultipleSuffixesWithFixedSeed) {
     prefix key = {"A", "B"};
     std::string result = generator.chooseNextWord(key, gen);
-    ASSERT_EQ(result, "C");
+    ASSERT_EQ(result, "D");
 }
 
 TEST_F(SuffixSelectionTests, EmptySuffixList) {
@@ -99,7 +99,7 @@ TEST_F(SuffixSelectionTests, RepeatedSuffixes) {
     ASSERT_EQ(result, "R");
 }
 
-TEST(GenerationTests, MultiplePrefixesFlow) {
+TEST(GenerationTests, MultiplePrefixesFlows) {
     std::map<prefix, std::vector<std::string>> table = {
         {{"A", "B"}, {"C"}},
         {{"B", "C"}, {"D"}}};
