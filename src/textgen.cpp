@@ -1,4 +1,4 @@
-// src/textgen.cpp
+// Copyright 2021 GHA Test Team
 #include "textgen.h"
 #include <algorithm>
 #include <fstream>

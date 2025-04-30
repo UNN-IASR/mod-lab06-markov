@@ -1,4 +1,4 @@
-// include/textgen.h
+// Copyright 2021 GHA Test Team
 #ifndef TEXTGEN_H
 #define TEXTGEN_H
 
