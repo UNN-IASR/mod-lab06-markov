@@ -1,8 +1,8 @@
 // Copyright 2022 UNN-IASR
-#include "textgen.h"
 #include <map>
 #include <string>
 #include <vector>
+#include "textgen.h"
 
 TextGeneratorClass::TextGeneratorClass(std::string Filepath) {
     std::vector<std::string> words = readWords(Filepath);
@@ -39,7 +39,7 @@ std::vector<std::string> TextGeneratorClass::readWords(std::string Filepath) {
     return words;
 }
 
-std::map<prefix, std::vector<std::string>> 
+std::map<prefix, std::vector<std::string>>
 TextGeneratorClass::buildStateTab(std::vector<std::string> words) {
     std::map<prefix, std::vector<std::string>> newStateTab;
     if (words.size() < NPREF)

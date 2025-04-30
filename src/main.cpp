@@ -1,6 +1,6 @@
 // Copyright 2022 UNN-IASR
-#include "textgen.h"
 #include <string>
+#include "textgen.h"
 
 int main() {
     TextGeneratorClass tg(INPUT_FILE_PATH);
