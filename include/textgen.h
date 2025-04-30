@@ -1,14 +1,13 @@
 // Copyright 2022 UNN-IASR
 #ifndef INCLUDE_TEXTGEN_H_
 #define INCLUDE_TEXTGEN_H_
-#include <string>
+#include <deque>
 #include <map>
-#include <vector>
+#include <random>
 #include <fstream>
 #include <iostream>
-#include <random>
-#include <deque>
-//#include <random>
+#include <vector>
+#include <string>
 
 const int NPREF = 2;
 const int MAXGEN = 1000;

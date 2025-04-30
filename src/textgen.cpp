@@ -1,7 +1,7 @@
 // Copyright 2022 UNN-IASR
-#include <map>
-#include <string>
 #include <vector>
+#include <string>
+#include <map>
 #include "textgen.h"
 
 TextGeneratorClass::TextGeneratorClass(std::string Filepath) {
@@ -69,7 +69,7 @@ std::string TextGeneratorClass::generateText() {
         if (curPrefix == end_prefix)
             return genText;
         std::string nextWord = chooseNextWord(curPrefix, gen);
-        if(nextWord.empty())
+        if (nextWord.empty())
             break;
         genText += nextWord + " ";
         if (count % 10 == 0)
