@@ -1,9 +1,9 @@
 // Copyright 2021 GHA Test Team
 #include <gtest/gtest.h>
+#include <textgen.h>
 #include <vector>
 #include <string>
 #include <map>
-#include <textgen.h>
 
 TEST(PrefixTests, NormalPrefixCreation) {
     std::vector<std::string> words = {"A", "B", "С", "D"};
