@@ -11,9 +11,8 @@
 typedef std::deque<std::string> Prefix;
 
 class TextGeneratorMarkov {
-
-public:
-  TextGeneratorMarkov(int prefixSize = 2, int maxWords = 1000);
+ public:
+  explicit TextGeneratorMarkov(int prefixSize = 2, int maxWords = 1000);
   void loadText(const std::string &filename);
   void generateText(const std::string &outputFile);
   const std::map<Prefix, std::vector<std::string>> &getStateTable() const {
@@ -23,7 +22,7 @@ public:
     return getRandomSuffix(prefix);
   }
 
-private:
+ private:
   std::map<Prefix, std::vector<std::string>> statetab;
   int NPREF;
   int MAXGEN;

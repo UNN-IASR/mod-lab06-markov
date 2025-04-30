@@ -1,8 +1,8 @@
 // Copyright 2021 GHA Test Team
 #include <fstream>
 #include <iostream>
-#include "textgen.h"
 #include <string>
+#include "textgen.h"
 
 int main() {
   try {

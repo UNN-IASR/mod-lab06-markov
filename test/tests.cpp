@@ -1,17 +1,14 @@
 // Copyright 2021 GHA Test Team
-#include "textgen.h"
-#include <filesystem>
 #include <fstream>
-#include <gtest/gtest.h>
 #include <sstream>
 #include <string>
 #include <memory>
 #include <vector>
-
-namespace fs = std::filesystem;
+#include <gtest/gtest.h>
+#include "textgen.h"
 
 class TextGenTest : public ::testing::Test {
-protected:
+ protected:
   void SetUp() override {
     gen2_.reset(new TextGeneratorMarkov(2));
     gen1_.reset(new TextGeneratorMarkov(1));
@@ -153,5 +150,4 @@ TEST_F(TextGenTest, OutputLength) {
   }
 
   EXPECT_EQ(wordCount, 10) << "Generated text should contain exactly 10 words";
-  fs::remove(outputFile);
 }
