@@ -1,8 +1,8 @@
 // Copyright 2021 GHA Test Team
-#include <gtest/gtest.h>
 #include <map>
 #include <string>
 #include <vector>
+#include <gtest/gtest.h>
 #include <textgen.h>
 
 TEST(PrefixTests, NormalPrefixCreation) {
@@ -126,8 +126,7 @@ TEST(GenerationTests, MaxLengthGeneration) {
     generator.SetStartPrefix({"A", "B"});
     std::string text = generator.generateText();
     int word_count = 0;
-    for (int i = 0; i < text.length(); ++i)
-    {
+    for (int i = 0; i < text.length(); ++i) {
         if (text[i] == ' ')
             word_count++;
     }
