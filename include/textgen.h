@@ -19,7 +19,7 @@ class TextGenerator {
   std::vector<Prefix> allPrefixes;
 
  public:
-  TextGenerator(int length = 2);
+  explicit TextGenerator(int length = 2);
   void learnFromText(const std::string &filename);
   void generateText(int wordCount, const std::string &outputFile);
   std::vector<Prefix> GetAllPrefixes() { return allPrefixes; }
