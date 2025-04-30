@@ -69,6 +69,8 @@ std::string TextGeneratorClass::generateText() {
         if (curPrefix == end_prefix)
             return genText;
         std::string nextWord = chooseNextWord(curPrefix, gen);
+        if(nextWord.empty())
+            break;
         genText += nextWord + " ";
         if (count % 10 == 0)
             genText += "\n";
@@ -80,7 +82,7 @@ std::string TextGeneratorClass::generateText() {
 
 std::string TextGeneratorClass::chooseNextWord(prefix pref, std::mt19937 gen) {
     auto it = stateTab.find(pref);
-    if (it->second.empty())
+    if (it == stateTab.end() || it->second.empty())
         return "";
     std::vector<std::string> suffixes = it->second;
     std::uniform_int_distribution<> dis(0, suffixes.size() - 1);
