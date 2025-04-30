@@ -60,12 +60,12 @@ std::string TextGeneratorClass::generateText() {
     if (stateTab.empty())
         return genText;
     prefix curPrefix = start_prefix;
-    for (int i = 0; i < curPrefix.size(); ++i) {
+    for (size_t i = 0; i < curPrefix.size(); ++i) {
         genText += curPrefix[i] + " ";
     }
     std::random_device rd;
     std::mt19937 gen(rd());
-    for (int count = NPREF; count < MAXGEN; ++count) {
+    for (size_t count = NPREF; count < MAXGEN; ++count) {
         if (curPrefix == end_prefix)
             return genText;
         std::string nextWord = chooseNextWord(curPrefix, gen);
