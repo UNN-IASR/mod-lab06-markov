@@ -47,7 +47,7 @@ TEST(CreateSuffix, test3) {
 }
 
 TEST(GenerateTest, test1) {
-    std::map<prefix, std::vector<std::string>> table{
+    std::map<prefix, std::vector<std::string>> table {
         {{"a", "a"}, {"a"}}
     };
 
@@ -55,8 +55,7 @@ TEST(GenerateTest, test1) {
     std::string name = "test.txt";
     generator.Generate(name, time(0), 10);
     std::ifstream in ("../result/" + name);
-    if (in.is_open())
-    {
+    if (in.is_open()) {
         std::string str;
         while (!in.eof()) {
             in >> str;
@@ -67,7 +66,7 @@ TEST(GenerateTest, test1) {
 }
 
 TEST(GenerateTest, test2) {
-    std::map<prefix, std::vector<std::string>> table{
+    std::map<prefix, std::vector<std::string>> table {
         {{"a", "b"}, {"c"}},
         {{"b", "c"}, {"a"}}, 
         {{"c", "a"}, {"b"}}
@@ -93,7 +92,7 @@ TEST(GenerateTest, test2) {
 }
 
 TEST(GenerateTest, test3) {
-    std::map<prefix, std::vector<std::string>> table{
+    std::map<prefix, std::vector<std::string>> table {
         {{"a", "a"}, {"a", "a"}}
     };
 
@@ -103,8 +102,7 @@ TEST(GenerateTest, test3) {
     generator.Generate(name, 0, cntWords);
     std::ifstream in ("../result/" + name);
     int cnt = -1;
-    if (in.is_open())
-    {
+    if (in.is_open()) {
         std::string str;
         while (!in.eof()) {
             in >> str;
@@ -123,13 +121,11 @@ TEST(GenerateTest, test4) {
 
 TEST(GenerateTest, test5) {
     std::string name = "blabla.txt";
-    try
-    {
+    try {
         TextGen generator(name);
         FAIL();
     }
-    catch( const std::runtime_error& err )
-    {
+    catch( const std::runtime_error& err ) {
         ASSERT_STREQ( "incorrect name of file", err.what() );
     }
 }

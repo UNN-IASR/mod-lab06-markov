@@ -1,12 +1,17 @@
 // Copyright 2025 UNN
 #include "textgen.h"
+#include<fstream>
+#include<string>
+#include<vector>
+#include<map>
+#include<deque>
+#include<queue>
 
 TextGen::TextGen(std::string& filename) {
     std::string str;
     std::ifstream in ("../dataset/" + filename);
     prefix que;
-    if (in.is_open())
-    {
+    if (in.is_open()) {
         while (!in.eof()) {
             in >> str;
             if (que.size() == NPREF) {
@@ -29,8 +34,7 @@ void TextGen::Generate (std::string& filename, const int seed, const int MaxX) {
     que = (*statetab.begin()).first;
 
     std::ofstream out ("../result/" + filename);
-    if (out.is_open())
-    {
+    if (out.is_open()) {
         int cntWords = que.size();
         for (auto e : que) {
             out << e << " ";
