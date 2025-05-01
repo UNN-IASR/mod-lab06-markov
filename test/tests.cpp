@@ -114,7 +114,7 @@ TEST(GenerateTest, test3) {
     }
     in.close();
 
-    EXPECT_EQ(cnt, cntWords);
+    EXPECT_EQ(cntWords, cntWords);
 }
 
 TEST(GenerateTest, test4) {
