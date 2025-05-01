@@ -1,6 +1,10 @@
 // Copyright 2021 GHA Test Team
 #include <gtest/gtest.h>
-#include <iostream>
+#include<string>
+#include<vector>
+#include<map>
+#include<deque>
+#include<queue>
 #include "textgen.h"
 
 typedef std::deque<std::string> prefix;
@@ -17,8 +21,8 @@ TEST(CreatePrefix, test2) {
     prefix pref;
     pref.push_back("word1");
     pref.push_back("word2");
-    EXPECT_FALSE(pref.front() == "word2");
-    EXPECT_FALSE(pref.back() == "word1");
+    EXPECT_NE(pref.front(), "word2");
+    EXPECT_NE(pref.back(), "word1");
 }
 
 TEST(CreateSuffix, test1) {
@@ -42,7 +46,7 @@ TEST(CreateSuffix, test3) {
     prefix pref{"word1", "word2"};
     table[pref].push_back("word3");
     table[pref].push_back("word4");
-    int ind = rand() % table[pref].size();
+    int ind = 0;
     EXPECT_TRUE(table[pref][ind] == "word3" || table[pref][ind] == "word4");
 }
 
@@ -54,7 +58,7 @@ TEST(GenerateTest, test1) {
     TextGen generator(table);
     std::string name = "test.txt";
     generator.Generate(name, time(0), 10);
-    std::ifstream in ("../result/" + name);
+    std::ifstream in("../result/" + name);
     if (in.is_open()) {
         std::string str;
         while (!in.eof()) {
@@ -68,7 +72,7 @@ TEST(GenerateTest, test1) {
 TEST(GenerateTest, test2) {
     std::map<prefix, std::vector<std::string>> table {
         {{"a", "b"}, {"c"}},
-        {{"b", "c"}, {"a"}}, 
+        {{"b", "c"}, {"a"}},
         {{"c", "a"}, {"b"}}
     };
     std::vector<std::string> ans = {"a", "b", "c"};
@@ -77,9 +81,8 @@ TEST(GenerateTest, test2) {
     std::string name = "test.txt";
     int cntWords = 12;
     generator.Generate(name, time(0), cntWords);
-    std::ifstream in ("../result/" + name);
-    if (in.is_open())
-    {
+    std::ifstream in("../result/" + name);
+    if (in.is_open()) {
         int cnt = 0;
         std::string str;
         while (!in.eof() && cntWords--) {
@@ -100,7 +103,7 @@ TEST(GenerateTest, test3) {
     std::string name = "test.txt";
     int cntWords = 15;
     generator.Generate(name, 0, cntWords);
-    std::ifstream in ("../result/" + name);
+    std::ifstream in("../result/" + name);
     int cnt = -1;
     if (in.is_open()) {
         std::string str;
@@ -126,6 +129,6 @@ TEST(GenerateTest, test5) {
         FAIL();
     }
     catch( const std::runtime_error& err ) {
-        ASSERT_STREQ( "incorrect name of file", err.what() );
+        ASSERT_STREQ("incorrect name of file", err.what());
     }
 }
