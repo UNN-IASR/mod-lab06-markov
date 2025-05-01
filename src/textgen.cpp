@@ -25,7 +25,7 @@ TextGen::TextGen(std::string& filename) {
     }
     in.close();
 }
-void TextGen::Generate (std::string& filename, const int seed, const int MaxX) {
+void TextGen::Generate(std::string& filename, const int seed, const int MaxX) {
     srand(seed);
     prefix que;
     std::string nexT;
