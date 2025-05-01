@@ -100,9 +100,9 @@ TEST(GenerateTest, test3) {
     };
 
     TextGen generator(table);
-    std::string name = "test.txt";
+    std::string name = "test3.txt";
     int cntWords = 15;
-    generator.Generate(name, 0, cntWords);
+    generator.Generate(name, time(0), cntWords);
     std::ifstream in("../result/" + name);
     int cnt = -1;
     if (in.is_open()) {
