@@ -15,7 +15,8 @@ int main() {
     text_generator.__create_state_table__(input_file_path, NPREF);
 
     const std::string output_file_path = "../../result/gen.txt";
-    text_generator.__generate_text_and_write_to_file__(MAXGEN, output_file_path);
+    text_generator.__generate_text_and_write_to_file__(
+        MAXGEN, output_file_path);
 
     return 0;
 }
