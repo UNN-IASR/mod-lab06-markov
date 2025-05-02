@@ -1,3 +1,6 @@
+// Copyright 2025 sdanils
+#pragma once
+
 #include <deque>
 #include <map>
 #include <random>

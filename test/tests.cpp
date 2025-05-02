@@ -1,3 +1,4 @@
+// Copyright 2025 sdanils
 #include <gtest/gtest.h>
 
 #include <deque>

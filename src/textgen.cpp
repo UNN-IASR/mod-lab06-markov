@@ -1,3 +1,4 @@
+// Copyright 2025 sdanils
 #include "textgen.h"
 
 #include <deque>
