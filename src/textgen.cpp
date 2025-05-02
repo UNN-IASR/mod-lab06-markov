@@ -45,7 +45,7 @@ TextGenerator::TextGenerator(const string& file_name) {
 
   mt19937 gen_(rd());
   gen = gen_;
-};
+}
 
 TextGenerator::TextGenerator(
     const map<deque<string>, vector<string>>& state_table_) {

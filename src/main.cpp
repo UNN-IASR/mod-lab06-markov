@@ -1,5 +1,8 @@
 // Copyright 2025 sdanils
 #include <iostream>
+#include <string>
+
+using std::string;
 
 #include "textgen.h"
 

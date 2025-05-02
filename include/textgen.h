@@ -26,9 +26,10 @@ class TextGenerator {
   void fillState(vector<string> words);
 
  public:
-  TextGenerator(const string& file_name = "../../source_text.txt");
+  explicit TextGenerator(const string& file_name = "../../source_text.txt");
 
-  TextGenerator(const map<deque<string>, vector<string>>& state_table_);
+  explicit TextGenerator(
+      const map<deque<string>, vector<string>>& state_table_);
 
   string generateText();
 
