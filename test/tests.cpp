@@ -233,7 +233,7 @@ TEST(TextGenTest, CorrectTextGenerationWithKnownData) {
 
     ASSERT_EQ(content.find("one two"), 0);
 
-    std::vector<std::string> expected_words = 
+    std::vector<std::string> expected_words =
     { "one", "two", "three", "four", "five", "six" };
     std::istringstream iss(content);
     std::string word;
