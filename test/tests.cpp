@@ -1,13 +1,14 @@
 // Copyright 2021 GHA Test Team
-#include <gtest/gtest.h>
 #include <fstream>
 #include <string>
-#include "textgen.h"
+#include <vector>
 #include <cstdlib>
+
+#include "textgen.h"
+#include <gtest/gtest.h>
 
 class TextGeneratorTest : public ::testing::Test {
 protected:
-
     const std::string test_file_path = "test_input.txt";
 
     void SetUp() override {
@@ -23,10 +24,6 @@ protected:
         std::remove(test_file_path.c_str());
     }
 };
-
-TEST(TestCaseName, TestName) {
-    EXPECT_EQ(1, 2);
-}
 
 TEST_F(TextGeneratorTest, CreateStateTableTest) {
     TextGenerator tg;

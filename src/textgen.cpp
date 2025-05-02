@@ -1,4 +1,10 @@
 // Copyright 2022 UNN-IASR
+#include <vector>
+#include <string>
+#include <fstream>
+#include <sstream>
+#include <random>
+#include <stdexcept>
 #include "textgen.h"
 
 void TextGenerator::__create_state_table__(const std::string& file_path, size_t prefix_length) {
@@ -19,7 +25,7 @@ std::vector<std::string> TextGenerator::__get_words_from_file__(const std::strin
 
     if (!file.is_open()) {
         std::ostringstream oss;
-        oss << "Открыть файл " << file_path << " не удалось";
+        oss << "Failed to open file " << file_path;
 
         throw std::ifstream::failure(oss.str());
     }
@@ -92,13 +98,13 @@ std::string TextGenerator::__generate_text__(size_t max_words) {
 void TextGenerator::__write_text_to_file__(const std::string& file_path, const std::string& text) {
     std::ofstream out(file_path);
     if (!out.is_open()) {
-        throw std::ios_base::failure("Открыть файл для записи не удалось");
+        throw std::ios_base::failure("Failed to open file for writing");
     }
 
     out << text;
 
     if (!out) {
-        throw std::ios_base::failure("При записи в файл произошла ошибка");
+        throw std::ios_base::failure("Error occurred while writing to file");
     }
 
     out.close();
