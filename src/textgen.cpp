@@ -8,7 +8,7 @@
 #include "textgen.h"
 
 void TextGenerator::__create_state_table__(
-    const std::string& file_path, 
+    const std::string& file_path,
     size_t prefix_length
 ) {
     std::vector<std::string> words = __get_words_from_file__(file_path);
@@ -46,7 +46,7 @@ std::vector<std::string> TextGenerator::__get_words_from_file__(
 }
 
 statetab TextGenerator::__generate_state_table__(
-    const std::vector<std::string>& words, 
+    const std::vector<std::string>& words,
     size_t prefix_length
 ) {
     statetab table;
@@ -63,7 +63,7 @@ statetab TextGenerator::__generate_state_table__(
 }
 
 void TextGenerator::__generate_text_and_write_to_file__(
-    size_t max_words, 
+    size_t max_words,
     const std::string& file_path
 ) {
     std::string generated_text = __generate_text__(max_words);
@@ -107,7 +107,7 @@ std::string TextGenerator::__generate_text__(size_t max_words) {
 }
 
 void TextGenerator::__write_text_to_file__(
-    const std::string& file_path, 
+    const std::string& file_path,
     const std::string& text
 ) {
     std::ofstream out(file_path);

@@ -98,19 +98,19 @@ TEST_F(TextGeneratorTest, StateTablePrefixToSuffixMappingTest) {
     tg.__create_state_table__(test_file_path, prefix_length);
     const statetab& table = tg.__get_state_table__();
 
-    prefix p1 = { "Lived", "old" };
+    prefix p1 = { "Once", "there" };
     auto it1 = table.find(p1);
     ASSERT_NE(it1, table.end());
     ASSERT_EQ(it1->second.size(), 1);
-    EXPECT_EQ(it1->second[0], "with");
+    EXPECT_EQ(it1->second[0], "was");
 
-    prefix p2 = { "old", "with" };
+    prefix p2 = { "there", "was" };
     auto it2 = table.find(p2);
     ASSERT_NE(it2, table.end());
     ASSERT_EQ(it2->second.size(), 1);
-    EXPECT_EQ(it2->second[0], "his");
+    EXPECT_EQ(it2->second[0], "an");
 
-    prefix p3 = { "with", "his" };
+    prefix p3 = { "was", "an" };
     auto it3 = table.find(p3);
     ASSERT_NE(it3, table.end());
     ASSERT_EQ(it3->second.size(), 1);
@@ -134,8 +134,10 @@ TEST(TextGeneratorSimpleTest, MultipleSuffixesForPrefixTest) {
 
     const auto& suffixes = it->second;
     ASSERT_EQ(suffixes.size(), 2);
-    EXPECT_TRUE(std::find(suffixes.begin(), suffixes.end(), "home") != suffixes.end());
-    EXPECT_TRUE(std::find(suffixes.begin(), suffixes.end(), "for") != suffixes.end());
+    EXPECT_TRUE(std::find(suffixes.begin(),
+        suffixes.end(), "home") != suffixes.end());
+    EXPECT_TRUE(std::find(suffixes.begin(),
+        suffixes.end(), "for") != suffixes.end());
 
     std::remove(tmp_file.c_str());
 }
