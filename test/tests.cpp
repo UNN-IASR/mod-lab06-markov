@@ -48,9 +48,9 @@ TEST(text_generator_test, update_preffix_two) {
   deque<string> expected = {"5", "1"};
   EXPECT_EQ(expected, prefix);
 
-  string word = gt.generateSuffix(prefix);
+  word = gt.generateSuffix(prefix);
   gt.updatePreffix(prefix, word);
-  deque<string> expected = {"1", "2"};
+  expected = {"1", "2"};
   EXPECT_EQ(expected, prefix);
 }
 TEST(text_generator_test, update_preffix_three) {
@@ -68,9 +68,9 @@ TEST(text_generator_test, update_preffix_three) {
   deque<string> expected = {"word", "asdf"};
   EXPECT_EQ(expected, prefix);
 
-  string word = gt.generateSuffix(prefix);
+  word = gt.generateSuffix(prefix);
   gt.updatePreffix(prefix, word);
-  deque<string> expected = {"asdf", "asd"};
+  expected = {"asdf", "asd"};
   EXPECT_EQ(expected, prefix);
 }
 TEST(text_generator_test, test_preffix_one) {
@@ -85,8 +85,8 @@ TEST(text_generator_test, test_preffix_one) {
   string word = gt.generateSuffix(prefix);
   EXPECT_EQ("3", word);
 
-  deque<string> prefix = {"4", "5"};
-  string word = gt.generateSuffix(prefix);
+  prefix = {"4", "5"};
+  word = gt.generateSuffix(prefix);
   EXPECT_EQ("1", word);
 }
 TEST(text_generator_test, test_preffix_two) {
@@ -101,8 +101,8 @@ TEST(text_generator_test, test_preffix_two) {
   string word = gt.generateSuffix(prefix);
   EXPECT_EQ("3", word);
 
-  deque<string> prefix = {"3", "1"};
-  string word = gt.generateSuffix(prefix);
+  prefix = {"3", "1"};
+  word = gt.generateSuffix(prefix);
   EXPECT_EQ("2", word);
 }
 
@@ -118,8 +118,8 @@ TEST(text_generator_test, test_preffix_three) {
   string word = gt.generateSuffix(prefix);
   EXPECT_EQ("asd", word);
 
-  deque<string> prefix = {"asdf", "asd"};
-  string word = gt.generateSuffix(prefix);
+  prefix = {"asdf", "asd"};
+  word = gt.generateSuffix(prefix);
   EXPECT_EQ("word", word);
 }
 
@@ -153,7 +153,7 @@ TEST(text_generator_test, test_preffix_five) {
                    gt.generateSuffix(prefix)) != expected_values.end());
 }
 
-TEST(text_generator_test, test_gen_text) {
+TEST(text_generator_test, test_gen_text_one) {
   map<deque<string>, vector<string>> state_table = {
       {{"1", "2"}, {"3"}},
       {{"2", "3"}, {"1"}},
@@ -164,12 +164,12 @@ TEST(text_generator_test, test_gen_text) {
   string text = gt.generateText();
   vector<string> words = TextReader::splitWords(text);
 
-  EXPECT_EQ("3", word[0]);
-  EXPECT_EQ("1", word[1]);
-  EXPECT_EQ("2", word[2]);
+  EXPECT_EQ("3", words[0]);
+  EXPECT_EQ("1", words[1]);
+  EXPECT_EQ("2", words[2]);
 }
 
-TEST(text_generator_test, test_gen_text) {
+TEST(text_generator_test, test_gen_text_two) {
   map<deque<string>, vector<string>> state_table = {
       {{"asd", "word"}, {"asdf", "asd"}},
       {{"word", "asdf"}, {"asd"}},
@@ -184,7 +184,7 @@ TEST(text_generator_test, test_gen_text) {
   EXPECT_TRUE(find(expected_values.begin(), expected_values.end(), words[0]) !=
               expected_values.end());
 
-  vector<string> expected_values_two = {"word", "asd"};
+  expected_values = {"word", "asd"};
   EXPECT_TRUE(find(expected_values.begin(), expected_values.end(), words[1]) !=
               expected_values.end());
 }
