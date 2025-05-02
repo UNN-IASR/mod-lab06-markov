@@ -1,22 +1,22 @@
 // Copyright 2021 GHA Test Team
+#include <gtest/gtest.h>
 #include <fstream>
 #include <string>
 #include <vector>
 #include <cstdlib>
 
 #include "textgen.h"
-#include <gtest/gtest.h>
 
 class TextGeneratorTest : public ::testing::Test {
-protected:
+ protected:
     const std::string test_file_path = "test_input.txt";
 
     void SetUp() override {
         std::ofstream file(test_file_path);
-        file << "Жил старик со своею старухой\n";
-        file << "У самого синего моря;\n";
-        file << "Они жили в ветхой землянке\n";
-        file << "Ровно тридцать лет и три года.\n";
+        file << "Once there was an old man with his old woman\n";
+        file << "By the blue sea;\n";
+        file << "They lived in an old hut\n";
+        file << "For exactly thirty years and three years.\n";
         file.close();
     }
 
@@ -35,7 +35,7 @@ TEST_F(TextGeneratorTest, CreateStateTableTest) {
 
     ASSERT_FALSE(table.empty());
 
-    prefix test_prefix = { "Жил", "старик" };
+    prefix test_prefix = { "Once", "there" };
     auto it = table.find(test_prefix);
     ASSERT_NE(it, table.end());
 
@@ -70,14 +70,14 @@ TEST_F(TextGeneratorTest, CheckPrefixAndSuffixContentTest) {
     tg.__create_state_table__(test_file_path, prefix_length);
     const statetab& table = tg.__get_state_table__();
 
-    prefix test_prefix = { "старик", "со" };
+    prefix test_prefix = { "man", "with" };
     auto it = table.find(test_prefix);
 
     ASSERT_NE(it, table.end());
 
     const std::vector<std::string>& suffixes = it->second;
     ASSERT_EQ(suffixes.size(), 1);
-    ASSERT_EQ(suffixes[0], "своею");
+    ASSERT_EQ(suffixes[0], "his");
 }
 
 TEST_F(TextGeneratorTest, HandleMissingPrefixInStateTableTest) {
@@ -86,7 +86,7 @@ TEST_F(TextGeneratorTest, HandleMissingPrefixInStateTableTest) {
     tg.__create_state_table__(test_file_path, prefix_length);
     const statetab& table = tg.__get_state_table__();
 
-    prefix missing_prefix = { "несуществующий", "префикс" };
+    prefix missing_prefix = { "nonexistent", "prefix" };
 
     auto it = table.find(missing_prefix);
     ASSERT_EQ(it, table.end());
@@ -98,44 +98,44 @@ TEST_F(TextGeneratorTest, StateTablePrefixToSuffixMappingTest) {
     tg.__create_state_table__(test_file_path, prefix_length);
     const statetab& table = tg.__get_state_table__();
 
-    prefix p1 = { "Жил", "старик" };
+    prefix p1 = { "Lived", "old" };
     auto it1 = table.find(p1);
     ASSERT_NE(it1, table.end());
     ASSERT_EQ(it1->second.size(), 1);
-    EXPECT_EQ(it1->second[0], "со");
+    EXPECT_EQ(it1->second[0], "with");
 
-    prefix p2 = { "старик", "со" };
+    prefix p2 = { "old", "with" };
     auto it2 = table.find(p2);
     ASSERT_NE(it2, table.end());
     ASSERT_EQ(it2->second.size(), 1);
-    EXPECT_EQ(it2->second[0], "своею");
+    EXPECT_EQ(it2->second[0], "his");
 
-    prefix p3 = { "со", "своею" };
+    prefix p3 = { "with", "his" };
     auto it3 = table.find(p3);
     ASSERT_NE(it3, table.end());
     ASSERT_EQ(it3->second.size(), 1);
-    EXPECT_EQ(it3->second[0], "старухой");
+    EXPECT_EQ(it3->second[0], "old");
 }
 
 TEST(TextGeneratorSimpleTest, MultipleSuffixesForPrefixTest) {
     const std::string tmp_file = "multi_suffix_input.txt";
     std::ofstream file(tmp_file);
-    file << "мы пошли домой\n";
-    file << "мы пошли гулять\n";
+    file << "we went home\n";
+    file << "we went for a walk\n";
     file.close();
 
     TextGenerator tg;
     tg.__create_state_table__(tmp_file, 2);
     const statetab& table = tg.__get_state_table__();
 
-    prefix p = { "мы", "пошли" };
+    prefix p = { "we", "went" };
     auto it = table.find(p);
     ASSERT_NE(it, table.end());
 
     const auto& suffixes = it->second;
     ASSERT_EQ(suffixes.size(), 2);
-    EXPECT_TRUE(std::find(suffixes.begin(), suffixes.end(), "домой") != suffixes.end());
-    EXPECT_TRUE(std::find(suffixes.begin(), suffixes.end(), "гулять") != suffixes.end());
+    EXPECT_TRUE(std::find(suffixes.begin(), suffixes.end(), "home") != suffixes.end());
+    EXPECT_TRUE(std::find(suffixes.begin(), suffixes.end(), "for") != suffixes.end());
 
     std::remove(tmp_file.c_str());
 }
@@ -143,7 +143,7 @@ TEST(TextGeneratorSimpleTest, MultipleSuffixesForPrefixTest) {
 TEST(TextGeneratorSimpleTest, SingleSuffixForPrefixTest) {
     const std::string tmp_file = "single_suffix_input.txt";
     std::ofstream file(tmp_file);
-    file << "один два три\n";
+    file << "one two three\n";
     file.close();
 
     TextGenerator tg;
@@ -153,14 +153,14 @@ TEST(TextGeneratorSimpleTest, SingleSuffixForPrefixTest) {
 
     const statetab& table = tg.__get_state_table__();
 
-    prefix p = { "один", "два" };
+    prefix p = { "one", "two" };
     auto it = table.find(p);
     ASSERT_NE(it, table.end());
 
     const auto& suffixes = it->second;
     ASSERT_EQ(suffixes.size(), 1);
 
-    EXPECT_EQ(suffixes[0], "три");
+    EXPECT_EQ(suffixes[0], "three");
 
     std::remove(tmp_file.c_str());
 }
@@ -208,7 +208,7 @@ TEST(TextGenTest, CorrectPrefixInGeneratedText) {
     std::string content;
     std::getline(in, content);
 
-    ASSERT_TRUE(content.find("a b") == 0);
+    ASSERT_EQ(content.find("a b"), 0);
 
     std::remove("test.txt");
     std::remove("generated_text.txt");
@@ -229,7 +229,7 @@ TEST(TextGenTest, CorrectTextGenerationWithKnownData) {
     std::string content;
     std::getline(in, content);
 
-    ASSERT_TRUE(content.find("one two") == 0);
+    ASSERT_EQ(content.find("one two"), 0);
 
     std::vector<std::string> expected_words = { "one", "two", "three", "four", "five", "six" };
     std::istringstream iss(content);

@@ -7,7 +7,10 @@
 #include <stdexcept>
 #include "textgen.h"
 
-void TextGenerator::__create_state_table__(const std::string& file_path, size_t prefix_length) {
+void TextGenerator::__create_state_table__(
+    const std::string& file_path, 
+    size_t prefix_length
+) {
     std::vector<std::string> words = __get_words_from_file__(file_path);
 
     prefix p;
@@ -19,7 +22,9 @@ void TextGenerator::__create_state_table__(const std::string& file_path, size_t 
     _table = __generate_state_table__(words, prefix_length);
 }
 
-std::vector<std::string> TextGenerator::__get_words_from_file__(const std::string& file_path) {
+std::vector<std::string> TextGenerator::__get_words_from_file__(
+    const std::string& file_path
+) {
     std::ifstream file(file_path);
     std::vector<std::string> words;
 
@@ -40,7 +45,10 @@ std::vector<std::string> TextGenerator::__get_words_from_file__(const std::strin
     return words;
 }
 
-statetab TextGenerator::__generate_state_table__(const std::vector<std::string>& words, size_t prefix_length) {
+statetab TextGenerator::__generate_state_table__(
+    const std::vector<std::string>& words, 
+    size_t prefix_length
+) {
     statetab table;
 
     for (size_t i = 0; i < words.size() - prefix_length; i++) {
@@ -54,7 +62,10 @@ statetab TextGenerator::__generate_state_table__(const std::vector<std::string>&
     return table;
 }
 
-void TextGenerator::__generate_text_and_write_to_file__(size_t max_words, const std::string& file_path) {
+void TextGenerator::__generate_text_and_write_to_file__(
+    size_t max_words, 
+    const std::string& file_path
+) {
     std::string generated_text = __generate_text__(max_words);
 
     __write_text_to_file__(file_path, generated_text);
@@ -95,7 +106,10 @@ std::string TextGenerator::__generate_text__(size_t max_words) {
     return generated_text;
 }
 
-void TextGenerator::__write_text_to_file__(const std::string& file_path, const std::string& text) {
+void TextGenerator::__write_text_to_file__(
+    const std::string& file_path, 
+    const std::string& text
+) {
     std::ofstream out(file_path);
     if (!out.is_open()) {
         throw std::ios_base::failure("Failed to open file for writing");
