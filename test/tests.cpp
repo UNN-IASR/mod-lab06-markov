@@ -99,23 +99,28 @@ TEST(text_tests, loop_table) {
 }
 
 TEST(file_tests, input_file_exists) {
-  TextGenerator generator("../input/source.txt");
+  std::ofstream file("./test_input.txt");
+  file << "жил старик со своею старухой у самого синего моря";
+  file.close();
+  TextGenerator generator("./test_input.txt");
   generator.fixRandomDevice(42);
   string text = generator.generateText(10);
-  EXPECT_EQ("на него прикрикнула старуха на конюшне служить его послала вот ",
-            text);
+  EXPECT_EQ("своею старухой у самого синего моря старухой со со моря ", text);
 }
 
 TEST(file_tests, input_file_not_found) {
   EXPECT_THROW(
-      { TextGenerator generator("../input/source_not_exists.txt"); },
-      std::invalid_argument);
+      { TextGenerator generator("./not_exists.txt"); }, std::invalid_argument);
 }
 
 TEST(file_tests, output_file) {
-  TextGenerator generator("../input/source.txt");
+  std::ofstream file("./test_input.txt");
+  file << "жил старик со своею старухой у самого синего моря";
+  file.close();
+  TextGenerator generator("./test_input.txt");
   generator.fixRandomDevice(42);
-  string text = generator.generateText("../../test/test.txt", 10);
-  std::ifstream file("../../test/test.txt");
-  EXPECT_EQ(true, file.good());
+  string text = generator.generateText("./test_output.txt", 10);
+  std::ifstream outFile("./test_output.txt");
+  EXPECT_EQ(true, outFile.good());
+  outFile.close();
 }
