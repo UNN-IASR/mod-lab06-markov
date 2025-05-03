@@ -1,24 +1,9 @@
 // Copyright 2021 GHA Test Team
 #include <gtest/gtest.h>
 
-#include <deque>
-#include <fstream>
-#include <iostream>
-#include <map>
-#include <random>
-#include <string>
-#include <unordered_set>
-#include <vector>
+#include <filesystem>
 
 #include "textgen.h"
-
-using std::deque;
-using std::map;
-using std::mt19937;
-using std::random_device;
-using std::string;
-using std::unordered_set;
-using std::vector;
 
 TEST(suffix_tests, single_variant) {
   map<deque<string>, vector<string>> table = {
@@ -107,4 +92,26 @@ TEST(text_tests, loop_table) {
   generator.fixRandomDevice(42);
   string text = generator.generateText(10);
   EXPECT_EQ("b c e e b e e d d b ", text);
+}
+
+TEST(file_tests, input_file_exists) {
+  TextGenerator generator("../input/source.txt");
+  generator.fixRandomDevice(42);
+  string text = generator.generateText(10);
+  EXPECT_EQ("на него прикрикнула старуха на конюшне служить его послала вот ",
+            text);
+}
+
+TEST(file_tests, input_file_not_found) {
+  EXPECT_THROW(
+      { TextGenerator generator("../input/source_not_exists.txt"); },
+      std::invalid_argument);
+}
+
+TEST(file_tests, output_file) {
+  TextGenerator generator("../input/source.txt");
+  generator.fixRandomDevice(42);
+  string text = generator.generateText("../../test/test.txt", 10);
+  std::filesystem::path path = "../../test/test.txt";
+  EXPECT_EQ(true, std::filesystem::exists(path));
 }
