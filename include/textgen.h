@@ -9,8 +9,7 @@
 typedef std::deque<std::string> Prefix;
 
 class MarkovChain {
-public:
-
+ public:
     std::map<Prefix, std::vector<std::string>> stateTable;
 
     MarkovChain();

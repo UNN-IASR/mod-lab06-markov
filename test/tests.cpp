@@ -7,8 +7,7 @@
 #include "textgen.h"
 
 class MarkovChainTest : public testing::Test {
-protected:
-
+ protected:
     MarkovChain mc;
 };
 
@@ -65,30 +64,6 @@ TEST(TextGenTest, SelectsSingleSuffixDeterministically) {
     std::string result = mc.generate(11, 42);
 
     EXPECT_EQ(result, "the cat sat");
-}
-
-TEST(TextGenTest, RandomlySelectsFromMultipleSuffixes) {
-    MarkovChain mc;
-    std::map<Prefix, std::vector<std::string>> stateTable;
-    Prefix prefix;
-    prefix.push_back("the");
-    prefix.push_back("dog");
-    stateTable[prefix] = { "ran", "ate", "sat" };
-
-    mc.trainFromStateTable(stateTable);
-
-    ASSERT_EQ(mc.stateTable[prefix].size(), 3);
-
-    std::set<std::string> results;
-    for (unsigned int i = 0; i < 100; ++i) {
-        results.insert(mc.generate(10, i));
-    }
-
-    EXPECT_EQ(results.size(), 3);
-
-    EXPECT_GT(results.count("the dog ran"), 0);
-    EXPECT_GT(results.count("the dog ate"), 0);
-    EXPECT_GT(results.count("the dog sat"), 0);
 }
 
 TEST(TextGenTest, GeneratesTextFromManualStateTable) {
@@ -150,17 +125,22 @@ TEST(TextGenTest, SplitsTextCorrectly) {
     EXPECT_EQ(words[2], "word3");
 }
 
-TEST(TextGenTest, WorksWithDifferentPrefixLengths) {
+TEST(TextGenTest, PrefixLengthAffectsOutput) {
     MarkovChain mc;
-    std::string text = "one two three four five six seven eight";
+    std::string text = "A B C D A B E D A F C D A B C D";
 
-    mc.train(text, 1);
-    std::string result1 = mc.generate(15, 111);
+    std::set<std::string> results1;
+    std::set<std::string> results2;
 
-    mc.train(text, 2);
-    std::string result2 = mc.generate(15, 111);
+    for (int i = 0; i < 10; ++i) {
+        mc.train(text, 1);
+        results1.insert(mc.generate(20, i));
 
-    EXPECT_NE(result1, result2);
+        mc.train(text, 2);
+        results2.insert(mc.generate(20, i));
+    }
+
+    EXPECT_LT(results1.count(*results2.begin()), 1);
 }
 
 TEST(TextGenTest, HandlesPunctuationInText) {

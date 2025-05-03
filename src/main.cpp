@@ -1,8 +1,8 @@
 // Copyright 2022 UNN-IASR
-#include <filesystem>
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <sys/stat.h>
 #include "textgen.h"
 
 std::string readTextFromFile(const std::string& filename) {
@@ -14,7 +14,9 @@ std::string readTextFromFile(const std::string& filename) {
         while (std::getline(file, line)) {
             text += line + " ";
         }
-        text.pop_back();
+        if (!text.empty()) {
+            text.pop_back();
+        }
         file.close();
     }
 
@@ -22,7 +24,11 @@ std::string readTextFromFile(const std::string& filename) {
 }
 
 void saveTextToFile(const std::string& filename, const std::string& content) {
-    std::filesystem::create_directory("../../result");
+    #ifdef _WIN32
+        system("mkdir ..\\..\\result 2>nul");
+    #else
+        system("mkdir -p ../../result");
+    #endif
 
     std::ofstream file(filename);
     if (file.is_open()) {
