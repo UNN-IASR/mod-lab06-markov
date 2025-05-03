@@ -2,6 +2,9 @@
 #include <iostream>
 #include <cstdlib>
 #include <random>
+#include <map>
+#include <vector>
+#include <string>
 #include "textgen.h"
 
 
@@ -54,12 +57,10 @@ std::string MarkovChain::generate(int textSize, unsigned int time_generate) {
                 generateText += suffixes[randomIndex] + ' ';
                 prefix.pop_front();
                 prefix.push_back(suffixes[randomIndex]);
-            }
-            else {
+            } else {
                 break;
             }
-        }
-        else {
+        } else {
             break;
         }
     }

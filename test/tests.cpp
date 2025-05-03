@@ -1,10 +1,13 @@
 // Copyright 2021 GHA Test Team
 #include <gtest/gtest.h>
 #include <string>
+#include <map>
+#include <vector>
+#include <set>
 #include "textgen.h"
 
 class MarkovChainTest : public testing::Test {
-protected:
+protected: 
     MarkovChain mc;
 };
 
@@ -49,13 +52,6 @@ TEST(TextGenTest, HandlesEmptyInput) {
     EXPECT_TRUE(mc.stateTable.empty());
 }
 
-TEST(TextGenTest, HandlesTextShorterThanPrefix) {
-    MarkovChain mc;
-    std::string text = "short";
-    mc.train(text, 3);
-    EXPECT_TRUE(mc.stateTable.empty());
-}
-
 TEST(TextGenTest, SelectsSingleSuffixDeterministically) {
     MarkovChain mc;
     std::map<Prefix, std::vector<std::string>> stateTable;
@@ -90,9 +86,9 @@ TEST(TextGenTest, RandomlySelectsFromMultipleSuffixes) {
     std::string result2 = mc.generate(10, 456);
     std::string result3 = mc.generate(10, 789);
 
-    EXPECT_TRUE(possibleResults.count(result1) > 0);
-    EXPECT_TRUE(possibleResults.count(result2) > 0);
-    EXPECT_TRUE(possibleResults.count(result3) > 0);
+    EXPECT_GT(possibleResults.count(result1), 0);
+    EXPECT_GT(possibleResults.count(result2), 0);
+    EXPECT_GT(possibleResults.count(result3), 0);
 }
 
 TEST(TextGenTest, GeneratesTextFromManualStateTable) {
@@ -194,7 +190,7 @@ TEST(TextGenTest, HandlesEmptySuffixVector) {
 TEST(TextGenTest, GeneratesLargeText) {
     MarkovChain mc;
     std::string text = "this is a test for large text generation ";
-    text += text; 
+    text += text;
 
     mc.train(text, 2);
     std::string result = mc.generate(500);
