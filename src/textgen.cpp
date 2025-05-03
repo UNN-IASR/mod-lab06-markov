@@ -4,13 +4,15 @@
 #include <map>
 #include <vector>
 #include <string>
-#include <cstdlib>
-#include <ctime>
+//#include <cstdlib>
+//#include <ctime>
+#include <random>
 
 #include "textgen.h"
 
 MarkovTextGenerator::MarkovTextGenerator() {
-    srand(static_cast<unsigned int>(time(0)));
+    std::random_device rd;
+    rng.seed(rd());
 }
 
 void MarkovTextGenerator::createTable(const std::vector<std::string>& words) {
@@ -21,7 +23,7 @@ void MarkovTextGenerator::createTable(const std::vector<std::string>& words) {
     }
 
     startPref = currPref;
-    
+
     for (int i = NPREF; i < words.size(); i++) {
         const std::string& suffix = words[i];
 
@@ -30,7 +32,6 @@ void MarkovTextGenerator::createTable(const std::vector<std::string>& words) {
         currPref.pop_front();
         currPref.push_back(suffix);
     }
-
 }
 
 std::string MarkovTextGenerator::generateText() {
@@ -45,7 +46,7 @@ std::string MarkovTextGenerator::generateText() {
     int cntWords = NPREF;
     int numSuffixes = 0;
     int randIndex = -1;
-    std::string choiceSuffix = ""; 
+    std::string choiceSuffix = "";
 
     while (cntWords < MAXGEN) {
         auto searchElement = table.find(currPref);
@@ -56,7 +57,8 @@ std::string MarkovTextGenerator::generateText() {
 
         std::vector<std::string>& suffixes = searchElement->second;
         numSuffixes = suffixes.size();
-        randIndex = rand() % numSuffixes;
+        std::uniform_int_distribution<int> dist(0, suffixes.size() - 1);
+        int randIndex = dist(rng);
 
         choiceSuffix = suffixes[randIndex];
 
