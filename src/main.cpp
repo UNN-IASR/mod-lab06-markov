@@ -1,8 +1,8 @@
 // Copyright 2022 UNN-IASR
+#include <sys/stat.h>
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <sys/stat.h>
 #include "textgen.h"
 
 std::string readTextFromFile(const std::string& filename) {
@@ -26,8 +26,6 @@ std::string readTextFromFile(const std::string& filename) {
 void saveTextToFile(const std::string& filename, const std::string& content) {
     #ifdef _WIN32
         system("mkdir ..\\..\\result 2>nul");
-    #else
-        system("mkdir -p ../../result");
     #endif
 
     std::ofstream file(filename);
