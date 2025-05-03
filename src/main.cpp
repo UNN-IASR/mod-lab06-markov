@@ -7,6 +7,6 @@ using std::endl;
 
 int main() {
   TextGenerator generator("../input/source.txt");
-  generator.printTable();
+  cout << generator.generateText() << endl;
   return 0;
 }
