@@ -17,10 +17,11 @@ class MarkovTextGenerator {
         statetab table;
 
     public:
+        MarkovTextGenerator();
+
         std::string generateText();
 
         void createTable(std::vector<std::string>& words);
-}
-
+};
 
 #endif // TEXTGEN_H

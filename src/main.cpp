@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <clocale>
+#include "textgen.h"
 
 int main() {
     setlocale(LC_ALL, ".65001");
@@ -12,11 +13,21 @@ int main() {
     std::ifstream inputFile(input_filename);
 
     std::string word;
+    std::vector<std::string> words;
     while (inputFile >> word) {
-        std::cout << word << std::endl;
+        words.push_back(word);
     }
+    inputFile.close();
 
-    std::cout << "\nFinished reading." << std::endl;
+    MarkovTextGenerator generator;
+    generator.createTable(words);
+    std::string genText = generator.generateText();
+
+    const std::string output_filename = "result/gen.txt";
+    std::ofstream outputFile(output_filename);
+
+    outputFile << genText;
+    outputFile.close();
 
     return 0;
 } 
