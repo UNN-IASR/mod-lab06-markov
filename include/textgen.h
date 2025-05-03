@@ -18,12 +18,14 @@ class TextGenerator {
   mt19937 generator;
 
   deque<string> randomStart();
-  string nextWord(deque<string> prefixes);
 
  public:
   TextGenerator(string filename);
+  TextGenerator(const map<deque<string>, vector<string>>& table);
 
   string getTable();
+
+  string nextWord(deque<string> prefixes);
 
   string generateText(int length);
   string generateText(string filename, int length);

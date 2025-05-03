@@ -45,6 +45,10 @@ TextGenerator::TextGenerator(string filename) {
   file.close();
 }
 
+TextGenerator::TextGenerator(const map<deque<string>, vector<string>>& table) {
+  this->table = table;
+}
+
 string TextGenerator::getTable() {
   string result = "";
   for (const auto& [prefixes, suffixes] : this->table) {
