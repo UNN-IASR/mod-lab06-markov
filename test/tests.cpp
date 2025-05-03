@@ -140,7 +140,7 @@ TEST(MarkovGeneratorTest, GeneratedTextStartsWithCorrectPrefix) {
 
 TEST(MarkovGeneratorTest, GeneratedTextLengthIsLimited) {
     MarkovTextGenerator generator;
-    std::vector<std::string> words = {"a", 
+    std::vector<std::string> words = {"a",
     "b", "c", "a", "b", "d", "c", "a", "b"};
     generator.createTable(words);
     std::string text = generator.generateText();
