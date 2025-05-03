@@ -19,7 +19,7 @@ class TextGenerator {
   mt19937 generator;
 
   deque<string> randomStart();
-  string nextWord();
+  string nextWord(deque<string> prefixes);
 
  public:
   TextGenerator(string filename);

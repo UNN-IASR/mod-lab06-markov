@@ -61,11 +61,27 @@ deque<string> TextGenerator::randomStart() {
   return it->first;
 }
 
+string TextGenerator::nextWord(deque<string> prefixes) {
+  vector<string> variants = this->table[prefixes];
+  if (variants.size() == 0) {
+    return this->randomStart()[0];
+  }
+  uniform_int_distribution<size_t> dist(0, variants.size() - 1);
+  return variants[dist(this->generator)];
+}
+
 string TextGenerator::generateText() {
   deque<string> prefixes = this->randomStart();
   string text = "";
   for (string prefix : prefixes) {
     text += prefix + " ";
+  }
+
+  for (int i = 0; i < this->OUTPUT_LENGTH - this->PREFIX_LENGTH; i++) {
+    string suffix = this->nextWord(prefixes);
+    prefixes.pop_front();
+    prefixes.push_back(suffix);
+    text += suffix + " ";
   }
 
   return text;
