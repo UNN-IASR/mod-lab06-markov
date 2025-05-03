@@ -23,7 +23,7 @@ class TextGenerator {
  public:
   TextGenerator(string filename);
 
-  void printTable();
+  string getTable();
 
   string generateText(int length);
   string generateText(string filename, int length);

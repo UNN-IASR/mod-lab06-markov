@@ -45,17 +45,18 @@ TextGenerator::TextGenerator(string filename) {
   file.close();
 }
 
-void TextGenerator::printTable() {
+string TextGenerator::getTable() {
+  string result = "";
   for (const auto& [prefixes, suffixes] : this->table) {
-    for (const auto& prefix : prefixes) {
-      cout << prefix << " ";
-    }
-    cout << " = ";
     for (const auto& suffix : suffixes) {
-      cout << suffix << " ";
+      for (int i = 0; i < this->PREFIX_LENGTH; i++) {
+        result += prefixes[i];
+        if (i != this->PREFIX_LENGTH - 1) result += " ";
+      }
+      result += ": " + suffix + "\n";
     }
-    cout << endl;
   }
+  return result;
 }
 
 deque<string> TextGenerator::randomStart() {
