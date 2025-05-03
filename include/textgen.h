@@ -6,7 +6,7 @@
 #include <map>
 #include <vector>
 #include <string>
-#include <random> 
+#include <random>
 
 const int NPREF = 2;
 const int MAXGEN = 1000;
@@ -26,6 +26,8 @@ class MarkovTextGenerator {
        std::string generateText();
 
        void createTable(const std::vector<std::string>& words);
+       const statetab& getTable() const { return table; }
+       const prefix& getStartPrefix() const { return startPref; }
 };
 
 #endif //INCLUDE_TEXTGEN_H_

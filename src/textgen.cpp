@@ -16,6 +16,12 @@ MarkovTextGenerator::MarkovTextGenerator() {
 }
 
 void MarkovTextGenerator::createTable(const std::vector<std::string>& words) {
+    if(words.size() < NPREF + 1) {
+        table.clear();
+        startPref.clear();
+        return;
+    }
+
     prefix currPref;
 
     for (int i = 0; i < NPREF; i++) {
