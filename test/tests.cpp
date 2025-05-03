@@ -23,7 +23,8 @@ TEST(MarkovGeneratorTest, CanCreateObject) {
     ASSERT_TRUE(true);
 }
 
-const std::vector<std::string> testWords = {"один", "два", "три", "один", "два", "четыре"};
+const std::vector<std::string> testWords = {"один",
+ "два", "три", "один", "два", "четыре"};
 
 TEST(MarkovGeneratorTest, CorrectStartPrefixIsStored) {
     MarkovTextGenerator generator;
@@ -101,10 +102,11 @@ TEST(MarkovGeneratorTest, SingleSuffixChoiceLeadsToCorrectWord) {
 TEST(MarkovGeneratorTest, MultipleSuffixChoiceSelectsValidWord) {
     MarkovTextGenerator generator;
     // После "x y" идет либо "z1", либо "z2"
-    std::vector<std::string> words = {"x", "y", "z1", "stop1", "x", "y", "z2", "stop2"};
+    std::vector<std::string> words = {"x",
+     "y", "z1", "stop1", "x", "y", "z2", "stop2"};
     generator.createTable(words);
 
-    std::string text = generator.generateText(); // Генерируем текст
+    std::string text = generator.generateText();
 
     // Ищем первое вхождение "x y "
     size_t pos = text.find("x y ");
@@ -114,21 +116,22 @@ TEST(MarkovGeneratorTest, MultipleSuffixChoiceSelectsValidWord) {
     size_t next_word_start = pos + std::string("x y ").length();
     // Находим конец следующего слова (до пробела)
     size_t next_word_end = text.find(" ", next_word_start);
-    if (next_word_end == std::string::npos) { // Если это последнее слово
+    if (next_word_end == std::string::npos) {
         next_word_end = text.length();
     }
 
     // Выделяем следующее слово
-    std::string next_word = text.substr(next_word_start, next_word_end - next_word_start);
+    std::string next_word = text.substr(next_word_start,
+     next_word_end - next_word_start);
 
-    // Проверяем, является ли следующее слово одним из допустимых суффиксов
     bool is_valid_suffix = (next_word == "z1" || next_word == "z2");
     ASSERT_TRUE(is_valid_suffix);
 }
 
 TEST(MarkovGeneratorTest, GeneratedTextStartsWithCorrectPrefix) {
     MarkovTextGenerator generator;
-    std::vector<std::string> words = {"старт1", "старт2", "дальше", "слова"};
+    std::vector<std::string> words = {"старт1",
+     "старт2", "дальше", "слова"};
     generator.createTable(words);
     std::string text = generator.generateText();
     std::string expectStart = "старт1 старт2 ";
@@ -137,7 +140,8 @@ TEST(MarkovGeneratorTest, GeneratedTextStartsWithCorrectPrefix) {
 
 TEST(MarkovGeneratorTest, GeneratedTextLengthIsLimited) {
     MarkovTextGenerator generator;
-    std::vector<std::string> words = {"a", "b", "c", "a", "b", "d", "c", "a", "b"};
+    std::vector<std::string> words = {"a", 
+    "b", "c", "a", "b", "d", "c", "a", "b"};
     generator.createTable(words);
     std::string text = generator.generateText();
     int wordCnt = countWords(text);

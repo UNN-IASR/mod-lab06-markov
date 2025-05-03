@@ -16,7 +16,7 @@ MarkovTextGenerator::MarkovTextGenerator() {
 }
 
 void MarkovTextGenerator::createTable(const std::vector<std::string>& words) {
-    if(words.size() < NPREF + 1) {
+    if (words.size() < NPREF + 1) {
         table.clear();
         startPref.clear();
         return;
