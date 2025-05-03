@@ -28,6 +28,11 @@ void MarkovChain::train(const std::string& text, int prefixLength) {
 }
 
 std::string MarkovChain::generate(int textSize, unsigned int time_generate) {
+    if (stateTable.empty() || startWord.empty() ||
+        stateTable.find(startWord) == stateTable.end()) {
+        return "";
+    }
+
     Prefix prefix;
     std::string generateText;
 

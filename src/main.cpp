@@ -1,8 +1,8 @@
 // Copyright 2022 UNN-IASR
+#include <filesystem>
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <filesystem> // NOLINT(build/include_order)
 #include "textgen.h"
 
 std::string readTextFromFile(const std::string& filename) {
@@ -29,7 +29,7 @@ void saveTextToFile(const std::string& filename, const std::string& content) {
         file << content;
         file.close();
     } else {
-        std::cerr << "Unable to open file for writing: " 
+        std::cerr << "Unable to open file for writing: "
             << filename << std::endl;
     }
 }
