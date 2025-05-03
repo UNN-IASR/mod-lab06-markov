@@ -12,8 +12,10 @@ using std::advance;
 using std::cout;
 using std::endl;
 using std::ifstream;
+using std::invalid_argument;
 using std::locale;
 using std::mt19937;
+using std::ofstream;
 using std::regex;
 using std::regex_replace;
 using std::string;
@@ -26,7 +28,7 @@ TextGenerator::TextGenerator(string filename) {
 
   ifstream file(filename);
   if (!file.is_open()) {
-    throw std::invalid_argument("Input file not found");
+    throw invalid_argument("Input file not found");
   }
 
   deque<string> words;
@@ -39,6 +41,8 @@ TextGenerator::TextGenerator(string filename) {
     }
     words.push_back(word);
   }
+
+  file.close();
 }
 
 void TextGenerator::printTable() {
@@ -85,4 +89,17 @@ string TextGenerator::generateText() {
   }
 
   return text;
+}
+
+string TextGenerator::generateText(string filename) {
+  ofstream file(filename);
+  if (!file) {
+    throw invalid_argument("Output file create error");
+  }
+
+  string data = this->generateText();
+  file << data;
+  file.close();
+
+  return data;
 }
