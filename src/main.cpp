@@ -1,3 +1,4 @@
+// Copyright 2022 UNN-IASR
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -30,4 +31,4 @@ int main() {
     outputFile.close();
 
     return 0;
-} 
+}

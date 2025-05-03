@@ -1,27 +1,29 @@
-#include "textgen.h"
+// Copyright 2022 UNN-IASR
 
 #include <deque>
 #include <map>
 #include <vector>
 #include <string>
-// #include <random>
 #include <cstdlib>
 #include <ctime>
+
+#include "textgen.h"
 
 MarkovTextGenerator::MarkovTextGenerator() {
     srand(static_cast<unsigned int>(time(0)));
 }
 
-
-void MarkovTextGenerator::createTable(std::vector<std::string>& words) {
+void MarkovTextGenerator::createTable(const std::vector<std::string>& words) {
     prefix currPref;
 
     for (int i = 0; i < NPREF; i++) {
         currPref.push_back(words[i]);
     }
+
+    startPref = currPref;
     
     for (int i = NPREF; i < words.size(); i++) {
-        std::string& suffix = words[i];
+        const std::string& suffix = words[i];
 
         table[currPref].push_back(suffix);
 
@@ -33,7 +35,7 @@ void MarkovTextGenerator::createTable(std::vector<std::string>& words) {
 
 std::string MarkovTextGenerator::generateText() {
     std::string result = "";
-    prefix currPref = table.begin()->first;
+    prefix currPref = startPref;
 
     for (int i = 0; i < NPREF; i++) {
         result += currPref[i];

@@ -1,5 +1,6 @@
-#ifndef TEXTGEN_H
-#define TEXTGEN_H
+// Copyright 2022 UNN-IASR
+#ifndef INCLUDE_TEXTGEN_H_ 
+#define INCLUDE_TEXTGEN_H_ 
 
 #include <deque>
 #include <map>
@@ -13,15 +14,16 @@ typedef std::deque<std::string> prefix;
 typedef std::map<prefix, std::vector<std::string>> statetab;
 
 class MarkovTextGenerator {
-    private:
-        statetab table;
+ private:
+       statetab table;
+       prefix startPref;
 
-    public:
-        MarkovTextGenerator();
+ public:
+       MarkovTextGenerator();
 
-        std::string generateText();
+       std::string generateText();
 
-        void createTable(std::vector<std::string>& words);
+       void createTable(const std::vector<std::string>& words);
 };
 
-#endif // TEXTGEN_H
+#endif //INCLUDE_TEXTGEN_H_ 
