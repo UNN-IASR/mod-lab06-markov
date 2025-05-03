@@ -9,6 +9,8 @@
 #include <locale>
 #include <random>
 #include <regex>
+#include <string>
+#include <vector>
 
 using std::advance;
 using std::cout;
@@ -26,7 +28,8 @@ using std::transform;
 using std::uniform_int_distribution;
 
 TextGenerator::TextGenerator(string filename) {
-  this->generator = mt19937(std::random_device{}());
+  std::random_device rd;
+  this->generator = mt19937(rd());
 
   ifstream file(filename);
   if (!file.is_open()) {

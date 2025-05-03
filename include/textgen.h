@@ -1,4 +1,5 @@
 // Copyright 2025 Sergho
+#pragma once
 
 #include <deque>
 #include <map>
@@ -23,8 +24,8 @@ class TextGenerator {
   deque<string> randomStart();
 
  public:
-  TextGenerator(string filename);
-  TextGenerator(const map<deque<string>, vector<string>>& table);
+  explicit TextGenerator(string filename);
+  explicit TextGenerator(const map<deque<string>, vector<string>>& table);
 
   string getTable();
 

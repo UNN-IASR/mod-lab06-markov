@@ -2,7 +2,10 @@
 
 #include <gtest/gtest.h>
 
-#include <filesystem>
+#include <deque>
+#include <fstream>
+#include <string>
+#include <vector>
 
 #include "textgen.h"
 
@@ -113,6 +116,6 @@ TEST(file_tests, output_file) {
   TextGenerator generator("../input/source.txt");
   generator.fixRandomDevice(42);
   string text = generator.generateText("../../test/test.txt", 10);
-  std::filesystem::path path = "../../test/test.txt";
-  EXPECT_EQ(true, std::filesystem::exists(path));
+  std::ifstream file("../../test/test.txt");
+  EXPECT_EQ(true, file.good());
 }
