@@ -20,7 +20,7 @@ using std::string;
 using std::unordered_set;
 using std::vector;
 
-TEST(suffix_test, single_variant) {
+TEST(suffix_tests, single_variant) {
   map<deque<string>, vector<string>> table = {
       {{"a", "b"}, {"c"}}, {{"b", "c"}, {"d"}}, {{"c", "d"}, {"e"}}};
 
@@ -30,7 +30,7 @@ TEST(suffix_test, single_variant) {
   EXPECT_EQ("d", word);
 }
 
-TEST(suffix_test, several_variants) {
+TEST(suffix_tests, several_variants) {
   map<deque<string>, vector<string>> table = {{{"a", "b"}, {"c"}},
                                               {{"a", "b"}, {"d"}}};
 
@@ -40,7 +40,7 @@ TEST(suffix_test, several_variants) {
   EXPECT_TRUE(word == "c" || word == "d");
 }
 
-TEST(suffix_test, no_variants) {
+TEST(suffix_tests, no_variants) {
   map<deque<string>, vector<string>> table = {{{"a", "b"}, {"c"}},
                                               {{"a", "b"}, {"d"}}};
 
@@ -48,4 +48,20 @@ TEST(suffix_test, no_variants) {
   deque<string> prefix = {"a", "c"};
   string word = generator.nextWord(prefix);
   EXPECT_TRUE(word == "a" || word == "b");
+}
+
+TEST(get_table_tests, single_variant) {
+  map<deque<string>, vector<string>> table = {{{"a", "b"}, {"c"}},
+                                              {{"c", "d"}, {"e"}}};
+
+  TextGenerator generator(table);
+  EXPECT_EQ("a b: c\nc d: e\n", generator.getTable());
+}
+
+TEST(get_table_tests, several_variants) {
+  map<deque<string>, vector<string>> table = {{{"a", "b"}, {"c", "d"}},
+                                              {{"c", "d"}, {"e"}}};
+
+  TextGenerator generator(table);
+  EXPECT_EQ("a b: c\na b: d\nc d: e\n", generator.getTable());
 }
