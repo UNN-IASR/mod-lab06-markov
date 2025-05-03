@@ -1,3 +1,5 @@
+// Copyright 2025 Sergho
+
 #include <deque>
 #include <map>
 #include <random>

@@ -1,3 +1,5 @@
+// Copyright 2025 Sergho
+
 #include <iostream>
 
 #include "textgen.h"
