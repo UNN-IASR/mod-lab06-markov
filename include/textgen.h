@@ -15,10 +15,10 @@ class TextGenerator {
 
   map<deque<string>, vector<string>> table;
 
-  void generateTable(string filename);
-
  public:
   TextGenerator(string filename);
+
+  void printTable();
 
   string generateText();
   string generateText(string filename);

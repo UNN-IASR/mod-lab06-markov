@@ -29,3 +29,5 @@ install(TARGETS ${PROJECT_NAME}.info
 		RUNTIME DESTINATION "${tool_dest}"
     COMPONENT library)
 install(FILES ${header} DESTINATION "${include_dest}")
+
+file(COPY ${CMAKE_SOURCE_DIR}/input DESTINATION ${CMAKE_BINARY_DIR})
