@@ -74,14 +74,14 @@ string TextGenerator::nextWord(deque<string> prefixes) {
   return variants[dist(this->generator)];
 }
 
-string TextGenerator::generateText() {
+string TextGenerator::generateText(int length) {
   deque<string> prefixes = this->randomStart();
   string text = "";
   for (string prefix : prefixes) {
     text += prefix + " ";
   }
 
-  for (int i = 0; i < this->OUTPUT_LENGTH - this->PREFIX_LENGTH; i++) {
+  for (int i = 0; i < length - this->PREFIX_LENGTH; i++) {
     string suffix = this->nextWord(prefixes);
     prefixes.pop_front();
     prefixes.push_back(suffix);
@@ -91,13 +91,13 @@ string TextGenerator::generateText() {
   return text;
 }
 
-string TextGenerator::generateText(string filename) {
+string TextGenerator::generateText(string filename, int length) {
   ofstream file(filename);
   if (!file) {
     throw invalid_argument("Output file create error");
   }
 
-  string data = this->generateText();
+  string data = this->generateText(length);
   file << data;
   file.close();
 

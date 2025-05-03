@@ -13,7 +13,6 @@ using std::vector;
 class TextGenerator {
  private:
   const int PREFIX_LENGTH = 2;
-  const int OUTPUT_LENGTH = 1000;
 
   map<deque<string>, vector<string>> table;
   mt19937 generator;
@@ -26,6 +25,6 @@ class TextGenerator {
 
   void printTable();
 
-  string generateText();
-  string generateText(string filename);
+  string generateText(int length);
+  string generateText(string filename, int length);
 };
