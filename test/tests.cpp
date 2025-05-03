@@ -127,12 +127,12 @@ TEST(TextGenTest, SplitsTextCorrectly) {
 
 TEST(TextGenTest, PrefixLengthAffectsOutput) {
     MarkovChain mc;
-    std::string text = "A B C D A B E D A F C D A B C D";
+    std::string text = "A B C D A B E D A F C D A B C D A G H I J K L M N O P";
 
     std::set<std::string> results1;
     std::set<std::string> results2;
 
-    for (int i = 0; i < 10; ++i) {
+    for (int i = 0; i < 20; ++i) {
         mc.train(text, 1);
         results1.insert(mc.generate(20, i));
 
@@ -140,7 +140,18 @@ TEST(TextGenTest, PrefixLengthAffectsOutput) {
         results2.insert(mc.generate(20, i));
     }
 
-    EXPECT_LT(results1.count(*results2.begin()), 1);
+    bool has_difference = false;
+    for (const auto& res : results1) {
+        if (results2.count(res) == 0) {
+            has_difference = true;
+            break;
+        }
+    }
+
+    EXPECT_TRUE(has_difference);
+
+    EXPECT_GT(results1.size(), 5);
+    EXPECT_GT(results2.size(), 5);
 }
 
 TEST(TextGenTest, HandlesPunctuationInText) {
