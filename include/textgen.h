@@ -20,10 +20,8 @@ public:
     void trainFromStateTable(
         const std::map<Prefix,
         std::vector<std::string>>&);
-
-private:
-    std::vector<std::string> splitText(const std::string&);
     Prefix startWord;
+    std::vector<std::string> splitText(const std::string&);
 };
 
 #endif  // INCLUDE_TEXTGEN_H_
