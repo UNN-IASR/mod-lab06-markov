@@ -65,3 +65,46 @@ TEST(get_table_tests, several_variants) {
   TextGenerator generator(table);
   EXPECT_EQ("a b: c\na b: d\nc d: e\n", generator.getTable());
 }
+
+TEST(pseudo_random_tests, single_variant) {
+  map<deque<string>, vector<string>> table = {{{"a", "b"}, {"c"}},
+                                              {{"c", "d"}, {"e"}}};
+
+  TextGenerator generator(table);
+  generator.fixRandomDevice(42);
+  deque<string> prefix = {"a", "b"};
+  EXPECT_EQ("c", generator.nextWord(prefix));
+}
+
+TEST(pseudo_random_tests, several_variants) {
+  map<deque<string>, vector<string>> table = {{{"a", "b"}, {"c", "d", "e"}},
+                                              {{"c", "d"}, {"e"}}};
+
+  TextGenerator generator(table);
+  generator.fixRandomDevice(42);
+  deque<string> prefix = {"a", "b"};
+  EXPECT_EQ("d", generator.nextWord(prefix));
+}
+
+TEST(text_tests, simple_table) {
+  map<deque<string>, vector<string>> table = {{{"a", "b"}, {"c", "d", "e"}},
+                                              {{"c", "d"}, {"e", "f"}}};
+
+  TextGenerator generator(table);
+  generator.fixRandomDevice(42);
+  string text = generator.generateText(10);
+  EXPECT_EQ("a b e c a c c c c a ", text);
+}
+
+TEST(text_tests, loop_table) {
+  map<deque<string>, vector<string>> table = {{{"a", "b"}, {"c", "d"}},
+                                              {{"b", "c"}, {"d", "e"}},
+                                              {{"c", "d"}, {"e", "f"}},
+                                              {{"d", "e"}, {"f", "a"}},
+                                              {{"e", "f"}, {"a", "b"}}};
+
+  TextGenerator generator(table);
+  generator.fixRandomDevice(42);
+  string text = generator.generateText(10);
+  EXPECT_EQ("b c e e b e e d d b ", text);
+}

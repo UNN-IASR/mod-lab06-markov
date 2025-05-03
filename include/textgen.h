@@ -7,6 +7,7 @@
 using std::deque;
 using std::map;
 using std::mt19937;
+using std::random_device;
 using std::string;
 using std::vector;
 
@@ -24,6 +25,8 @@ class TextGenerator {
   TextGenerator(const map<deque<string>, vector<string>>& table);
 
   string getTable();
+
+  void fixRandomDevice(int seed);
 
   string nextWord(deque<string> prefixes);
 

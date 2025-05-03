@@ -70,6 +70,10 @@ deque<string> TextGenerator::randomStart() {
   return it->first;
 }
 
+void TextGenerator::fixRandomDevice(int seed) {
+  this->generator = mt19937(seed);
+}
+
 string TextGenerator::nextWord(deque<string> prefixes) {
   vector<string> variants = this->table[prefixes];
   if (variants.size() == 0) {
