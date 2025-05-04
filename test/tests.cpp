@@ -64,7 +64,8 @@ TEST(TextGeneratorTest, MultipleSuffixSelection) {
 
   srand(0);
   TextGenerator::prefix p = {"one", "two"};
-  size_t index = rand_r() % generator.statetab[p].size();
+  unsigned int seed = time(nullptr);
+  size_t index = rand_r(&seed) % generator.statetab[p].size();
   ASSERT_TRUE(index >= 0 && index < generator.statetab[p].size());
 }
 
