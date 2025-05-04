@@ -1,0 +1,9 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/Users/User/Documents/\u0443\u0447\u0435\u0431\u0430/mod-lab06-markov/build/cmake_install.cmake",
+		"C:/Users/User/Documents/\u0443\u0447\u0435\u0431\u0430/mod-lab06-markov/build/src/cmake_install.cmake",
+		"C:/Users/User/Documents/\u0443\u0447\u0435\u0431\u0430/mod-lab06-markov/build/test/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

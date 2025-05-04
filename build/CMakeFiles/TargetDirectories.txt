@@ -1,0 +1,8 @@
+C:/Users/User/Documents/учеба/mod-lab06-markov/build/CMakeFiles/INSTALL.dir
+C:/Users/User/Documents/учеба/mod-lab06-markov/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/User/Documents/учеба/mod-lab06-markov/build/CMakeFiles/ZERO_CHECK.dir
+C:/Users/User/Documents/учеба/mod-lab06-markov/build/src/CMakeFiles/mod-lab06-markov.dir
+C:/Users/User/Documents/учеба/mod-lab06-markov/build/src/CMakeFiles/mod-lab06-markov.info.dir
+C:/Users/User/Documents/учеба/mod-lab06-markov/build/src/CMakeFiles/INSTALL.dir
+C:/Users/User/Documents/учеба/mod-lab06-markov/build/test/CMakeFiles/mod-lab06-markov.test.dir
+C:/Users/User/Documents/учеба/mod-lab06-markov/build/test/CMakeFiles/INSTALL.dir
