@@ -1,26 +1,27 @@
-#pragma once
-#ifndef TEXTGEN_H
-#define TEXTGEN_H
+// Copyright 2021 GHA Test Team
+
+#ifndef TEXTGEN_H_
+#define TEXTGEN_H_
 
 #include <deque>
-#include <vector>
+#include <iostream>
 #include <map>
 #include <string>
-#include <iostream>
+#include <vector>
 
 class TextGenerator {
-public:
-    static const int NPREF = 2;
-    static const int MAXGEN = 1000;
+ public:
+  static const int NPREF = 2;
+  static const int MAXGEN = 1000;
 
-    void build(std::istream& in);
-    void generate(int nwords, const std::string& outputFile = "gen.txt");
+  void build(std::istream& in);
+  void generate(int nwords, const std::string& outputFile = "gen.txt");
     
-    typedef std::deque<std::string> prefix;
-    std::map<prefix, std::vector<std::string>> statetab;
-    prefix initialPrefix;
+  typedef std::deque<std::string> prefix;
+  std::map<prefix, std::vector<std::string>> statetab;
+  prefix initialPrefix;
 
-    void add(prefix& p, const std::string& s);
+  void add(prefix& p, const std::string& s);
 };
 
-#endif
+#endif  // TEXTGEN_H_
