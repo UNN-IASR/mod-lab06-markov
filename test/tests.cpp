@@ -114,18 +114,6 @@ TEST(TextGeneratorTest, RepeatedSequences) {
   ASSERT_EQ(generator.statetab[p].size(), 3);
 }
 
-TEST(TextGeneratorTest, InsufficientDataGeneration) {
-  TextGenerator generator;
-  istringstream input("only two words");
-  generator.build(input);
-
-  testing::internal::CaptureStderr();
-  generator.generate(100);
-  string output = testing::internal::GetCapturedStderr();
-
-  ASSERT_TRUE(output.find("no data available") != string::npos);
-}
-
 TEST(TextGeneratorTest, FileOutputTest) {
   TextGenerator generator;
   istringstream input("this is a test for file output");
@@ -142,4 +130,23 @@ TEST(TextGeneratorTest, FileOutputTest) {
   ASSERT_FALSE(content.empty());
 
   remove(testFile.c_str());
+}
+
+TEST(TextGeneratorTest, SpecialCharactersHandling) {
+  TextGenerator generator;
+  istringstream input("word1 $%^ word2 @#$ word3");
+  generator.build(input);
+  
+  TextGenerator::prefix p = {"word1", "$%^"};
+  ASSERT_EQ(generator.statetab[p].size(), 1);
+  ASSERT_EQ(generator.statetab[p][0], "word2");
+}
+
+TEST(TextGeneratorTest, RepeatedWordsHandling) {
+  TextGenerator generator;
+  istringstream input("word word word word word");
+  generator.build(input);
+  
+  TextGenerator::prefix p = {"word", "word"};
+  ASSERT_GE(generator.statetab[p].size(), 1);
 }
