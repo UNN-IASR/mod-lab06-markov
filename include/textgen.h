@@ -11,7 +11,7 @@
 
 class TextGenerator {
  public:
-  static const int NPREF = 2;
+  static const int NPREF;
   static const int MAXGEN = 1000;
 
   void build(std::istream& in);
