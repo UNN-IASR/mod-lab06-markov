@@ -24,6 +24,8 @@ using std::string;
 using std::uniform_int_distribution;
 using std::vector;
 
+const int TextGenerator::NPREF = 2;
+
 void TextGenerator::add(prefix& p, const string& s) {
   if (p.size() == NPREF) {
     statetab[p].push_back(s);
