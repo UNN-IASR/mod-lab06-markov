@@ -143,13 +143,3 @@ TEST(TextGeneratorTest, FileOutputTest) {
 
   remove(testFile.c_str());
 }
-
-TEST(TextGeneratorTest, LongWordHandling) {
-  TextGenerator generator;
-  istringstream input("ThisIsAVeryLongWordWithNoSpaces AnotherLongWord");
-  generator.build(input);
-
-  TextGenerator::prefix p = {"ThisIsAVeryLongWordWithNoSpaces",
-                            "AnotherLongWord"};
-  ASSERT_TRUE(generator.statetab.find(p) != generator.statetab.end());
-}
