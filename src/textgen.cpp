@@ -68,7 +68,7 @@ void TextGenerator::generate(int nwords, const string& outputFile) {
   mt19937 gen(static_cast<unsigned int>(time(nullptr)));
 
   if (statetab.empty()) {
-    out << "no data available" << endl;
+    std::cerr << "no data available" << std::endl;
     return;
   }
 
