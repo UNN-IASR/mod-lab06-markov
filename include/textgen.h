@@ -16,7 +16,6 @@ class TextGenerator {
 
   void build(std::istream& in);
   void generate(int nwords, const std::string& outputFile = "gen.txt");
-  
   typedef std::deque<std::string> prefix;
   std::map<prefix, std::vector<std::string>> statetab;
   prefix initialPrefix;

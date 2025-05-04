@@ -1,8 +1,5 @@
 // Copyright 2021 GHA Test Team
 
-#include "textgen.h"
-
-#include <gtest/gtest.h>
 #include <cstdlib>
 
 #include <algorithm>
@@ -11,6 +8,10 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+
+#include <gtest/gtest.h>
+
+#include "textgen.h"
 
 using std::istream_iterator;
 using std::istringstream;

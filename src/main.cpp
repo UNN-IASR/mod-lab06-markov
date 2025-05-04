@@ -1,6 +1,6 @@
 ﻿// Copyright 2021 GHA Test Team
 
-#include "textgen.h"
+#include "main.h" 
 
 #include <deque>
 #include <exception>
@@ -8,6 +8,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+
+#include "textgen.h"
 
 using std::cerr;
 using std::cout;
@@ -32,7 +34,6 @@ int main(int argc, char* argv[]) {
   ifstream in(inputFile);
   if (!in) {
     cerr << "Ошибка открытия файла " << inputFile << endl;
-    system("pause");
     return 1;
   }
 
