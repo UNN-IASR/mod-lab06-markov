@@ -1,5 +1,7 @@
 // Copyright 2021 GHA Test Team
 
+#include <gtest/gtest.h>
+
 #include <cstdlib>
 
 #include <algorithm>
@@ -8,8 +10,6 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
-
-#include <gtest/gtest.h>
 
 #include "textgen.h"
 

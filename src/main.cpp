@@ -1,7 +1,5 @@
 ﻿// Copyright 2021 GHA Test Team
 
-#include "main.h" 
-
 #include <deque>
 #include <exception>
 #include <fstream>
