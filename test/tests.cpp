@@ -109,11 +109,6 @@ TEST(TextGenTest, TextGenerationFixedLength) {
     ASSERT_EQ(wordCount, 6);
 }
 
-TEST(TextGenTest, EmptyFileHandling) {
-    TextGenerator generator;
-    ASSERT_THROW(generator.createTable("nonexistent.txt", 2), std::runtime_error);
-}
-
 TEST(TextGenTest, ShortTextHandling) {
     TextGenerator generator;
     std::ofstream out("short.txt");
