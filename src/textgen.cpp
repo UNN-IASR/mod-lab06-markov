@@ -15,6 +15,7 @@ using std::cerr;
 using std::cout;
 using std::endl;
 using std::ifstream;
+using std::istream;
 using std::mt19937;
 using std::ofstream;
 using std::remove_if;

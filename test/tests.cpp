@@ -3,9 +3,9 @@
 #include "textgen.h"
 
 #include <gtest/gtest.h>
+#include <cstdlib>
 
 #include <algorithm>
-#include <cstdlib>
 #include <fstream>
 #include <iterator>
 #include <sstream>
@@ -63,7 +63,7 @@ TEST(TextGeneratorTest, MultipleSuffixSelection) {
 
   srand(0);
   TextGenerator::prefix p = {"one", "two"};
-  size_t index = rand() % generator.statetab[p].size();
+  size_t index = rand_r() % generator.statetab[p].size();
   ASSERT_TRUE(index >= 0 && index < generator.statetab[p].size());
 }
 
