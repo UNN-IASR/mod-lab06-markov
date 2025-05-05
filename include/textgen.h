@@ -1,5 +1,6 @@
 // Copyright 2022 UNN-IASR
-#pragma once
+#ifndef MOD_LAB06_MARKOV_INCLUDE_TEXTGEN_H_
+#define MOD_LAB06_MARKOV_INCLUDE_TEXTGEN_H_
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -12,20 +13,20 @@
 using namespace std;
 
 class Generator {
-public:
+ public:
     typedef deque<string> prefix;
-    map<prefix, vector<string>> &getStateTable() { return statetab; };
-    map<prefix, set<string>> &getPrefixSet() { return prefixSet; };
-    int getNPref() const { return NPREF; };
-    int getMaxGen() const { return MAXGEN; };
-    Generator() = default;
-    Generator(string testtext);
+    map<prefix, vector<string>> &getStateTable() { return statetab; }
+    map<prefix, set<string>> &getPrefixSet() { return prefixSet; }
+    int getNPref() const { return NPREF; }
+    int getMaxGen() const { return MAXGEN; }
+    explicit Generator() = default;
+    explicit Generator(string testtext);
     void CreateText();
-
-private:
+ private:
     map<prefix, vector<string>> statetab;
     map<prefix, set<string>> prefixSet;
     const int MAXGEN = 1000;
     const int NPREF = 2;
     void AnalisText();
 };
+#endif  // MOD_LAB06_MARKOV_INCLUDE_TEXTGEN_H_
