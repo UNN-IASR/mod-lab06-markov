@@ -1,17 +1,19 @@
 // Copyright 2022 UNN-IASR
-#include <gtest/gtest.h>
 #include "textgen.h"
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <deque>
-#include <map>
-#include <set>
-#include <vector>
-#include <string>
+
 #include <cstdlib>
 #include <ctime>
-using namespace std;
+
+#include <deque>
+#include <fstream>
+#include <iostream>
+#include <map>
+#include <set>
+#include <sstream>
+#include <string>
+#include <vector>
+
+#include <gtest/gtest.h>
 
 TEST(GeneratorTest, PrefixSize) {
     Generator gen("");
@@ -42,7 +44,7 @@ TEST(GeneratorTest, WordsInput) {
 }
 
 TEST(GeneratorTest, PrefixSuffixRecord) {
-    typedef deque<string> prefix;
+    typedef std::deque<std::string> prefix;
     Generator gen = Generator("the cat sat");
     auto &statetab = gen.getStateTable();
     prefix p;
@@ -68,7 +70,7 @@ TEST(GeneratorTest, SuffixSelectionFromSingleOption) {
 }
 
 TEST(GeneratorTest, TextGeneration) {
-    typedef deque<string> prefix;
+    typedef std::deque<std::string> prefix;
     Generator gen = Generator("the cat sat");
     gen.CreateText();
     string result = gen.getres();
