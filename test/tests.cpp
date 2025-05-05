@@ -1,21 +1,13 @@
 // Copyright 2022 UNN-IASR
-#include "textgen.h" 
+#include "textgen.h"
 
 #include <stdlib.h>
-#include <time.h>
-
-#include <algorithm>
+#include <gtest/gtest.h>
 #include <deque>
-#include <fstream>
-#include <iostream>
 #include <map>
-#include <random>
-#include <set>
-#include <sstream>
 #include <string>
 #include <vector>
-
-#include <gtest/gtest.h>
+#include <set>
 
 TEST(GeneratorTest, PrefixSize) {
     Generator gen("");
