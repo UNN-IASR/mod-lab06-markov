@@ -1,3 +1,4 @@
+// Copyright 2022 UNN-IASR
 #pragma once
 #include <iostream>
 #include <fstream>
@@ -10,8 +11,7 @@
 #include <ctime>
 using namespace std;
 
-class Generator
-{
+class Generator {
 public:
     typedef deque<string> prefix;
     map<prefix, vector<string>> &getStateTable() { return statetab; };
