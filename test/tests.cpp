@@ -66,7 +66,7 @@ TEST(GeneratorTest, TextGeneration) {
     typedef std::deque<std::string> prefix;
     Generator gen = Generator("the cat sat");
     gen.CreateText();
-    string result = gen.getres();
+    std::string result = gen.getres();
     EXPECT_NE(result.find("the"), std::string::npos);
     EXPECT_NE(result.find("cat"), std::string::npos);
     EXPECT_NE(result.find("sat"), std::string::npos);
