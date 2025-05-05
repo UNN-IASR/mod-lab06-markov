@@ -1,5 +1,17 @@
+// Copyright 2022 UNN-IASR
 #include <gtest/gtest.h>
 #include "textgen.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <deque>
+#include <map>
+#include <set>
+#include <vector>
+#include <string>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
 
 TEST(GeneratorTest, PrefixSize) {
     Generator gen("");
@@ -55,17 +67,14 @@ TEST(GeneratorTest, SuffixSelectionFromSingleOption) {
     EXPECT_EQ(statetab[p][0], "c");
 }
 
-TEST(GeneratorTest, TextGenerationLength) {
-    Generator gen("a b c d e f g h i j k l m n o p");
-    std::stringstream buffer;
-    streambuf *old = std::cout.rdbuf(buffer.rdbuf());
-
+TEST(GeneratorTest, TextGeneration) {
+    typedef deque<string> prefix;
+    Generator gen = Generator("the cat sat");
     gen.CreateText();
-
-    std::cout.rdbuf(old);
-    std::string output = buffer.str();
-    // Проверяем, что вывод содержит сообщение об успешной записи
-    EXPECT_NE(output.find("Текст успешно записан"), std::string::npos);
+    string result = gen.getres();
+    EXPECT_NE(result.find("the"), std::string::npos);
+    EXPECT_NE(result.find("cat"), std::string::npos);
+    EXPECT_NE(result.find("sat"), std::string::npos);
 }
 
 TEST(GeneratorTest, HandlesNewlines) {
