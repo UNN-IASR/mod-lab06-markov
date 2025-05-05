@@ -18,6 +18,8 @@ class Generator {
     typedef deque<string> prefix;
     map<prefix, vector<string>> &getStateTable() { return statetab; }
     map<prefix, set<string>> &getPrefixSet() { return prefixSet; }
+    string result;
+    string getres() { return result; }
     int getNPref() const { return NPREF; }
     int getMaxGen() const { return MAXGEN; }
     explicit Generator() = default;
