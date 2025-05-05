@@ -16,10 +16,10 @@
 class Generator {
  public:
     typedef std::deque<std::string> prefix;
-    std::map<prefix, std::vector<std::string>> &getStateTable() { 
+    std::map<prefix, std::vector<std::string>> &getStateTable() {
      return statetab;
     }
-    std::map<prefix, std::set<std::string>> &getPrefixSet() { 
+    std::map<prefix, std::set<std::string>> &getPrefixSet() {
      return prefixSet;
     }
     std::string result;
