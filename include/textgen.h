@@ -15,19 +15,19 @@
 
 class Generator {
  public:
-    typedef std:deque<std:string> prefix;
-    map<prefix, vector<std:string>> &getStateTable() { return statetab; }
-    map<prefix, set<std::string>> &getPrefixSet() { return prefixSet; }
-    std:string result;
-    std:string getres() { return result; }
+    typedef std::deque<std::string> prefix;
+    std::map<prefix, vector<std::string>> &getStateTable() { return statetab; }
+    std::map<prefix, set<std::string>> &getPrefixSet() { return prefixSet; }
+    std::string result;
+    std::string getres() { return result; }
     int getNPref() const { return NPREF; }
     int getMaxGen() const { return MAXGEN; }
     explicit Generator() = default;
-    explicit Generator(std:string testtext);
+    explicit Generator(std::string testtext);
     void CreateText();
  private:
-    std:map<prefix, std:vector<std:string>> statetab;
-    std:map<prefix, std:set<std:string>> prefixSet;
+    std::map<prefix, std::vector<std::string>> statetab;
+    std::map<prefix, std::set<std::string>> prefixSet;
     const int MAXGEN = 1000;
     const int NPREF = 2;
     void AnalisText();
