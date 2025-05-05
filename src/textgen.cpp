@@ -10,12 +10,11 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
-using namespace std;
 
 void Generator::AnalisText() {
-    ifstream file("text.txt", ios::binary);
+    std::ifstream file("text.txt", ios::binary);
     prefix currentPrefix;
-    string word;
+    std::string word;
     while (file >> word) {
         if (currentPrefix.size() == NPREF) {
             if (!prefixSet[currentPrefix].count(word) > 0) {
@@ -32,10 +31,10 @@ void Generator::AnalisText() {
     file.close();
 }
 
-Generator::Generator(string testtext) {
+Generator::Generator(std::string testtext) {
     prefix currentPrefix;
-    vector<string> words;
-    string currentWord;
+    std::vector<std::string> words;
+    std::string currentWord;
     bool inWord = false;
     testtext += ' ';
     for (char c : testtext) {
@@ -51,7 +50,7 @@ Generator::Generator(string testtext) {
         }
     }
     for (int i = 0; i < words.size(); i++) {
-        string word = words[i];
+        std::string word = words[i];
         if (currentPrefix.size() == NPREF) {
             if (!prefixSet[currentPrefix].count(word) > 0) {
                 statetab[currentPrefix].push_back(word);
@@ -71,9 +70,9 @@ void Generator::CreateText() {
     if (statetab.empty())
         return;
 
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<> dist(0, statetab.size() - 1);
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dist(0, statetab.size() - 1);
     int randomIndex = dist(gen);
     auto it = std::next(statetab.begin(), randomIndex);
     auto current = it->first;
@@ -85,7 +84,7 @@ void Generator::CreateText() {
                 randomIndex = dist(gen);
                 text += statetab[current][randomIndex] + ' ';
                 counter++;
-                string word2 = statetab[current][randomIndex];
+                std::string word2 = statetab[current][randomIndex];
                 current.pop_front();
                 current.push_back(word2);
             } else {
@@ -96,7 +95,7 @@ void Generator::CreateText() {
         }
     }
     result = text;
-    ofstream out_file(
+    std::ofstream out_file(
         "C:/Users/armok/Documents/lebedeva/IASR/"
         "mod-lab06-markov/result/result.txt");
     if (out_file.is_open()) {
