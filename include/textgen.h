@@ -10,6 +10,7 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include <string>
 using namespace std;
 
 class Generator {
