@@ -1,15 +1,14 @@
 // Copyright 2022 UNN-IASR
 #include "textgen.h"
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <deque>
-#include <map>
-#include <set>
-#include <string>
-#include <vector>
+
+#include <algorithm>
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
+#include <iostream>
+#include <random>
+#include <sstream>
+#include <string>
 
 void Generator::AnalisText() {
     std::ifstream file("text.txt", ios::binary);
@@ -76,6 +75,7 @@ void Generator::CreateText() {
     int randomIndex = dist(gen);
     auto it = std::next(statetab.begin(), randomIndex);
     auto current = it->first;
+    std::string text = "";
     text += current[0] + ' ' + current[1] + ' ';
     int counter = 2;
     while (counter < MAXGEN) {
