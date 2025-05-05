@@ -11,7 +11,7 @@
 #include <string>
 
 void Generator::AnalisText() {
-    std::ifstream file("text.txt", ios::binary);
+    std::ifstream file("text.txt");
     prefix currentPrefix;
     std::string word;
     while (file >> word) {
