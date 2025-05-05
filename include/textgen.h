@@ -16,8 +16,8 @@
 class Generator {
  public:
     typedef std::deque<std::string> prefix;
-    std::map<prefix, vector<std::string>> &getStateTable() { return statetab; }
-    std::map<prefix, set<std::string>> &getPrefixSet() { return prefixSet; }
+    std::map<prefix, std::vector<std::string>> &getStateTable() { return statetab; }
+    std::map<prefix, std::set<std::string>> &getPrefixSet() { return prefixSet; }
     std::string result;
     std::string getres() { return result; }
     int getNPref() const { return NPREF; }
