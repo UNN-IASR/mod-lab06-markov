@@ -1,13 +1,15 @@
 // Copyright 2022 UNN-IASR
-#include "textgen.h"
+#include "textgen.h" 
 
-#include <cstdlib>
-#include <ctime>
+#include <stdlib.h>
+#include <time.h>
 
+#include <algorithm>
 #include <deque>
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <random>
 #include <set>
 #include <sstream>
 #include <string>
