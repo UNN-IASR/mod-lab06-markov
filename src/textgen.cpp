@@ -82,10 +82,10 @@ void Generator::CreateText() {
     while (counter < MAXGEN) {
         if (statetab.count(current) > 0) {
             if (!statetab[current].empty()) {
-                random = rand() % statetab[current].size();
-                text += statetab[current][random] + ' ';
+                randomIndex = dist(gen);
+                text += statetab[current][randomIndex] + ' ';
                 counter++;
-                string word2 = statetab[current][random];
+                string word2 = statetab[current][randomIndex];
                 current.pop_front();
                 current.push_back(word2);
             } else {
