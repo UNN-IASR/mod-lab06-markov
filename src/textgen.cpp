@@ -8,6 +8,10 @@
 #include <iostream>
 #include <random>
 #include <sstream>
+#include <vector>
+#include <map>
+#include <deque>
+#include <set>
 #include <string>
 
 void Generator::AnalisText() {
