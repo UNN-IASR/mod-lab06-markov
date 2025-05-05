@@ -1,6 +1,4 @@
 // Copyright 2022 UNN-IASR
-#include "textgen.h"
-
 #include <stdlib.h>
 #include <gtest/gtest.h>
 #include <deque>
@@ -8,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <set>
+#include "textgen.h"
 
 TEST(GeneratorTest, PrefixSize) {
     Generator gen("");
