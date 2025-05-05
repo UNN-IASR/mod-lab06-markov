@@ -95,6 +95,7 @@ void Generator::CreateText() {
             break;
         }
     }
+    result = text;
     ofstream out_file(
         "C:/Users/armok/Documents/lebedeva/IASR/"
         "mod-lab06-markov/result/result.txt");
