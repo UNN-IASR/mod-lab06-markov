@@ -1,5 +1,16 @@
 // Copyright 2022 UNN-IASR
 #include "textgen.h"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <deque>
+#include <map>
+#include <set>
+#include <string>
+#include <vector>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
 
 void Generator::AnalisText() {
     ifstream file("text.txt", ios::binary);
@@ -60,15 +71,14 @@ void Generator::CreateText() {
     if (statetab.empty())
         return;
 
-    string text = "";
-    auto random_it = statetab.begin();
-    advance(random_it, rand() % statetab.size());
-    prefix current = random_it->first;
-
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> dist(0, statetab.size() - 1);
+    int randomIndex = dist(gen);
+    auto it = std::next(statetab.begin(), randomIndex);
+    auto current = it->first;
     text += current[0] + ' ' + current[1] + ' ';
-    int random;
     int counter = 2;
-
     while (counter < MAXGEN) {
         if (statetab.count(current) > 0) {
             if (!statetab[current].empty()) {
@@ -86,7 +96,8 @@ void Generator::CreateText() {
         }
     }
     ofstream out_file(
-        "C:/Users/armok/Documents/lebedeva/IASR/mod-lab06-markov/result/result.txt");
+        "C:/Users/armok/Documents/lebedeva/IASR/"
+        "mod-lab06-markov/result/result.txt");
     if (out_file.is_open()) {
         out_file << text;
         out_file.close();
