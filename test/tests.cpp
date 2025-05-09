@@ -136,7 +136,7 @@ TEST(TextGeneratorTest, SpecialCharactersHandling) {
   TextGenerator generator;
   istringstream input("word1 $%^ word2 @#$ word3");
   generator.build(input);
-  
+
   TextGenerator::prefix p = {"word1", "$%^"};
   ASSERT_EQ(generator.statetab[p].size(), 1);
   ASSERT_EQ(generator.statetab[p][0], "word2");
@@ -146,7 +146,7 @@ TEST(TextGeneratorTest, RepeatedWordsHandling) {
   TextGenerator generator;
   istringstream input("word word word word word");
   generator.build(input);
-  
+
   TextGenerator::prefix p = {"word", "word"};
   ASSERT_GE(generator.statetab[p].size(), 1);
 }
