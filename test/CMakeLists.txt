@@ -1,3 +1,4 @@
+set(header_path "${${PROJECT_NAME}_SOURCE_DIR}/include")
 add_executable(${PROJECT_NAME}.test
   AllTests.cpp
   tests.cpp)
