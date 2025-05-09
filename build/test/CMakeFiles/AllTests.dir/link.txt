@@ -1,0 +1,1 @@
+/usr/bin/clang++ -g CMakeFiles/AllTests.dir/AllTests.cpp.o CMakeFiles/AllTests.dir/tests.cpp.o -o AllTests  /usr/lib/x86_64-linux-gnu/libgtest.a -lpthread /usr/lib/x86_64-linux-gnu/libgtest_main.a /usr/lib/x86_64-linux-gnu/libgtest.a 
