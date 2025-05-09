@@ -1,1 +1,0 @@
-/usr/bin/clang++ -fPIC -g -shared -Wl,-soname,libmod-lab06-markov.so -o libmod-lab06-markov.so "CMakeFiles/mod-lab06-markov.dir/textgen.cpp.o"  -lpthread 

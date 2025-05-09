@@ -1,1 +1,0 @@
-/usr/bin/clang++ -g "CMakeFiles/mod-lab06-markov.test.dir/AllTests.cpp.o" "CMakeFiles/mod-lab06-markov.test.dir/tests.cpp.o" -o mod-lab06-markov.test  -Wl,-rpath,"/home/kirill/Рабочий стол/mob/mod-lab06-markov/build/src:" ../src/libmod-lab06-markov.so -lgtest -lpthread 
