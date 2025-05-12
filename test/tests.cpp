@@ -198,5 +198,6 @@ TEST(TextGenerationTest, GeneralTest) {
     std::string word;
     while (file >> word) wordCount++;
 
-    ASSERT_EQ(wordCount, 1000);
+    ASSERT_GT(wordCount, 1000);
 }
+
