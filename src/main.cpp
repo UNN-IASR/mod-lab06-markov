@@ -2,7 +2,7 @@
 #include "textgen.h"
 
 int main() {
-    Generator a = Generator("the cat sat");
+    Generator a = Generator();
     a.CreateText();
     return 0;
 }
