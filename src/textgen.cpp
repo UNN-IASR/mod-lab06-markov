@@ -85,7 +85,8 @@ void Generator::CreateText() {
     while (counter < MAXGEN) {
         if (statetab.count(current) > 0) {
             if (!statetab[current].empty()) {
-                std::uniform_int_distribution<> dist(0, statetab[current].size() - 1);
+                std::uniform_int_distribution<>
+                    dist(0, statetab[current].size() - 1);
                 std::mt19937 gen(rd());
                 randomIndex = dist(gen);
                 text += statetab[current][randomIndex] + ' ';
