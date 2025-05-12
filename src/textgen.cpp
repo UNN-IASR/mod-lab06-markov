@@ -90,7 +90,7 @@ void TextGenerator::generate_text(const std::string& output_filename,
         word_count++;
     }
 
-    while (word_count < max_word && current_prefix != end_pref) {
+    while (word_count < max_word) {
         auto suffixes = state_table.find(current_prefix);
         if (suffixes != state_table.end() && !suffixes->second.empty()) {
             std::string next_word = random_suff(current_prefix);

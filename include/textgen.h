@@ -26,7 +26,7 @@ class TextGenerator {
 
  public:
     static constexpr int NPREF = 2;
-    static constexpr int MAXGEN = 1000;
+    static constexpr int MAXGEN = 1300;
 
     TextGenerator();
     void build_state_table(const std::string& filename, int len_pref);
