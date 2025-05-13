@@ -40,19 +40,15 @@ void Generator::AnalisText() {
     }
     file.close();
 }
-void Generator::Save()
-{
+void Generator::Save() {
     std::ofstream out_file(
         "C:/Users/armok/Documents/lebedeva/IASR/"
         "mod-lab06-markov/result/gen.txt");
-    if (out_file.is_open())
-    {
+    if (out_file.is_open()) {
         out_file << result;
         out_file.close();
         std::cout << "Текст успешно записан в файл" << std::endl;
-    }
-    else
-    {
+    } else {
         std::cout << "Ошибка: не удалось открыть файл для записи" << std::endl;
     }
 }
