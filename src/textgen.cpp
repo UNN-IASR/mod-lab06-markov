@@ -59,15 +59,20 @@ Generator::Generator(std::string testtext) {
     prefix currentPrefix;
     std::vector<std::string> words;
     std::string currentWord;
+    int counter = 0;
     bool inWord = false;
     fl = 1;
     testtext += ' ';
     for (char c : testtext) {
         if (c == ' ' || c == '\n') {
             if (inWord) {
+                if (counter == 0 || counter == 1) {
+                    first.push_back(currentWord);
+                }
                 words.push_back(currentWord);
                 currentWord.clear();
                 inWord = false;
+                counter++;
             }
         } else {
             currentWord += c;
