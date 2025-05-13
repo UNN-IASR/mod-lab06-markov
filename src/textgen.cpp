@@ -79,7 +79,7 @@ void Generator::CreateText() {
     srand(time(0));
     if (statetab.empty())
         return;
-
+    std::random_device rd;
     int randomIndex;
     auto current = first;
     std::string text = "";
