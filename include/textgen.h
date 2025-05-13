@@ -31,6 +31,7 @@ class Generator {
     explicit Generator() = default;
     explicit Generator(std::string testtext);
     void CreateText();
+    void Save();
  private:
     std::map<prefix, std::vector<std::string>> statetab;
     std::map<prefix, std::set<std::string>> prefixSet;
