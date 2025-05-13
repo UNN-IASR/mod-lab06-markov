@@ -23,12 +23,12 @@ class Generator {
      return prefixSet;
     }
     std::string result;
-    int fl = 0;
+    int fl;
     std::deque<std::string> first;
     std::string getres() { return result; }
     int getNPref() const { return NPREF; }
     int getMaxGen() const { return MAXGEN; }
-    explicit Generator() = default;
+    explicit Generator();
     explicit Generator(std::string testtext);
     void CreateText();
     void Save();
