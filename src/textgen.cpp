@@ -40,12 +40,28 @@ void Generator::AnalisText() {
     }
     file.close();
 }
-
+void Generator::Save()
+{
+    std::ofstream out_file(
+        "C:/Users/armok/Documents/lebedeva/IASR/"
+        "mod-lab06-markov/result/gen.txt");
+    if (out_file.is_open())
+    {
+        out_file << result;
+        out_file.close();
+        std::cout << "Текст успешно записан в файл" << std::endl;
+    }
+    else
+    {
+        std::cout << "Ошибка: не удалось открыть файл для записи" << std::endl;
+    }
+}
 Generator::Generator(std::string testtext) {
     prefix currentPrefix;
     std::vector<std::string> words;
     std::string currentWord;
     bool inWord = false;
+    fl = 1;
     testtext += ' ';
     for (char c : testtext) {
         if (c == ' ' || c == '\n') {
@@ -75,7 +91,9 @@ Generator::Generator(std::string testtext) {
     }
 }
 void Generator::CreateText() {
-    AnalisText();
+    if (fl == 0) {
+        AnalisText();
+    }
     srand(time(0));
     if (statetab.empty())
         return;
@@ -105,14 +123,7 @@ void Generator::CreateText() {
         }
     }
     result = text;
-    std::ofstream out_file(
-        "C:/Users/armok/Documents/lebedeva/IASR/"
-        "mod-lab06-markov/result/result.txt");
-    if (out_file.is_open()) {
-        out_file << text;
-        out_file.close();
-        std::cout << "Текст успешно записан в файл" << std::endl;
-    } else {
-        std::cout << "Ошибка: не удалось открыть файл для записи" << std::endl;
+    if (fl == 0) {
+        Save();
     }
 }
