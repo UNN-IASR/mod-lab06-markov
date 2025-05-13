@@ -18,6 +18,13 @@ void Generator::AnalisText() {
     std::ifstream file("text.txt");
     prefix currentPrefix;
     std::string word;
+    std::string fir;
+    std::string sec;
+    file >> fir;
+    file >> sec;
+    first.push_back(fir);
+    first.push_back(sec);
+    file.seekg(0);
     while (file >> word) {
         if (currentPrefix.size() == NPREF) {
             if (!prefixSet[currentPrefix].count(word) > 0) {
@@ -73,12 +80,8 @@ void Generator::CreateText() {
     if (statetab.empty())
         return;
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dist(0, statetab.size() - 1);
-    int randomIndex = dist(gen);
-    auto it = std::next(statetab.begin(), randomIndex);
-    auto current = it->first;
+    int randomIndex;
+    auto current = first;
     std::string text = "";
     text += current[0] + ' ' + current[1] + ' ';
     int counter = 2;
