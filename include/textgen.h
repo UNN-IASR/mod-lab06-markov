@@ -28,8 +28,8 @@ class Generator {
     std::string getres() { return result; }
     int getNPref() const { return NPREF; }
     int getMaxGen() const { return MAXGEN; }
-    explicit Generator();
-    explicit Generator(std::string testtext);
+    Generator();
+    Generator(std::string testtext);
     void CreateText();
     void Save();
  private:
