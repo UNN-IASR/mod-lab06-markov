@@ -56,6 +56,9 @@ void Generator::Save()
         std::cout << "Ошибка: не удалось открыть файл для записи" << std::endl;
     }
 }
+Generator::Generator() {
+    fl = 0;
+}
 Generator::Generator(std::string testtext) {
     prefix currentPrefix;
     std::vector<std::string> words;
