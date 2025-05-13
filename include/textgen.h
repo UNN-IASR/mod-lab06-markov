@@ -23,6 +23,7 @@ class Generator {
      return prefixSet;
     }
     std::string result;
+    int fl = 0;
     std::deque<std::string> first;
     std::string getres() { return result; }
     int getNPref() const { return NPREF; }
