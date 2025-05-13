@@ -29,9 +29,10 @@ class Generator {
     int getNPref() const { return NPREF; }
     int getMaxGen() const { return MAXGEN; }
     Generator();
-    Generator(std::string testtext);
+    explicit Generator(std::string testtext);
     void CreateText();
     void Save();
+
  private:
     std::map<prefix, std::vector<std::string>> statetab;
     std::map<prefix, std::set<std::string>> prefixSet;
