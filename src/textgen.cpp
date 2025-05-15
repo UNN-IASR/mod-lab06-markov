@@ -1,0 +1,133 @@
+// Copyright 2022 UNN-IASR
+#include "textgen.h"
+
+#include <algorithm>
+#include <cstdlib>
+#include <ctime>
+#include <fstream>
+#include <iostream>
+#include <random>
+#include <sstream>
+#include <vector>
+#include <map>
+#include <deque>
+#include <set>
+#include <string>
+
+void Generator::AnalisText() {
+    std::ifstream file("text.txt");
+    prefix currentPrefix;
+    std::string word;
+    std::string fir;
+    std::string sec;
+    file >> fir;
+    file >> sec;
+    first.push_back(fir);
+    first.push_back(sec);
+    file.seekg(0);
+    while (file >> word) {
+        if (currentPrefix.size() == NPREF) {
+            if (!prefixSet[currentPrefix].count(word) > 0) {
+                statetab[currentPrefix].push_back(word);
+                prefixSet[currentPrefix].insert(word);
+                currentPrefix.pop_front();
+                currentPrefix.push_back(word);
+            }
+        } else {
+            if (!word.empty())
+                currentPrefix.push_back(word);
+        }
+    }
+    file.close();
+}
+void Generator::Save() {
+    std::ofstream out_file(
+        "C:/Users/armok/Documents/lebedeva/IASR/"
+        "mod-lab06-markov/result/gen.txt");
+    if (out_file.is_open()) {
+        out_file << result;
+        out_file.close();
+        std::cout << "Текст успешно записан в файл" << std::endl;
+    } else {
+        std::cout << "Ошибка: не удалось открыть файл для записи" << std::endl;
+    }
+}
+Generator::Generator() {
+    fl = 0;
+}
+Generator::Generator(std::string testtext) {
+    prefix currentPrefix;
+    std::vector<std::string> words;
+    std::string currentWord;
+    int counter = 0;
+    bool inWord = false;
+    fl = 1;
+    testtext += ' ';
+    for (char c : testtext) {
+        if (c == ' ' || c == '\n') {
+            if (inWord) {
+                if (counter == 0 || counter == 1) {
+                    first.push_back(currentWord);
+                }
+                words.push_back(currentWord);
+                currentWord.clear();
+                inWord = false;
+                counter++;
+            }
+        } else {
+            currentWord += c;
+            inWord = true;
+        }
+    }
+    for (int i = 0; i < words.size(); i++) {
+        std::string word = words[i];
+        if (currentPrefix.size() == NPREF) {
+            if (!prefixSet[currentPrefix].count(word) > 0) {
+                statetab[currentPrefix].push_back(word);
+                prefixSet[currentPrefix].insert(word);
+                currentPrefix.pop_front();
+                currentPrefix.push_back(word);
+            }
+        } else {
+            if (!word.empty())
+                currentPrefix.push_back(word);
+        }
+    }
+}
+void Generator::CreateText() {
+    if (fl == 0) {
+        AnalisText();
+    }
+    srand(time(0));
+    if (statetab.empty())
+        return;
+    std::random_device rd;
+    int randomIndex;
+    auto current = first;
+    std::string text = "";
+    text += current[0] + ' ' + current[1] + ' ';
+    int counter = 2;
+    while (counter < MAXGEN) {
+        if (statetab.count(current) > 0) {
+            if (!statetab[current].empty()) {
+                std::uniform_int_distribution<>
+                    dist(0, statetab[current].size() - 1);
+                std::mt19937 gen(rd());
+                randomIndex = dist(gen);
+                text += statetab[current][randomIndex] + ' ';
+                counter++;
+                std::string word2 = statetab[current][randomIndex];
+                current.pop_front();
+                current.push_back(word2);
+            } else {
+                break;
+            }
+        } else {
+            break;
+        }
+    }
+    result = text;
+    if (fl == 0) {
+        Save();
+    }
+}

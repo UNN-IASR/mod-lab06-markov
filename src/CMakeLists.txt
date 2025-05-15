@@ -1,31 +1,51 @@
-set(header_path "${${PROJECT_NAME}_SOURCE_DIR}/include")
-set(header ${header_path}/textgen.h)
-set(src textgen.cpp)
+# Указываем пути к файлам
+set(HEADER_FILES
+  ${CMAKE_CURRENT_SOURCE_DIR}/../include/textgen.h
+)
+set(SOURCE_FILES
+  textgen.cpp
+)
 
-
+# Создаем библиотеку
 add_library(${PROJECT_NAME} SHARED
-  ${header}
-  ${src})
+  ${SOURCE_FILES}
+)
+
+# Указываем пути для заголовочных файлов
 target_include_directories(${PROJECT_NAME}
-  PUBLIC ${CMAKE_CURRENT_BINARY_DIR}
-         ${${PROJECT_NAME}_SOURCE_DIR}/include)
+  PUBLIC
+  ${CMAKE_CURRENT_SOURCE_DIR}/../include
+  ${CMAKE_CURRENT_BINARY_DIR}
+)
+
 target_link_libraries(${PROJECT_NAME}
-  pthread)
+  pthread
+)
 
-  
+# Создаем исполняемый файл
 add_executable(${PROJECT_NAME}.info main.cpp)
+
 target_include_directories(${PROJECT_NAME}.info
-  PUBLIC ${CMAKE_CURRENT_BINARY_DIR}
-         ${${PROJECT_NAME}_SOURCE_DIR}/include)
+  PUBLIC
+  ${CMAKE_CURRENT_SOURCE_DIR}/../include
+)
+
 target_link_libraries(${PROJECT_NAME}.info
-  ${PROJECT_NAME})
+  ${PROJECT_NAME}
+)
 
-
+# Установка
 install(TARGETS ${PROJECT_NAME}
-		LIBRARY DESTINATION "${lib_dest}"
-    ARCHIVE DESTINATION "${lib_dest}"
-    COMPONENT library)
+  LIBRARY DESTINATION ${LIB_DEST}
+  ARCHIVE DESTINATION ${LIB_DEST}
+  COMPONENT library
+)
+
 install(TARGETS ${PROJECT_NAME}.info
-		RUNTIME DESTINATION "${tool_dest}"
-    COMPONENT library)
-install(FILES ${header} DESTINATION "${include_dest}")
+  RUNTIME DESTINATION ${TOOL_DEST}
+  COMPONENT library
+)
+
+install(FILES ${HEADER_FILES}
+  DESTINATION ${INCLUDE_DEST}
+)
