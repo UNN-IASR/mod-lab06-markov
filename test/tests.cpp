@@ -5,32 +5,28 @@
 
 #include <string>
 
-TEST(TextGenTest, Prefix2Check)
-{
+TEST(TextGenTest, Prefix2Check) {
     TextGenerator gen(2);
     prefix pref = { "a", "b" };
     gen.addTransition(pref, "c");
     ASSERT_EQ("c", gen.genSuffix(pref));
 }
 
-TEST(TextGenTest, Prefix3Check)
-{
+TEST(TextGenTest, Prefix3Check) {
     TextGenerator gen(3);
     prefix pref = { "a", "b", "c" };
     gen.addTransition(pref, "d");
     ASSERT_EQ(gen.genSuffix(pref).size(), 1);
 }
 
-TEST(TextGenTest, SingleSuffix)
-{
+TEST(TextGenTest, SingleSuffix) {
     TextGenerator gen(1);
     gen.addTransition({ "a" }, "b");
 
     EXPECT_EQ(gen.genSuffix({ "a" }), "b");
 }
 
-TEST(TextGenTest, MultipleSuffixes)
-{
+TEST(TextGenTest, MultipleSuffixes) {
     TextGenerator gen(1);
     gen.addTransition({ "a" }, "b");
     gen.addTransition({ "a" }, "c");
@@ -39,8 +35,7 @@ TEST(TextGenTest, MultipleSuffixes)
     EXPECT_TRUE(result == "b" || result == "c");
 }
 
-TEST(TextGenTest, TextLength)
-{
+TEST(TextGenTest, TextLength) {
     TextGenerator gen(2);
     gen.addTransition({ "a", "b" }, "c");
     gen.addTransition({ "b", "c" }, "d");
@@ -54,14 +49,12 @@ TEST(TextGenTest, TextLength)
     EXPECT_EQ(wordCount, 4);
 }
 
-TEST(TextGenTest, EmptyInput)
-{
+TEST(TextGenTest, EmptyInput) {
     TextGenerator gen(2);
     EXPECT_EQ(gen.genText(5), "");
 }
 
-TEST(TextGenTest, SingleWord)
-{
+TEST(TextGenTest, SingleWord) {
     TextGenerator gen(1);
     gen.addTransition({ "a" }, "a");
 
@@ -74,8 +67,7 @@ TEST(TextGenTest, SingleWord)
     EXPECT_EQ(result, "a a a");
 }
 
-TEST(TextGenTest, CyclicDependencies)
-{
+TEST(TextGenTest, CyclicDependencies) {
     TextGenerator gen(1);
     gen.addTransition({ "a" }, "b");
     gen.addTransition({ "b" }, "a");
@@ -89,8 +81,7 @@ TEST(TextGenTest, CyclicDependencies)
     EXPECT_TRUE(result == "a b a b" || result == "b a b a");
 }
 
-TEST(TextGenTest, PrefixForming)
-{
+TEST(TextGenTest, PrefixForming) {
     TextGenerator gen(2);
     prefix pref = { "a", "b" };
     prefix end_pref = { "b", "c" };
@@ -98,8 +89,7 @@ TEST(TextGenTest, PrefixForming)
     ASSERT_EQ(end_pref, gen.getEnd());
 }
 
-TEST(TextGenTest, InitialPrefix)
-{
+TEST(TextGenTest, InitialPrefix) {
     TextGenerator gen(3);
     prefix pref = { "a", "b", "c" };
     gen.addTransition(pref, "d");

@@ -4,11 +4,10 @@
 #include <iostream>
 #include <string>
 
-const int NPREF = 2;      // количество слов в префиксе
-const int MAXGEN = 1000;  // объем текста на выходе
+const int NPREF = 2;      // the number of words in the prefix
+const int MAXGEN = 1000;  // the amount of text in the output
 
-void TextGenerator::analyzeText(const std::string& filepath)
-{
+void TextGenerator::analyzeText(const std::string& filepath) {
     std::ifstream file(filepath);
     prefix pref;
     if (!file) {
@@ -29,8 +28,7 @@ void TextGenerator::analyzeText(const std::string& filepath)
     endPref_ = pref;
 }
 
-std::string TextGenerator::genText(int textLen = MAXGEN)
-{
+std::string TextGenerator::genText(int textLen = MAXGEN) {
     std::string text = "";
     prefix pref = initPref_;
     for (int i = 0; i < pref.size(); i++) {
@@ -47,8 +45,7 @@ std::string TextGenerator::genText(int textLen = MAXGEN)
     return text;
 }
 
-std::string TextGenerator::genSuffix(const prefix& pref)
-{
+std::string TextGenerator::genSuffix(const prefix& pref) {
     std::random_device random_device;
     std::mt19937 generator(random_device());
     std::uniform_int_distribution<> distribution(0, statetab_[pref].size() - 1);
@@ -57,8 +54,7 @@ std::string TextGenerator::genSuffix(const prefix& pref)
 
 void TextGenerator::addTransition(
     const prefix& pref,
-    const std::string& word)
-{
+    const std::string& word) {
     if (initPref_.size() == 0) initPref_ = pref;
     statetab_[pref].push_back(word);
     endPref_ = { pref[pref.size() - 1], word };

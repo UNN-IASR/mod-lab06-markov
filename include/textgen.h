@@ -9,10 +9,10 @@
 #include <string>
 #include <vector>
 
-typedef std::deque<std::string> prefix;  // очередь префиксов
+typedef std::deque<std::string> prefix;  // prefix queue
 
 class TextGenerator {
-public:
+ public:
     TextGenerator(std::string FilePath, int prefixLen) {
         prefixLen_ = prefixLen;
         analyzeText(FilePath);
@@ -28,12 +28,12 @@ public:
 
     prefix getEnd() { return endPref_; }
 
-private:
+ private:
     void analyzeText(const std::string& FilePath);
 
     int prefixLen_;
     prefix initPref_;
     prefix endPref_;
-    std::map<prefix, std::vector<std::string> > statetab_;  // префикс-суффиксы
+    std::map<prefix, std::vector<std::string> > statetab_;  // prefix-suffixes
 };
 #endif  // INCLUDE_TEXTGEN_H_
