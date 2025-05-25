@@ -11,7 +11,7 @@ void TextGenerator::analyzeText(const std::string& filepath) {
     std::ifstream file(filepath);
     prefix pref;
     if (!file) {
-        std::cerr << "Error when trying to open a file " 
+        std::cerr << "Error when trying to open a file "
             << filepath << std::endl;
     }
     for (int i = 0; i < prefixLen_; i++) {
