@@ -76,8 +76,11 @@ TEST(TextGenTest, GenerateFixedLengthText) {
     auto generator = prepareGenerator();
     generator.create_suffix_map(get_test_map());
 
-    std::string result = generator.generate(6);
-    int word_count = std::count(result.begin(), result.end(), ' ');
+    std::istringstream iss(result);
+    int word_count = std::distance(std::istream_iterator<std::string>(iss), {});
+    EXPECT_EQ(word_count, 6);
+    
+
     EXPECT_EQ(word_count, 6);
 }
 
