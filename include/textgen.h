@@ -3,29 +3,35 @@
 #define INCLUDE_TEXTGEN_H_
 
 #include <deque>
+#include <fstream>
+#include <iostream>
 #include <map>
+#include <random>
 #include <string>
 #include <vector>
 
-typedef std::deque<std::string> prefix;
+using PrefixDeque = std::deque<std::string>;
 
-class TextGenerator {
- private:
-  int prefix_len;
-  prefix init_pref;
-  prefix end_pref;
-  std::map<prefix, std::vector<std::string>> statetab;
-
+class MarkovChain {
  public:
-  TextGenerator(const std::string& filepath, int prefix_length);
-  explicit TextGenerator(int prefix_length);
-  std::string genText(int min_words = 1000, int max_words = 1500);
-  std::string genSuffix(const prefix& pref);
-  void addTransition(const prefix& pref, const std::string& word);
-  prefix getEnd() const { return end_pref; }
+    MarkovChain(const std::string& inputFile, int prefixSize) : nPrefix(prefixSize) {
+        buildStateTable(inputFile);
+    }
+    
+    explicit MarkovChain(int prefixSize) : nPrefix(prefixSize) {}
+
+    std::string generate(int outputSize);
+    std::string getNextWord(const PrefixDeque& currentPrefix);
+    void addWordTransition(const PrefixDeque& prefix, const std::string& nextWord);
+    
+    PrefixDeque getFinalPrefix() const { return lastPrefix; }
 
  private:
-  void analyzeText(const std::string& filepath);
+    int nPrefix;
+    PrefixDeque firstPrefix;
+    PrefixDeque lastPrefix;
+    std::map<PrefixDeque, std::vector<std::string>> transitions;
+    
+    void buildStateTable(const std::string& inputFile);
 };
-
 #endif  // INCLUDE_TEXTGEN_H_

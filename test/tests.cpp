@@ -1,82 +1,95 @@
 // Copyright 2021 GHA Test Team
 #include <gtest/gtest.h>
-#include <string>
+
+#include <sstream>
 
 #include "textgen.h"
 
-TEST(TextGenTest, PrefixHandling) {
-  TextGenerator gen(2);
-  prefix pref = {"word1", "word2"};
-  gen.addTransition(pref, "word3");
-  ASSERT_EQ("word3", gen.genSuffix(pref));
+TEST(MarkovTest, Prefix2Validation) {
+  MarkovChain gen(2);
+  PrefixDeque pref = {"a", "b"};
+  gen.addWordTransition(pref, "c");
+  ASSERT_EQ("c", gen.getNextWord(pref));
 }
 
-TEST(TextGenTest, MultipleTransitions) {
-  TextGenerator gen(1);
-  gen.addTransition({"choice"}, "option1");
-  gen.addTransition({"choice"}, "option2");
-
-  std::string result = gen.genSuffix({"choice"});
-  EXPECT_TRUE(result == "option1" || result == "option2");
+TEST(MarkovTest, Prefix3Validation) {
+  MarkovChain gen(3);
+  PrefixDeque pref = {"a", "b", "c"};
+  gen.addWordTransition(pref, "d");
+  ASSERT_EQ(gen.getNextWord(pref).size(), 1);
 }
 
-TEST(TextGenTest, WordCountControl) {
-  TextGenerator gen(2);
-  gen.addTransition({"a", "b"}, "c");
-  gen.addTransition({"b", "c"}, "d");
-
-  std::string text = gen.genText(5, 5);
-  int spaces = std::count(text.begin(), text.end(), ' ');
-  EXPECT_EQ(spaces + 1, 5);
+TEST(MarkovTest, SingleTransition) {
+  MarkovChain gen(1);
+  gen.addWordTransition({"a"}, "b");
+  EXPECT_EQ(gen.getNextWord({"a"}), "b");
 }
 
-TEST(TextGenTest, EmptyGenerator) {
-  TextGenerator gen(2);
-  EXPECT_TRUE(gen.genText(100, 150).empty());
+TEST(MarkovTest, MultiTransition) {
+  MarkovChain gen(1);
+  gen.addWordTransition({"a"}, "b");
+  gen.addWordTransition({"a"}, "c");
+  std::string result = gen.getNextWord({"a"});
+  EXPECT_TRUE(result == "b" || result == "c");
 }
 
-TEST(TextGenTest, CyclicGeneration) {
-  TextGenerator gen(1);
-  gen.addTransition({"a"}, "b");
-  gen.addTransition({"b"}, "a");
-
-  std::string text = gen.genText(4, 4);
-  text.erase(std::remove(text.begin(), text.end(), '\n'), text.end());
-  if (!text.empty() && text.back() == ' ') text.pop_back();
-  EXPECT_TRUE(text == "a b a b" || text == "b a b a");
+TEST(MarkovTest, OutputLengthCheck) {
+  MarkovChain gen(2);
+  gen.addWordTransition({"a", "b"}, "c");
+  gen.addWordTransition({"b", "c"}, "d");
+  std::string text = gen.generate(4);
+  std::istringstream iss(text);
+  int count = 0;
+  std::string word;
+  while (iss >> word) count++;
+  EXPECT_EQ(count, 4);
 }
 
-TEST(TextGenTest, PrefixConsistency) {
-  TextGenerator gen(2);
-  prefix pref = {"first", "second"};
-  gen.addTransition(pref, "third");
-  EXPECT_EQ(gen.getEnd(), (prefix{"second", "third"}));
+TEST(MarkovTest, EmptyInputCase) {
+  MarkovChain gen(2);
+  EXPECT_EQ(gen.generate(5), "");
 }
 
-TEST(TextGenTest, InvalidRange) {
-  TextGenerator gen(1);
-  gen.addTransition({"test"}, "value");
-  EXPECT_THROW(gen.genText(1500, 1000), std::invalid_argument);
+TEST(MarkovTest, SingleWordGeneration) {
+  MarkovChain gen(1);
+  gen.addWordTransition({"a"}, "a");
+  std::string text = gen.generate(3);
+  std::string filtered;
+  for (char c : text) {
+    if (c != '\n') filtered += c;
+  }
+  if (!filtered.empty() && filtered.back() == ' ') {
+    filtered.pop_back();
+  }
+  EXPECT_EQ(filtered, "a a a");
 }
 
-TEST(TextGenTest, SingleWordOutput) {
-  TextGenerator gen(3);
-  gen.addTransition({"x", "y", "z"}, "w");
-  EXPECT_EQ(gen.genText(1, 1), "x y z w");
+TEST(MarkovTest, CyclicGeneration) {
+  MarkovChain gen(1);
+  gen.addWordTransition({"a"}, "b");
+  gen.addWordTransition({"b"}, "a");
+  std::string text = gen.generate(4);
+  std::string filtered;
+  for (char c : text) {
+    if (c != '\n') filtered += c;
+  }
+  if (!filtered.empty() && filtered.back() == ' ') {
+    filtered.pop_back();
+  }
+  EXPECT_TRUE(filtered == "a b a b" || filtered == "b a b a");
 }
 
-TEST(TextGenTest, MinWords) {
-  TextGenerator gen(2);
-  gen.addTransition({"start", "text"}, "generation");
-  gen.addTransition({"text", "generation"}, "test");
-
-  std::string text = gen.genText(1000, 1500);
-  int words = std::count(text.begin(), text.end(), ' ') + 1;
-  EXPECT_GE(words, 1000);
+TEST(MarkovTest, PrefixStructure) {
+  MarkovChain gen(2);
+  PrefixDeque pref = {"a", "b"};
+  PrefixDeque expectedLast = {"b", "c"};
+  gen.addWordTransition(pref, "c");
+  ASSERT_EQ(expectedLast, gen.getFinalPrefix());
 }
 
-TEST(TextGenTest, TransitionAddition) {
-  TextGenerator gen(1);
-  gen.addTransition({"a"}, "b");
-  EXPECT_EQ(gen.genSuffix({"a"}), "b");
+TEST(MarkovTest, InitialStateCheck) {
+  MarkovChain gen(3);
+  PrefixDeque pref = {"a", "b", "c"};
+  gen.addWordTransition(pref, "d");
+  ASSERT_EQ(gen.getNextWord(pref), "d");
 }
