@@ -2,6 +2,7 @@
 #include "textgen.h"
 
 #include <cstdlib>  // for rand_r
+#include <utility>
 #include <string>
 #include <map>
 #include <vector>

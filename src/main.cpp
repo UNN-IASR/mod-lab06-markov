@@ -9,7 +9,8 @@ int main() {
   const int NPREF = 2;
   const int MAXGEN = 1000;
 
-  TextGenerator generator(NPREF);
+  TextGenerator generator(NPREF, 42);
+
 
   std::ifstream file("input_text.txt");
   generator.create_suffix_map(file);

@@ -2,12 +2,14 @@
 #include "textgen.h"
 
 #include <gtest/gtest.h>
+
+#include <algorithm>
 #include <iterator>
 #include <map>
+#include <sstream>
 #include <string>
 #include <vector>
-#include <sstream>
-#include <algorithm>
+
 
 // Утилита для создания генератора с префиксом размера 2
 TextGenerator prepareGenerator(int prefix_size = 2) {
