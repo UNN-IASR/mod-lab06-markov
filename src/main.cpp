@@ -1,9 +1,8 @@
 // Copyright 2025 9hkge
 
-#include "textgen.h"
-
 #include <fstream>
 #include <string>
+#include "textgen.h"
 
 int main() {
   const int NPREF = 2;
