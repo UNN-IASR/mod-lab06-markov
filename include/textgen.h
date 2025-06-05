@@ -19,7 +19,8 @@ class MarkovChain {
 
     std::string generate(int outputSize);
     std::string getNextWord(const PrefixDeque& currentPrefix);
-    void addWordTransition(const PrefixDeque& prefix, const std::string& nextWord);
+    void addWordTransition(const PrefixDeque& prefix, 
+      const std::string& nextWord);
     PrefixDeque getFinalPrefix() const;
 
  private:
