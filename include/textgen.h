@@ -14,24 +14,13 @@ using PrefixDeque = std::deque<std::string>;
 
 class MarkovChain {
  public:
-    MarkovChain(const std::string& inputFile, int prefixSize):
-        nPrefix(prefixSize) {
-        buildStateTable(inputFile);
-    }
-
-    explicit MarkovChain(int prefixSize) : nPrefix(prefixSize) {}
+    MarkovChain(const std::string& inputFile, int prefixSize);
+    explicit MarkovChain(int prefixSize);
 
     std::string generate(int outputSize);
     std::string getNextWord(const PrefixDeque& currentPrefix);
-
-    void addWordTransition(const PrefixDeque& prefix,
-                         const std::string& nextWord) {
-        if (firstPrefix.empty()) firstPrefix = prefix;
-        transitions[prefix].push_back(nextWord);
-        lastPrefix = {prefix.back(), nextWord};
-    }
-
-    PrefixDeque getFinalPrefix() const { return lastPrefix; }
+    void addWordTransition(const PrefixDeque& prefix, const std::string& nextWord);
+    PrefixDeque getFinalPrefix() const;
 
  private:
     int nPrefix;
