@@ -5,6 +5,7 @@
 #include <map>
 #include <deque>
 #include <vector>
+#include <istream> 
 
 typedef std::deque<std::string> prefix;
 
