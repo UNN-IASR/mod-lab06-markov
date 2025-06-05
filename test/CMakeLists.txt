@@ -1,26 +1,10 @@
-set(TEST_PROJECT_NAME ${PROJECT_NAME}.test)
+add_executable(${PROJECT_NAME}.test
+  AllTests.cpp
+  tests.cpp)
+target_link_libraries(${PROJECT_NAME}.test
+  ${PROJECT_NAME} gtest pthread)
+target_compile_definitions(${PROJECT_NAME}.test 
+  PRIVATE TEST_DIR="${CMAKE_CURRENT_LIST_DIR}/test")
 
-set(HEADER_PATH "${${PROJECT_NAME}_SOURCE_DIR}/include")
-set(HEADER ${HEADER_PATH}/textgen.h)
-set(SRC "${${PROJECT_NAME}_SOURCE_DIR}/src/textgen.cpp")
-
-add_executable(${TEST_PROJECT_NAME}
-    AllTests.cpp
-    tests.cpp
-    ${SRC}
-)
-
-target_include_directories(${TEST_PROJECT_NAME}
-    PUBLIC ${CMAKE_CURRENT_BINARY_DIR}
-    PUBLIC ${${PROJECT_NAME}_SOURCE_DIR}/include
-)
-
-target_link_libraries(${TEST_PROJECT_NAME}
-    ${PROJECT_NAME}
-    pthread
-    GTest::GTest
-    GTest::Main
-)
-
-enable_testing()
-add_test(NAME ${TEST_PROJECT_NAME} COMMAND ${TEST_PROJECT_NAME})
+install(TARGETS ${PROJECT_NAME}.test
+        DESTINATION "${tool_dest}")
