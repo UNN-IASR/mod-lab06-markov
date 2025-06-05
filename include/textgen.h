@@ -1,27 +1,30 @@
-// Copyright 2022 UNN-IASR
-#ifndef INCLUDE_TEXTGEN_H_
-#define INCLUDE_TEXTGEN_H_
+#ifndef TEXTGEN_H
+#define TEXTGEN_H
 
 #include <deque>
 #include <map>
-#include <random>
-#include <string>
 #include <vector>
+#include <string>
 
 typedef std::deque<std::string> prefix;
-typedef std::map<prefix, std::vector<std::string>> statetab;
 
 class TextGenerator {
- private:
-    int prefLenght = 0;
-    std::vector<std::string> readFile(const std::string& filename);
+private:
+    int prefix_len;
+    prefix init_pref;
+    prefix end_pref;
+    std::map<prefix, std::vector<std::string>> statetab;
 
- public:
-    statetab table;
-    prefix firstPrefix;
-    TextGenerator();
-    void createTable(const std::string& filename, int prefLenght);
-    void generateText(int maxCount, const std::string& filename);
+public:
+    TextGenerator(std::string FilePath, int prefix_le);
+    explicit TextGenerator(int prefix_le);
+    std::string genText(int text_len = 1000, int max_len = 1500);
+    std::string genSuffix(prefix pref);
+    void addTransition(prefix pref, std::string word);
+    prefix getEnd() { return end_pref; }
+
+private:
+    void analyzeText(std::string FilePath);
 };
 
-#endif  // INCLUDE_TEXTGEN_H_
+#endif // TEXTGEN_H

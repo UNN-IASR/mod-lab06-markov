@@ -1,70 +1,109 @@
-// Copyright 2022 UNN-IASR
 #include "textgen.h"
-
 #include <fstream>
 #include <iostream>
-#include <vector>
-#include <string>
+#include <random>
 
-TextGenerator::TextGenerator() {}
+const int NPREF = 2;
+const int MAXGEN = 1000;
 
-std::vector<std::string> TextGenerator::readFile(const std::string& filename) {
-    std::ifstream file(filename);
-    if (!file.is_open()) {
-        throw std::runtime_error("Could not open file: " + filename);
+TextGenerator::TextGenerator(std::string FilePath, int prefix_le) {
+    prefix_len = prefix_le;
+    analyzeText(FilePath);
+}
+
+TextGenerator::TextGenerator(int prefix_le) {
+    prefix_len = prefix_le;
+}
+
+void TextGenerator::analyzeText(std::string filepath) {
+    std::ifstream file(filepath);
+    if (!file) {
+        throw std::runtime_error("Файл не найден: " + filepath);  // Прерываем выполнение
     }
 
-    std::vector<std::string> words;
+    prefix pref;
     std::string word;
 
+    // Загрузка начального префикса
+    for (int i = 0; i < prefix_len; i++) {
+        if (!(file >> word)) {
+            throw std::runtime_error("Файл слишком короткий для префикса длины " + std::to_string(prefix_len));
+        }
+        pref.push_back(word);
+    }
+    init_pref = pref;
+
+    // Построение таблицы переходов
     while (file >> word) {
-        if (!word.empty()) {
-            words.push_back(word);
+        statetab[pref].push_back(word);
+        pref.push_back(word);
+        pref.pop_front();
+    }
+
+    if (statetab.empty()) {
+        throw std::runtime_error("Таблица переходов пуста (недостаточно данных в файле)");
+    }
+
+    end_pref = pref;
+}
+
+std::string TextGenerator::genText(int min_words, int max_words) {
+    if (statetab.empty()) return "";
+
+    std::string result;
+    prefix current = init_pref;
+    int word_count = 0;
+
+    // 1. Добавляем начальный префикс
+    for (const auto& word : current) {
+        result += word + " ";
+        word_count++;
+    }
+
+    // 2. Основная генерация
+    while (word_count < max_words) {
+        // Если достигли конца цепи - начинаем с начала
+        if (current == end_pref || !statetab.count(current)) {
+            current = init_pref;
+            continue;
+        }
+
+        std::string next_word = genSuffix(current);
+        result += next_word + " ";
+        word_count++;
+
+        // Перенос строки для читаемости
+        if (word_count % 20 == 0) result += "\n";
+
+        current.push_back(next_word);
+        current.pop_front();
+
+        // Прекращаем только после достижения минимума
+        if (word_count >= min_words && current == end_pref) {
+            break;
         }
     }
 
-    return words;
+    // Удаляем последний пробел
+    if (!result.empty() && result.back() == ' ') {
+        result.pop_back();
+    }
+
+    return result;
 }
 
-void TextGenerator::createTable(const std::string& filename, int prefLenght) {
-    this->prefLenght = prefLenght;
-    std::vector<std::string> words = readFile(filename);
-    if (words.size() < static_cast<size_t>(prefLenght + 1)) {
-        throw std::runtime_error(
-            "Input text is too short for the given prefix size");
-    }
-
-    table.clear();
-    for (int i = 0; i < prefLenght; i++) firstPrefix.push_back(words[i]);
-
-    for (int i = 0; i < words.size() - prefLenght; i++) {
-        prefix pref;
-        for (int j = 0; j < prefLenght; j++) pref.push_back(words[i + j]);
-        table[pref].push_back(words[i + prefLenght]);
-    }
+std::string TextGenerator::genSuffix(prefix pref) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<size_t> dist(0, statetab[pref].size() - 1);
+    return statetab[pref][dist(gen)];
 }
 
-void TextGenerator::generateText(int maxCount, const std::string& filename) {
-    prefix pref = firstPrefix;
-    std::random_device dev;
-    std::mt19937 rng(dev());
-    std::string outText = pref[0];
-    for (int i = 1; i < prefLenght; i++) outText += " " + pref[i];
-
-    for (int i = 0; i < maxCount; i++) {
-        auto suff = table[pref];
-        if (suff.empty()) break;
-        std::uniform_int_distribution<std::mt19937::result_type> dist(
-            0, suff.size() - 1);
-        std::string nextWord = suff[dist(rng)];
-
-        outText += " " + nextWord;
-        pref.pop_front();
-        pref.push_back(nextWord);
+void TextGenerator::addTransition(prefix pref, std::string word) {
+    if (init_pref.empty()) {
+        init_pref = pref;
     }
-
-    std::ofstream outStream(filename);
-    outStream << outText;
-    std::cout << "Text generation completed. Result saved to " << filename
-                << std::endl;
+    statetab[pref].push_back(word);
+    end_pref = prefix(pref.begin() + 1, pref.end());
+    end_pref.push_back(word);
 }

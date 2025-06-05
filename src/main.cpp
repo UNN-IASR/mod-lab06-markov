@@ -1,22 +1,27 @@
-// Copyright 2022 UNN-IASR
-#include <fstream>
-#include <iostream>
-#include <sstream>
-#include <vector>
-#include <string>
-
 #include "textgen.h"
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <filesystem>
+
+namespace fs = std::filesystem;
 
 int main() {
-    const std::string input_file = "../../src/input.txt";
-    const int NPREF = 2;
-    const int MAXGEN = 1000;
-
-    TextGenerator generator;
-    generator.createTable(input_file, NPREF);
-
-    const std::string out_file = "../../result/gen.txt";
-    generator.generateText(MAXGEN, out_file);
-
+    try {
+        TextGenerator tg("data.txt", 2);
+        
+        std::string text = tg.genText(1000, 1500);
+        
+        std::ofstream out("../result/gen.txt");
+        out << text;
+        
+        int word_count = std::count(text.begin(), text.end(), ' ') + 1;
+        std::cout << "Words generation: " << word_count 
+                  << " (Needed: 1000-1500)\n";
+        
+    } catch (const std::exception& e) {
+        std::cerr << "ERROR: " << e.what() << std::endl;
+        return 1;
+    }
     return 0;
 }
