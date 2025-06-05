@@ -1,12 +1,16 @@
 // Copyright 2021 GHA Test Team
 #include "textgen.h"
 
-#include <sstream>
 #include <algorithm>
+#include <deque>
+#include <sstream>
+#include <string>
 
 #include <gtest/gtest.h>
 
-using namespace std;
+using std::deque;
+using std::string;
+using std::stringstream;
 
 TEST(TextGenTest, PrefixHandling) {
     TextGenerator gen(2);
