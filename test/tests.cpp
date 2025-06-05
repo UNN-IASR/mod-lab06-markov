@@ -1,5 +1,6 @@
 // Copyright 2021 GHA Test Team
-#include <gtest/gtest.h>
+
+#include "textgen.h"
 
 #include <algorithm>
 #include <deque>
@@ -7,7 +8,7 @@
 #include <stdexcept>
 #include <string>
 
-#include "textgen.h"
+#include <gtest/gtest.h>
 
 using std::deque;
 using std::istringstream;
