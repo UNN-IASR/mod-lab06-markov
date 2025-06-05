@@ -2,6 +2,8 @@
 
 #include "textgen.h"
 
+#include <stdio.h>
+
 #include <algorithm>
 #include <deque>
 #include <sstream>
@@ -11,7 +13,6 @@
 #include <gtest/gtest.h>
 
 using std::deque;
-using std::istringstream;
 using std::string;
 using std::stringstream;
 
