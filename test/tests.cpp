@@ -1,7 +1,6 @@
 // Copyright 2021 GHA Test Team
 
-#include "textgen.h"
-
+#include <gtest/gtest.h>
 #include <stdio.h>
 
 #include <algorithm>
@@ -10,7 +9,7 @@
 #include <stdexcept>
 #include <string>
 
-#include <gtest/gtest.h>
+#include "textgen.h"
 
 using std::deque;
 using std::string;
