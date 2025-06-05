@@ -1,5 +1,4 @@
 // Copyright 2025 9hkge
-#include "textgen.h"
 
 #include <cstdlib>  // for rand_r
 #include <utility>
@@ -7,6 +6,8 @@
 #include <map>
 #include <vector>
 #include <deque>  // prefix — скорее всего deque
+#include "textgen.h"
+
 
 TextGenerator::TextGenerator(int prefix_size, unsigned int random_seed) {
   this->random_seed = random_seed;

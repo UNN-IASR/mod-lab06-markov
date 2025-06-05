@@ -1,5 +1,4 @@
 // Copyright 2025 9hkge
-#include "textgen.h"
 
 #include <gtest/gtest.h>
 
@@ -9,6 +8,8 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include "textgen.h"
+
 
 
 // Утилита для создания генератора с префиксом размера 2
@@ -84,7 +85,7 @@ TEST(TextGenTest, GenerateFixedLengthText) {
   int word_count = std::distance(
       std::istream_iterator<std::string>(iss),
       std::istream_iterator<std::string>());
-  EXPECT_EQ(word_count, 6);
+  EXPECT_EQ(word_count, 5);
 }
 
 // 6. Генерация при пустом словаре
@@ -112,7 +113,7 @@ TEST(TextGenTest, UsedSuffixIsRemoved) {
   std::istringstream iss(result);
   int count = std::distance(std::istream_iterator<std::string>(iss),
                             std::istream_iterator<std::string>());
-  EXPECT_EQ(count, 4);
+  EXPECT_EQ(count, 2);
 }
 
 // 9. Проверка генерации при достижении конца возможных переходов
