@@ -1,9 +1,10 @@
 // Copyright 2022 UNN-IASR
+#include "textgen.h"
+
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <string>
-
-#include "textgen.h"
 
 int main() {
   try {
