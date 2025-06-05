@@ -1,7 +1,11 @@
 // Copyright 2025 9hkge
-#include <gtest/gtest.h>
 #include "textgen.h"
+#include <gtest/gtest.h>
 #include <sstream>
+#include <map>
+#include <vector>
+#include <string>
+
 
 // Утилита для создания генератора с префиксом размера 2
 TextGenerator prepareGenerator(int prefix_size = 2) {
@@ -63,7 +67,8 @@ TEST(TextGenTest, RandomSuffixChoiceFromMultiple) {
     generator.create_suffix_map(map);
 
     std::string result = generator.generate(5);
-    EXPECT_TRUE(result.find("Жил") == 0); // начинается с "Жил"
+    EXPECT_EQ(result.find("Жил"), 0u);
+ // начинается с "Жил"
 }
 
 // 5. Проверка генерации текста заданной длины
