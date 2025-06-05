@@ -1,30 +1,31 @@
-#ifndef TEXTGEN_H
-#define TEXTGEN_H
+// Copyright 2022 UNN-IASR
+#ifndef INCLUDE_TEXTGEN_H_
+#define INCLUDE_TEXTGEN_H_
 
 #include <deque>
 #include <map>
-#include <vector>
 #include <string>
+#include <vector>
 
 typedef std::deque<std::string> prefix;
 
 class TextGenerator {
-private:
-    int prefix_len;
-    prefix init_pref;
-    prefix end_pref;
-    std::map<prefix, std::vector<std::string>> statetab;
+ private:
+  int prefix_len;
+  prefix init_pref;
+  prefix end_pref;
+  std::map<prefix, std::vector<std::string>> statetab;
 
-public:
-    TextGenerator(std::string FilePath, int prefix_le);
-    explicit TextGenerator(int prefix_le);
-    std::string genText(int text_len = 1000, int max_len = 1500);
-    std::string genSuffix(prefix pref);
-    void addTransition(prefix pref, std::string word);
-    prefix getEnd() { return end_pref; }
+ public:
+  TextGenerator(const std::string& filepath, int prefix_length);
+  explicit TextGenerator(int prefix_length);
+  std::string genText(int min_words = 1000, int max_words = 1500);
+  std::string genSuffix(const prefix& pref);
+  void addTransition(const prefix& pref, const std::string& word);
+  prefix getEnd() const { return end_pref; }
 
-private:
-    void analyzeText(std::string FilePath);
+ private:
+  void analyzeText(const std::string& filepath);
 };
 
-#endif // TEXTGEN_H
+#endif  // INCLUDE_TEXTGEN_H_
