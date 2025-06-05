@@ -4,11 +4,13 @@
 #include <algorithm>
 #include <deque>
 #include <sstream>
+#include <stdexcept>
 #include <string>
 
 #include "textgen.h"
 
 using std::deque;
+using std::istringstream;
 using std::string;
 using std::stringstream;
 
@@ -36,7 +38,7 @@ TEST(TextGenTest, WordCountControl) {
   gen.addTransition({"c", "d"}, "e");
 
   string output = gen.genText(5, 5);
-  istringstream iss(output);
+  std::istringstream iss(output);
   int wordCount = 0;
   string word;
 
@@ -90,7 +92,7 @@ TEST(TextGenTest, InvalidRange) {
   TextGenerator gen(1);
   gen.addTransition({"test"}, "value");
 
-  EXPECT_THROW(gen.genText(1500, 1000), invalid_argument);
+  EXPECT_THROW(gen.genText(1500, 1000), std::invalid_argument);
 }
 
 TEST(TextGenTest, EdgeCases) {
