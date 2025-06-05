@@ -2,11 +2,11 @@
 #include "textgen.h"
 
 #include <gtest/gtest.h>
-#include <sstream>
 #include <iterator>
 #include <map>
-#include <vector>
 #include <string>
+#include <vector>
+#include <sstream>
 #include <algorithm>
 
 // Утилита для создания генератора с префиксом размера 2
@@ -22,7 +22,8 @@ std::map<prefix, std::vector<std::string>> get_test_map() {
   return {
       {p1, {"со"}},
       {p2, {"своею"}},
-      {p3, {"старухой"}}};
+      {p3, {"старухой"}}
+  };
 }
 
 // 1. Проверка формирования префикса
@@ -63,7 +64,8 @@ TEST(TextGenTest, SingleSuffixChoice) {
 TEST(TextGenTest, RandomSuffixChoiceFromMultiple) {
   TextGenerator generator(1, 42);
   std::map<prefix, std::vector<std::string>> map = {
-      {{"Жил"}, {"старик", "волк", "гном"}}};
+      {{"Жил"}, {"старик", "волк", "гном"}}
+  };
   generator.create_suffix_map(map);
 
   std::string result = generator.generate(5);
@@ -101,7 +103,8 @@ TEST(TextGenTest, ZeroOrNegativeLengthReturnsEmpty) {
 TEST(TextGenTest, UsedSuffixIsRemoved) {
   TextGenerator generator(1, 42);
   std::map<prefix, std::vector<std::string>> map = {
-      {{"а"}, {"б", "в", "г"}}};
+      {{"а"}, {"б", "в", "г"}}
+  };
   generator.create_suffix_map(map);
   std::string result = generator.generate(4);
   std::istringstream iss(result);
@@ -116,7 +119,8 @@ TEST(TextGenTest, EndsEarlyIfNoSuffixesLeft) {
   std::map<prefix, std::vector<std::string>> map = {
       {{"а", "б"}, {"в"}},
       {{"б", "в"}, {"г"}},
-      {{"в", "г"}, {}}};
+      {{"в", "г"}, {}}
+  };
   generator.create_suffix_map(map);
 
   std::string result = generator.generate(10);

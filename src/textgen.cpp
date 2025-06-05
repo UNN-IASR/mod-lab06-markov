@@ -1,10 +1,11 @@
 // Copyright 2025 9hkge
 #include "textgen.h"
 
-#include <cstdlib>   // rand
-#include <map>
+#include <cstdlib>  // for rand_r
 #include <string>
+#include <map>
 #include <vector>
+#include <deque>  // prefix — скорее всего deque
 
 TextGenerator::TextGenerator(int prefix_size, unsigned int random_seed) {
   this->random_seed = random_seed;
@@ -20,14 +21,13 @@ void TextGenerator::create_suffix_map(std::istream &input) {
       statetab[prefix].push_back(word);
       prefix.pop_front();
     }
-
     prefix.push_back(word);
   }
 }
 
 void TextGenerator::create_suffix_map(
     std::map<prefix, std::vector<std::string>> map) {
-  statetab = map;
+  statetab = std::move(map);
 }
 
 std::map<prefix, std::vector<std::string>> TextGenerator::get_suffix_map() {
@@ -39,27 +39,33 @@ std::string TextGenerator::generate(int text_length) {
     return "";
   }
 
-  std::string result = "";
+  std::string result;
   auto statetab_copy = statetab;
   auto begin = statetab_copy.begin();
-  auto prefix = begin->first;
-
-  for (auto prefix_it = prefix.begin(); prefix_it != prefix.end(); ++prefix_it) {
-    result += *prefix_it + " ";
+  if (begin == statetab_copy.end()) {
+    return "";
   }
 
+  prefix prefix = begin->first;
+
+  for (const auto &word : prefix) {
+    result += word + " ";
+  }
+
+  unsigned int seed = random_seed;
+
   for (int i = prefix_size; i < text_length; ++i) {
-    if (statetab_copy[prefix].empty()) {
+    auto &suffixes = statetab_copy[prefix];
+    if (suffixes.empty()) {
       break;
     }
 
-    int random_suffix_index = rand() % statetab_copy[prefix].size();
-    std::string word = statetab_copy[prefix][random_suffix_index];
+    int random_suffix_index = rand_r(&seed) % suffixes.size();
+    std::string word = suffixes[random_suffix_index];
 
     result += word + " ";
 
-    statetab_copy[prefix].erase(
-        statetab_copy[prefix].begin() + random_suffix_index);
+    suffixes.erase(suffixes.begin() + random_suffix_index);
 
     prefix.pop_front();
     prefix.push_back(word);
