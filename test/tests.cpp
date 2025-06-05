@@ -1,8 +1,10 @@
 // Copyright 2021 GHA Test Team
-#include <gtest/gtest.h>
 #include "textgen.h"
+
 #include <sstream>
 #include <algorithm>
+
+#include <gtest/gtest.h>
 
 using namespace std;
 
