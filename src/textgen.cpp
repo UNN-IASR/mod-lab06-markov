@@ -56,6 +56,7 @@ void TextGenerator::generate(std::ostream& out) {
 
   int words_generated = 0;
   for (const auto& word : current_prefix) {
+    if (words_generated >= MAXGEN) break; // Проверяем лимит перед выводом
     out << word << " ";
     words_generated++;
   }
@@ -72,7 +73,7 @@ void TextGenerator::generate(std::ostream& out) {
     current_prefix.push_back(next_word);
     words_generated++;
 
-    if (words_generated % 10 == 0) {
+    if (words_generated % 10 == 0 && words_generated < MAXGEN) {
       out << "\n";
     }
   }
