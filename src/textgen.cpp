@@ -73,12 +73,11 @@ std::string TextGenerator::generate(int text_length) {
   for (int i = prefix_size; i < text_length; ++i) {
       auto& suffixes = statetab_copy[prefix];
       if (suffixes.empty()) {
-          break;
+        break;
       }
 
       std::uniform_int_distribution<> suffix_dist(
         0, static_cast<int>(suffixes.size()) - 1);
-    
       int random_suffix_index = suffix_dist(gen);
       std::string word = suffixes[random_suffix_index];
 
