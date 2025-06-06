@@ -118,16 +118,19 @@ TEST(TextGenTest, ZeroOrNegativeLengthReturnsEmpty) {
 }
 
 // 8. Проверка удаления использованных суффиксов
-TEST(TextGenTest, UsedSuffixIsRemoved) {
+TEST(TextGenTest, GeneratedTextHasCorrectNumberOfWords) {
   TextGenerator generator(1, 42);
   std::map<prefix, std::vector<std::string>> map = {
       {{"а"}, {"б", "в", "г"}}
   };
   generator.create_suffix_map(map);
   std::string result = generator.generate(4);
-  int count = std::count(result.begin(), result.end(), ' ');
-  EXPECT_EQ(count, 3);
+
+  // Считаем слова: пробелов + 1
+  int word_count = std::count(result.begin(), result.end(), ' ') + 1;
+  EXPECT_EQ(word_count, 4);
 }
+
 
 // 9. Проверка генерации при достижении конца возможных переходов
 TEST(TextGenTest, EndsEarlyIfNoSuffixesLeft) {
@@ -145,24 +148,23 @@ TEST(TextGenTest, EndsEarlyIfNoSuffixesLeft) {
 }
 
 // 10. Проверка корректности начального префикса в выходной строке
-TEST(TextGenTest, OutputStartsWithKnownPrefix) {
+TEST(TextGenTest, OutputStartsWithSomePrefixFromMap) {
   auto generator = prepareGenerator();
   generator.create_suffix_map(get_test_map());
   std::string result = generator.generate(4);
 
-  // Получаем первый префикс из карты суффиксов
   auto suffix_map = generator.get_suffix_map();
   ASSERT_FALSE(suffix_map.empty());
 
-  // Берём один из ключей (префиксов)
   prefix first_prefix = suffix_map.begin()->first;
 
-  // Собираем строку из слов префикса для проверки начала
   std::string prefix_str = first_prefix[0];
   for (size_t i = 1; i < first_prefix.size(); ++i) {
     prefix_str += " " + first_prefix[i];
   }
 
-  // Проверяем, что результат начинается с этого префикса
+  // Проверяем, что result начинается с prefix_str
   EXPECT_EQ(result.compare(0, prefix_str.size(), prefix_str), 0);
 }
+
+
