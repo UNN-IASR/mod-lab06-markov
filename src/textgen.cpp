@@ -54,11 +54,11 @@ void TextGenerator::generate(std::ostream& out) {
     throw std::runtime_error("Not enough words in the first prefix");
   }
 
+  int words_generated = 0;
   for (const auto& word : current_prefix) {
     out << word << " ";
+    words_generated++;
   }
-
-  int words_generated = NPREF;
 
   while (words_generated < MAXGEN) {
     auto it = state_tab.find(current_prefix);
@@ -68,10 +68,8 @@ void TextGenerator::generate(std::ostream& out) {
 
     std::string next_word = get_random_suffix(it->second);
     out << next_word << " ";
-
     current_prefix.pop_front();
     current_prefix.push_back(next_word);
-
     words_generated++;
 
     if (words_generated % 10 == 0) {
