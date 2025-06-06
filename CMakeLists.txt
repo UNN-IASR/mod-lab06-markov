@@ -1,13 +1,29 @@
-cmake_minimum_required (VERSION 3.10.2)
-project (mod-lab06-markov)
+cmake_minimum_required(VERSION 3.10)
+project(markov_text_generator)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -g")
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+include(FetchContent)
+FetchContent_Declare(
+    googletest
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG release-1.12.1
+)
+FetchContent_MakeAvailable(googletest)
 
-set(tool_dest "bin")
-set(lib_dest "lib")
-set(include_dest "include/")
+include_directories(include)
 
-add_subdirectory(src)
-add_subdirectory(test)
+add_executable(textgen
+    src/main.cpp
+    src/textgen.cpp
+)
+
+add_executable(tests
+    test/tests.cpp
+    src/textgen.cpp
+)
+
+target_link_libraries(tests
+    GTest::gtest_main
+)
