@@ -97,8 +97,3 @@ TEST_F(TextGeneratorTest, GenerateTextManualTable) {
   std::string expected = "word1 word2 word3 ";
   ASSERT_EQ(result, expected);
 }
-
-int main(int argc, char** argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
