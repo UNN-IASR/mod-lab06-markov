@@ -8,7 +8,7 @@ int main() {
   const int NPREF = 2;
   const int MAXGEN = 1000;
 
-  TextGenerator generator(NPREF, 42);
+  TextGenerator generator(NPREF, 48);
 
 
   std::ifstream file("input_text.txt");
@@ -18,8 +18,11 @@ int main() {
 
   std::string result = generator.generate(MAXGEN);
 
-  std::ofstream out("generated.txt");
-  out << result << "\n";
+  const std::string output_filename = "result/gen.txt";
+  std::ofstream outputFile(output_filename);
+
+  outputFile << result;
+  outputFile.close();
 
   return 0;
 }

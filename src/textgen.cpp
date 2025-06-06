@@ -39,39 +39,48 @@ std::map<prefix, std::vector<std::string>> TextGenerator::get_suffix_map() {
 
 std::string TextGenerator::generate(int text_length) {
   if (text_length <= 0) {
-    return "";
+      return "";
   }
 
   std::string result;
   auto statetab_copy = statetab;
-  auto begin = statetab_copy.begin();
-  if (begin == statetab_copy.end()) {
-    return "";
+
+
+  std::vector<prefix> keys;
+  for (const auto& entry : statetab) {
+      keys.push_back(entry.first);
   }
 
-  prefix prefix = begin->first;
+  std::mt19937 gen(random_seed);
+  std::uniform_int_distribution<> dist(0, keys.size() - 1);
 
-  for (const auto &word : prefix) {
-    result += word + " ";
+  prefix prefix = keys[dist(gen)];
+
+
+
+
+
+  for (const auto& word : prefix) {
+      result += word + " ";
   }
 
-  unsigned int seed = random_seed;
 
   for (int i = prefix_size; i < text_length; ++i) {
-    auto &suffixes = statetab_copy[prefix];
-    if (suffixes.empty()) {
-      break;
-    }
+      auto& suffixes = statetab_copy[prefix];
+      if (suffixes.empty()) {
+          break;
+      }
 
-    int random_suffix_index = rand_r(&seed) % suffixes.size();
-    std::string word = suffixes[random_suffix_index];
+      std::uniform_int_distribution<> suffix_dist(0, (int)suffixes.size() - 1);
+      int random_suffix_index = suffix_dist(gen);
+      std::string word = suffixes[random_suffix_index];
 
-    result += word + " ";
+      result += word + " ";
 
-    suffixes.erase(suffixes.begin() + random_suffix_index);
+      suffixes.erase(suffixes.begin() + random_suffix_index);
 
-    prefix.pop_front();
-    prefix.push_back(word);
+      prefix.pop_front();
+      prefix.push_back(word);
   }
 
   return result;
