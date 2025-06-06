@@ -10,6 +10,22 @@
 #include <vector>
 #include "textgen.h"
 
+std::map<prefix, std::vector<std::string>> get_test_map() {
+  std::map<prefix, std::vector<std::string>> map;
+
+  map[{"Жил", "старик"}] = {"со"};
+  map[{"старик", "со"}] = {"своею"};
+  map[{"со", "своею"}] = {"старухой"};
+
+  return map;
+}
+
+// Создаёт и возвращает готовый генератор с заполненной таблицей
+TextGenerator prepareGenerator() {
+  TextGenerator gen(2, 42);  // prefix_size=2, seed=42
+  gen.create_suffix_map(get_test_map());
+  return gen;
+}
 
 TEST(TextGenTest, GenerateText_LengthIsCorrect) {
   TextGenerator gen(2, 42);  // префикс длины 2, сид 42
