@@ -11,7 +11,6 @@ protected:
     std::stringstream output;
 };
 
-
 TEST_F(TextGeneratorTest, FormPrefixTwoWords) {
     input << "word1 word2 word3";
     generator.build(input);
@@ -31,8 +30,8 @@ TEST_F(TextGeneratorTest, AddPrefixSuffixPair) {
     input << "word1 word2 word3";
     generator.build(input);
     prefix p = { "word1", "word2" };
-    auto it = generator.statetab.find(p);
-    ASSERT_NE(it, generator.statetab.end());
+    auto it = generator.state_table.find(p);
+    ASSERT_NE(it, generator.state_table.end());
     ASSERT_EQ(it->second, std::vector<std::string>{ "word3" });
 }
 
@@ -40,8 +39,8 @@ TEST_F(TextGeneratorTest, AddMultipleSuffixes) {
     input << "word1 word2 word3 word1 word2 word4";
     generator.build(input);
     prefix p = { "word1", "word2" };
-    auto it = generator.statetab.find(p);
-    ASSERT_NE(it, generator.statetab.end());
+    auto it = generator.state_table.find(p);
+    ASSERT_NE(it, generator.state_table.end());
     std::vector<std::string> expected = { "word3", "word4" };
     ASSERT_EQ(it->second, expected);
 }
@@ -57,7 +56,6 @@ TEST_F(TextGeneratorTest, GetRandomSuffixMultiple) {
     gen.gen.seed(42); 
     std::vector<std::string> suffixes = { "suffix1", "suffix2", "suffix3" };
     std::string result = gen.get_random_suffix(suffixes);
-
     ASSERT_TRUE(result == "suffix1" || result == "suffix2" || result == "suffix3");
 }
 
@@ -81,10 +79,9 @@ TEST_F(TextGeneratorTest, GenerateTextWithNewlines) {
     ASSERT_EQ(newline_count, 1); 
 }
 
-
 TEST_F(TextGeneratorTest, HandleEmptyInput) {
     generator.build(input);
-    ASSERT_TRUE(generator.statetab.empty());
+    ASSERT_TRUE(generator.state_table.empty());
     ASSERT_THROW(generator.generate(output), std::runtime_error);
 }
 
@@ -92,11 +89,16 @@ TEST_F(TextGeneratorTest, GenerateTextManualTable) {
     TextGenerator gen(2, 4);
     prefix p = { "word1", "word2" };
     gen.first_prefix = p;
-    gen.statetab[p] = { "word3" };
+    gen.state_table[p] = { "word3" };
     gen.generate(output);
     std::string result = output.str();
     std::string expected = "word1 word2 word3 ";
     ASSERT_EQ(result, expected);
+}
+
+int main(int argc, char** argv) {
+    ::testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }
 
 int main(int argc, char** argv) {
