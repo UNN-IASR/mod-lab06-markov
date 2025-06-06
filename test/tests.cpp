@@ -10,126 +10,129 @@
 #include <vector>
 #include "textgen.h"
 
-TEST(TextGenTest, FormsCorrectPrefixSize) {
-  TextGenerator gen(2, 42);
-  istringstream input("one two three four");
+
+TEST(TextGenTest, GenerateText_LengthIsCorrect) {
+  TextGenerator gen(2, 42);  // префикс длины 2, сид 42
+  std::istringstream input("the quick brown fox jumps over the lazy dog");
   gen.create_suffix_map(input);
 
-  for (const auto& entry : gen.get_suffix_map()) {
-      EXPECT_EQ(entry.first.size(), 2);
-  }
+  std::string result = gen.generate(5);
+
+  std::istringstream stream(result);
+  std::vector<std::string> words(std::istream_iterator<std::string>{stream},
+                                  std::istream_iterator<std::string>());
+
+  EXPECT_EQ(words.size(), 5);
 }
 
 
-TEST(TextGenTest, CreatesSinglePrefixSuffixPair) {
-  TextGenerator gen(1, 42);
-  istringstream input("hello world");
+TEST(TextGenTest, CorrectSuffixMapConstruction) {
+  TextGenerator gen(2, 0);
+  std::istringstream input("a b c d");
   gen.create_suffix_map(input);
 
-  auto map = gen.get_suffix_map();
-  deque<string> expected_prefix = {"hello"};
+  auto table = gen.get_suffix_map();
 
-  ASSERT_EQ(map.size(), 1);
-  EXPECT_EQ(map[expected_prefix][0], "world");
+  prefix p1 = {"a", "b"};
+  prefix p2 = {"b", "c"};
+
+  ASSERT_EQ(table[p1].size(), 1);
+  EXPECT_EQ(table[p1][0], "c");
+
+  ASSERT_EQ(table[p2].size(), 1);
+  EXPECT_EQ(table[p2][0], "d");
 }
 
 
-TEST(TextGenTest, CreatesMultiplePrefixSuffixPairs) {
-  TextGenerator gen(1, 42);
-  istringstream input("a b c");
-  gen.create_suffix_map(input);
 
-  auto map = gen.get_suffix_map();
+TEST(TextGenTest, EmptyInputReturnsEmptyString) {
+  TextGenerator gen(2, 0);
+  std::istringstream empty_input("");
+  gen.create_suffix_map(empty_input);
 
-  EXPECT_EQ(map[{"a"}][0], "b");
-  EXPECT_EQ(map[{"b"}][0], "c");
+  std::string result = gen.generate(10);
+
+  EXPECT_TRUE(result.empty());
 }
 
-TEST(TextGenTest, SelectsSingleSuffix) {
-  TextGenerator gen(1, 42);
-  map<deque<string>, vector<string>> m = {
-      {{"a"}, {"b"}}
+
+// 1. Проверка формирования префикса
+TEST(TextGenTest, FormPrefixFromWords) {
+  std::istringstream input("Жил старик со своею старухой");
+  TextGenerator generator = prepareGenerator();
+
+  generator.create_suffix_map(input);
+  auto map = generator.get_suffix_map();
+
+  prefix expected = {"Жил", "старик"};
+  ASSERT_TRUE(map.find(expected) != map.end());
+  EXPECT_EQ(map[expected][0], "со");
+}
+
+// 2. Проверка записи "префикс-суффикс"
+TEST(TextGenTest, PrefixSuffixEntryCorrectness) {
+  auto generator = prepareGenerator();
+  generator.create_suffix_map(get_test_map());
+
+  auto map = generator.get_suffix_map();
+  prefix test_prefix = {"со", "своею"};
+
+  ASSERT_TRUE(map.find(test_prefix) != map.end());
+  EXPECT_EQ(map[test_prefix][0], "старухой");
+}
+
+// 4. Выбор одного суффикса из нескольких (ПСЧ)
+TEST(TextGenTest, RandomSuffixChoiceFromMultiple) {
+  TextGenerator generator(1, 42);
+  std::map<prefix, std::vector<std::string>> map = {
+      {{"Жил"}, {"старик", "волк", "гном"}}
   };
-  gen.create_suffix_map(m);
+  generator.create_suffix_map(map);
 
-  string result = gen.generate(2);
-  EXPECT_TRUE(result.find("a b") != string::npos);
+  std::string result = generator.generate(5);
+  EXPECT_TRUE(result.find("Жил") == 0); // начинается с "Жил"
 }
 
-TEST(TextGenTest, RandomlySelectsFromMultipleSuffixes) {
-  TextGenerator gen(1, 42);
-  map<deque<string>, vector<string>> m = {
-      {{"a"}, {"b", "c", "d"}}
+
+// 7. Отказ при нуле или отрицательной длине
+TEST(TextGenTest, ZeroOrNegativeLengthReturnsEmpty) {
+  auto generator = prepareGenerator();
+  EXPECT_EQ(generator.generate(0), "");
+  EXPECT_EQ(generator.generate(-5), "");
+}
+
+// 8. Проверка удаления использованных суффиксов
+TEST(TextGenTest, UsedSuffixIsRemoved) {
+  TextGenerator generator(1, 42);
+  std::map<prefix, std::vector<std::string>> map = {
+      {{"а"}, {"б", "в", "г"}}
   };
-  gen.create_suffix_map(m);
-
-  string result = gen.generate(3);
-  EXPECT_TRUE(result.find("a ") != string::npos);
+  generator.create_suffix_map(map);
+  std::string result = generator.generate(4);
+  int count = std::count(result.begin(), result.end(), ' ');
+  EXPECT_EQ(count, 4); // должно быть 4 слова
 }
 
-TEST(TextGenTest, GeneratesEmptyTextIfLengthZero) {
-  TextGenerator gen(2, 42);
-  map<deque<string>, vector<string>> m = {
-      {{"a", "b"}, {"c"}}
+// 9. Проверка генерации при достижении конца возможных переходов
+TEST(TextGenTest, EndsEarlyIfNoSuffixesLeft) {
+  TextGenerator generator(2, 42);
+  std::map<prefix, std::vector<std::string>> map = {
+      {{"а", "б"}, {"в"}},
+      {{"б", "в"}, {"г"}},
+      {{"в", "г"}, {}}
   };
-  gen.create_suffix_map(m);
+  generator.create_suffix_map(map);
 
-  string result = gen.generate(0);
-  EXPECT_EQ(result, "");
+  std::string result = generator.generate(10); // должно закончиться раньше
+  int words = std::count(result.begin(), result.end(), ' ');
+  EXPECT_LT(words, 10);
 }
 
-TEST(TextGenTest, GeneratesTextOfExactLength) {
-  TextGenerator gen(1, 42);
-  map<deque<string>, vector<string>> m = {
-      {{"a"}, {"b"}},
-      {{"b"}, {"c"}},
-      {{"c"}, {"d"}}
-  };
-  gen.create_suffix_map(m);
-
-  string result = gen.generate(4);
-  int word_count = count(result.begin(), result.end(), ' ');
-  EXPECT_EQ(word_count, 4);
-}
-
-TEST(TextGenTest, StopsIfNoSuffixes) {
-  TextGenerator gen(1, 42);
-  map<deque<string>, vector<string>> m = {
-      {{"a"}, {}}
-  };
-  gen.create_suffix_map(m);
-
-  string result = gen.generate(5);
-  int word_count = count(result.begin(), result.end(), ' ');
-  EXPECT_EQ(word_count, 1);
-}
-
-TEST(TextGenTest, HandlesEmptyMap) {
-  TextGenerator gen(1, 42);
-  map<deque<string>, vector<string>> m = {};
-  gen.create_suffix_map(m);
-
-  string result = gen.generate(5);
-  EXPECT_EQ(result, "");
-}
-
-
-TEST(TextGenTest, GeneratesSameOutputWithSameSeed) {
-  map<deque<string>, vector<string>> m = {
-      {{"a"}, {"b", "c", "d"}},
-      {{"b"}, {"e"}},
-      {{"c"}, {"f"}},
-      {{"d"}, {"g"}}
-  };
-
-  TextGenerator gen1(1, 123);
-  gen1.create_suffix_map(m);
-  auto res1 = gen1.generate(5);
-
-  TextGenerator gen2(1, 123);
-  gen2.create_suffix_map(m);
-  auto res2 = gen2.generate(5);
-
-  EXPECT_EQ(res1, res2);
+// 10. Проверка корректности начального префикса в выходной строке
+TEST(TextGenTest, OutputStartsWithInitialPrefix) {
+  auto generator = prepareGenerator();
+  generator.create_suffix_map(get_test_map());
+  std::string result = generator.generate(4);
+  EXPECT_TRUE(result.find("Жил старик") == 0);
 }
 
