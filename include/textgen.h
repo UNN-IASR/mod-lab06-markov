@@ -17,6 +17,11 @@ class TextGenerator {
   void build(std::istream& in);
   void generate(std::ostream& out);
 
+  // Геттеры для тестирования
+  const prefix& get_first_prefix() const { return first_prefix; }
+  const StateTab& get_state_tab() const { return state_tab; }
+  std::string get_random_suffix(const std::vector<std::string>& suffixes) const;
+
  private:
   int NPREF;
   int MAXGEN;
@@ -26,7 +31,6 @@ class TextGenerator {
   std::mt19937 gen;
 
   void add_suffix(const prefix& p, const std::string& s);
-  std::string get_random_suffix(const std::vector<std::string>& suffixes);
 };
 
 #endif  // INCLUDE_TEXTGEN_H_
