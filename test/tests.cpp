@@ -106,7 +106,7 @@ TEST(TextGenTest, RandomSuffixChoiceFromMultiple) {
   generator.create_suffix_map(map);
 
   std::string result = generator.generate(5);
-  EXPECT_TRUE(result.find("Жил") == 0); // начинается с "Жил"
+  EXPECT_EQ(result.find("Жил"), 0);// начинается с "Жил"
 }
 
 
@@ -149,6 +149,9 @@ TEST(TextGenTest, OutputStartsWithInitialPrefix) {
   auto generator = prepareGenerator();
   generator.create_suffix_map(get_test_map());
   std::string result = generator.generate(4);
-  EXPECT_TRUE(result.find("Жил старик") == 0);
+  
+  // Проверяем, что результат начинается с "Жил старик"
+  EXPECT_EQ(result.substr(0, 10), "Жил старик");
 }
+
 

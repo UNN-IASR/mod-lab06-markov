@@ -51,6 +51,11 @@ std::string TextGenerator::generate(int text_length) {
       keys.push_back(entry.first);
   }
 
+  if (keys.empty()) {
+    return "";
+}
+
+
   std::mt19937 gen(random_seed);
   std::uniform_int_distribution<> dist(0, keys.size() - 1);
 
