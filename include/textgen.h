@@ -17,7 +17,6 @@ class TextGenerator {
   void build(std::istream& in);
   void generate(std::ostream& out);
 
-  // Геттеры для тестирования
   const prefix& get_first_prefix() const { return first_prefix; }
   const StateTab& get_state_tab() const { return state_tab; }
   std::string get_random_suffix(const std::vector<std::string>& suffixes) const;
