@@ -5,6 +5,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <random>
 #include <deque>  // prefix — скорее всего deque
 #include "textgen.h"
 
