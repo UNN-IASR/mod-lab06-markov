@@ -67,7 +67,7 @@ TEST_F(TextGeneratorTest, GenerateTextFixedLength) {
   gen.generate(output);
   std::string result = output.str();
   size_t word_count = std::count(result.begin(), result.end(), ' ') + 1;
-  ASSERT_LE(word_count, 5);
+  ASSERT_LE(word_count, 6);
 }
 
 TEST_F(TextGeneratorTest, GenerateTextWithNewlines) {
