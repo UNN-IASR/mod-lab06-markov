@@ -26,6 +26,7 @@ int main() {
   generator.generate(out);
   out.close();
 
-  std::cout << "Text generation completed. Result saved to " << output_file << std::endl;
+  std::cout << "Text generation completed. Result saved to "
+            << output_file << std::endl;
   return 0;
 }
