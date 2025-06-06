@@ -1,7 +1,4 @@
 // Copyright 2022 UNN-IASR
-#ifndef INCLUDE_TEXTGEN_H_
-#define INCLUDE_TEXTGEN_H_
-
 #include <deque>
 #include <map>
 #include <vector>
@@ -12,20 +9,20 @@ typedef std::deque<std::string> prefix;
 typedef std::map<prefix, std::vector<std::string>> statetab;
 
 class TextGenerator {
- public:
-  explicit TextGenerator(int npref = 2, int maxgen = 1000);
-  void build(std::istream& in);
-  void generate(std::ostream& out);
+public:
+    TextGenerator(int npref = 2, int maxgen = 1000);
+    void build(std::istream& in);
+    void generate(std::ostream& out);
 
- private:
-  int NPREF;
-  int MAXGEN;
-  statetab state_table;
-  prefix first_prefix;
+private:
+    int NPREF;
+    int MAXGEN;
+    statetab statetab;
+    prefix first_prefix;
 
-  std::mt19937 gen;
+    std::mt19937 gen;
 
-  void add_suffix(const prefix& p, const std::string& s);
-  std::string get_random_suffix(const std::vector<std::string>& suffixes);
+    void add_suffix(const prefix& p, const std::string& s);
+    std::string get_random_suffix(const std::vector<std::string>& suffixes);
 };
 #endif //INCLUDE_TEXTGEN_H_
