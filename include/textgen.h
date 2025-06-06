@@ -19,7 +19,7 @@ class TextGenerator {
 
   const prefix& get_first_prefix() const { return first_prefix; }
   const StateTab& get_state_tab() const { return state_tab; }
-  std::string get_random_suffix(const std::vector<std::string>& suffixes) const;
+  std::string get_random_suffix(const std::vector<std::string>& suffixes);
 
  private:
   int NPREF;
