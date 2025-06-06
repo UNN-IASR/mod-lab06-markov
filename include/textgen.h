@@ -1,3 +1,4 @@
+// Copyright 2022 UNN-IASR
 #include <deque>
 #include <map>
 #include <vector>
@@ -24,3 +25,4 @@ private:
     void add_suffix(const prefix& p, const std::string& s);
     std::string get_random_suffix(const std::vector<std::string>& suffixes);
 };
+#endif //INCLUDE_TEXTGEN_H_
