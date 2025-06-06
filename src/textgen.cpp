@@ -34,7 +34,8 @@ void TextGenerator::add_suffix(const prefix& p, const std::string& s) {
   state_tab[p].push_back(s);
 }
 
-std::string TextGenerator::get_random_suffix(const std::vector<std::string>& suffixes) {
+std::string TextGenerator::get_random_suffix(
+    const std::vector<std::string>& suffixes) const {
   if (suffixes.empty()) {
     throw std::runtime_error("No suffixes available");
   }
