@@ -1,5 +1,7 @@
-// Copyright 2021 GHA Test Team
+// Copyright 2025 cherniuta
 #include <gtest/gtest.h>
+#include <deque>
+#include <string>
 #include "../include/textgen.h"
 
 TEST(TextGenTest, PrefixFormation) {
@@ -22,9 +24,10 @@ TEST(TextGenTest, MultipleSuffixes) {
     gen.add(prefix, "suffix1");
     gen.add(prefix, "suffix2");
     gen.add(prefix, "suffix3");
-    
+
     std::string suffix = gen.get_random_suffix(prefix);
-    EXPECT_TRUE(suffix == "suffix1" || suffix == "suffix2" || suffix == "suffix3");
+    EXPECT_TRUE(suffix == "suffix1" || suffix == "suffix2" ||
+                suffix == "suffix3");
 }
 
 TEST(TextGenTest, EmptyState) {
@@ -38,11 +41,11 @@ TEST(TextGenTest, TextGeneration) {
     std::deque<std::string> prefix1 = {"start", "with"};
     std::deque<std::string> prefix2 = {"with", "this"};
     std::deque<std::string> prefix3 = {"this", "text"};
-    
+
     gen.add(prefix1, "this");
     gen.add(prefix2, "text");
     gen.add(prefix3, "end");
-    
+
     std::string result = gen.generate(5);
     EXPECT_FALSE(result.empty());
 }
