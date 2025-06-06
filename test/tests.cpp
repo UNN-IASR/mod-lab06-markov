@@ -56,7 +56,8 @@ TEST_F(TextGeneratorTest, GetRandomSuffixMultiple) {
   TextGenerator gen(2, 1000);
   std::vector<std::string> suffixes = {"suffix1", "suffix2", "suffix3"};
   std::string result = gen.get_random_suffix(suffixes);
-  ASSERT_TRUE(result == "suffix1" || result == "suffix2" || result == "suffix3");
+  ASSERT_TRUE(result == "suffix1" || result == "suffix2" ||
+              result == "suffix3");
 }
 
 TEST_F(TextGeneratorTest, GenerateTextFixedLength) {
