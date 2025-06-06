@@ -11,6 +11,18 @@ TextGenerator::TextGenerator(int npref, int maxgen)
   gen.seed(std::chrono::system_clock::now().time_since_epoch().count());
 }
 
+voi#include <chrono>
+#include <sstream>
+#include <stdexcept>
+#include <vector>
+#include <string>
+#include "textgen.h"
+
+TextGenerator::TextGenerator(int npref, int maxgen)
+    : NPREF(npref), MAXGEN(maxgen) {
+  gen.seed(std::chrono::system_clock::now().time_since_epoch().count());
+}
+
 void TextGenerator::build(std::istream& in) {
   std::string word;
   prefix current_prefix;
@@ -60,7 +72,7 @@ void TextGenerator::generate(std::ostream& out) {
     words_generated++;
   }
 
-  while (words_generated < MAXGEN) {
+  while (words_generated < MAXGEN && words_generated - NPREF < state_tab.size()) {
     auto it = state_tab.find(current_prefix);
     if (it == state_tab.end() || it->second.empty()) {
       break;
