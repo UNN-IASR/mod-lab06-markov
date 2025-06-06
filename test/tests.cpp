@@ -16,7 +16,7 @@ TEST_F(TextGeneratorTest, FormPrefixTwoWords) {
   input << "word1 word2 word3";
   generator.build(input);
   prefix expected = {"word1", "word2"};
-  ASSERT_EQ(generator.first_prefix, expected);
+  ASSERT_EQ(generator.get_first_prefix(), expected);
 }
 
 TEST_F(TextGeneratorTest, FormPrefixOneWord) {
@@ -24,15 +24,15 @@ TEST_F(TextGeneratorTest, FormPrefixOneWord) {
   input << "word1 word2";
   gen.build(input);
   prefix expected = {"word1"};
-  ASSERT_EQ(gen.first_prefix, expected);
+  ASSERT_EQ(gen.get_first_prefix(), expected);
 }
 
 TEST_F(TextGeneratorTest, AddPrefixSuffixPair) {
   input << "word1 word2 word3";
   generator.build(input);
   prefix p = {"word1", "word2"};
-  auto it = generator.state_tab.find(p);
-  ASSERT_NE(it, generator.state_tab.end());
+  auto it = generator.get_state_tab().find(p);
+  ASSERT_NE(it, generator.get_state_tab().end());
   ASSERT_EQ(it->second, std::vector<std::string>{"word3"});
 }
 
@@ -40,8 +40,8 @@ TEST_F(TextGeneratorTest, AddMultipleSuffixes) {
   input << "word1 word2 word3 word1 word2 word4";
   generator.build(input);
   prefix p = {"word1", "word2"};
-  auto it = generator.state_tab.find(p);
-  ASSERT_NE(it, generator.state_tab.end());
+  auto it = generator.get_state_tab().find(p);
+  ASSERT_NE(it, generator.get_state_tab().end());
   std::vector<std::string> expected = {"word3", "word4"};
   ASSERT_EQ(it->second, expected);
 }
@@ -54,7 +54,6 @@ TEST_F(TextGeneratorTest, GetRandomSuffixSingle) {
 
 TEST_F(TextGeneratorTest, GetRandomSuffixMultiple) {
   TextGenerator gen(2, 1000);
-  gen.gen.seed(42);
   std::vector<std::string> suffixes = {"suffix1", "suffix2", "suffix3"};
   std::string result = gen.get_random_suffix(suffixes);
   ASSERT_TRUE(result == "suffix1" || result == "suffix2" || result == "suffix3");
@@ -72,7 +71,8 @@ TEST_F(TextGeneratorTest, GenerateTextFixedLength) {
 
 TEST_F(TextGeneratorTest, GenerateTextWithNewlines) {
   TextGenerator gen(2, 12);
-  input << "word1 word2 word3 word4 word5 word6 word7 word8 word9 word10 word11 word12";
+  input << "word1 word2 word3 word4 word5 word6 word7 word8 word9 word10 "
+           "word11 word12";
   gen.build(input);
   gen.generate(output);
   std::string result = output.str();
@@ -82,15 +82,15 @@ TEST_F(TextGeneratorTest, GenerateTextWithNewlines) {
 
 TEST_F(TextGeneratorTest, HandleEmptyInput) {
   generator.build(input);
-  ASSERT_TRUE(generator.state_tab.empty());
+  ASSERT_TRUE(generator.get_state_tab().empty());
   ASSERT_THROW(generator.generate(output), std::runtime_error);
 }
 
 TEST_F(TextGeneratorTest, GenerateTextManualTable) {
   TextGenerator gen(2, 4);
-  prefix p = {"word1", "word2"};
-  gen.first_prefix = p;
-  gen.state_tab[p] = {"word3"};
+  std::stringstream input;
+  input << "word1 word2 word3";
+  gen.build(input);
   gen.generate(output);
   std::string result = output.str();
   std::string expected = "word1 word2 word3 ";
