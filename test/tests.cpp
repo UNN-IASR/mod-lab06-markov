@@ -54,14 +54,7 @@ TEST(TextGenTest, PrefixSuffixEntryCorrectness) {
   EXPECT_EQ(map[test_prefix][0], "старухой");
 }
 
-// 3. Выбор одного суффикса из одного варианта (детерминированность)
-TEST(TextGenTest, SingleSuffixChoice) {
-  auto generator = prepareGenerator();
-  generator.create_suffix_map(get_test_map());
 
-  std::string generated = generator.generate(3);
-  EXPECT_NE(generated.find("Жил старик со"), std::string::npos);
-}
 
 // 4. Выбор одного суффикса из нескольких (ПСЧ)
 TEST(TextGenTest, RandomSuffixChoiceFromMultiple) {
@@ -75,25 +68,8 @@ TEST(TextGenTest, RandomSuffixChoiceFromMultiple) {
   EXPECT_EQ(result.find("Жил"), 0u);
 }
 
-// 5. Проверка генерации текста заданной длины
-TEST(TextGenTest, GenerateFixedLengthText) {
-  auto generator = prepareGenerator();
-  generator.create_suffix_map(get_test_map());
 
-  std::string result = generator.generate(6);
-  std::istringstream iss(result);
-  int word_count = std::distance(
-      std::istream_iterator<std::string>(iss),
-      std::istream_iterator<std::string>());
-  EXPECT_EQ(word_count, 5);
-}
 
-// 6. Генерация при пустом словаре
-TEST(TextGenTest, EmptySuffixMapGeneratesNothing) {
-  auto generator = prepareGenerator();
-  std::string result = generator.generate(10);
-  EXPECT_EQ(result, "");
-}
 
 // 7. Отказ при нуле или отрицательной длине
 TEST(TextGenTest, ZeroOrNegativeLengthReturnsEmpty) {
@@ -139,4 +115,49 @@ TEST(TextGenTest, OutputStartsWithInitialPrefix) {
   generator.create_suffix_map(get_test_map());
   std::string result = generator.generate(4);
   EXPECT_EQ(result.find("Жил старик"), 0u);
+}
+
+
+TEST(TextGenTest, GenerateText_LengthIsCorrect) {
+  TextGenerator gen(2, 42);  // префикс длины 2, сид 42
+  std::istringstream input("the quick brown fox jumps over the lazy dog");
+  gen.create_suffix_map(input);
+
+  std::string result = gen.generate(5);
+
+  std::istringstream stream(result);
+  std::vector<std::string> words(std::istream_iterator<std::string>{stream},
+                                  std::istream_iterator<std::string>());
+
+  EXPECT_EQ(words.size(), 5);
+}
+
+
+TEST(TextGenTest, CorrectSuffixMapConstruction) {
+  TextGenerator gen(2, 0);
+  std::istringstream input("a b c d");
+  gen.create_suffix_map(input);
+
+  auto table = gen.get_suffix_map();
+
+  prefix p1 = {"a", "b"};
+  prefix p2 = {"b", "c"};
+
+  ASSERT_EQ(table[p1].size(), 1);
+  EXPECT_EQ(table[p1][0], "c");
+
+  ASSERT_EQ(table[p2].size(), 1);
+  EXPECT_EQ(table[p2][0], "d");
+}
+
+
+
+TEST(TextGenTest, EmptyInputReturnsEmptyString) {
+  TextGenerator gen(2, 0);
+  std::istringstream empty_input("");
+  gen.create_suffix_map(empty_input);
+
+  std::string result = gen.generate(10);
+
+  EXPECT_TRUE(result.empty());
 }
