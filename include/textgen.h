@@ -1,9 +1,16 @@
-#ifndef TEXTGEN_H
-#define TEXTGEN_H
-
+#pragma once
 #include <iostream>
+#include <deque>
+#include <map>
+#include <vector>
+#include <string>
+#include <fstream>
 
-void stub_build();
-void stub_generate();
+const int prefixSize = 2;
+const int maxGenWords = 1000; 
 
-#endif
+typedef std::deque<std::string> Prefix;
+typedef std::map<Prefix, std::vector<std::string>> Chain;
+
+void build(std::ifstream& in, Chain& chain);
+void generate(std::ofstream& out, Chain& chain);

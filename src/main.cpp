@@ -1,12 +1,22 @@
-#include <iostream>
-#include "textgen.h"
+#include "../include/textgen.h"
 
 int main() {
-    std::cout << "Markov Generator Started\n";
+    std::ifstream input("../../../../src/text.txt");
+    std::ofstream output("../../../../result/gen.txt");
 
-    stub_build();
-    stub_generate();
 
-    std::cout << "Done.\n";
+    if (!input) {
+        std::cerr << "input file error\n";
+        return 1;
+    }
+    if (!output) {
+        std::cerr << "output file error\n";
+        return 1;
+    }
+
+    Chain chain;
+    build(input, chain);
+    generate(output, chain);
+
     return 0;
 }
