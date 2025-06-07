@@ -2,11 +2,11 @@
 
 #include <algorithm>
 #include <deque>
-#include <gtest/gtest.h>
 #include <sstream>
 #include <string>
 
 #include "textgen.h"
+#include <gtest/gtest.h>
 
 TEST(MarkovTest, PrefixSizeOne) {
     Markov generator(1, 1000);
