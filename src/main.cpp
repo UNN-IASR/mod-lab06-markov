@@ -1,3 +1,5 @@
+// Copyright 2025 <A-Sabu>
+
 #include "textgen.h"
 
 int main(int argc, char* argv[]) {
