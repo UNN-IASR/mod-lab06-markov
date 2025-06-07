@@ -1,11 +1,12 @@
 // Copyright 2025 <A-Sabu>
 
-#include "textgen.h"
-#include <deque>
-#include <string>
-#include <sstream>
 #include <algorithm>
+#include <deque>
 #include <gtest/gtest.h>
+#include <sstream>
+#include <string>
+
+#include "textgen.h"
 
 TEST(MarkovTest, PrefixSizeOne) {
     Markov generator(1, 1000);
@@ -48,8 +49,7 @@ TEST(MarkovTest, PicksAmongMultipleSuffixes) {
     auto suffixes = table[prefix];
     EXPECT_TRUE(
         std::find(suffixes.begin(), suffixes.end(), "puss") != suffixes.end() ||
-        std::find(suffixes.begin(), suffixes.end(), "sly") != suffixes.end()
-    );
+        std::find(suffixes.begin(), suffixes.end(), "sly") != suffixes.end());
 }
 
 
