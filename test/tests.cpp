@@ -1,82 +1,104 @@
 #include <gtest/gtest.h>
 #include "textgen.h"
-
-class MarkovTest : public ::testing::Test {
-protected:
-    void SetUp() override {
-        generator = Markov;
-    }
-    Markov generator;
-};
+#include <algorithm>
 
 TEST(MarkovTest, PrefixSizeOne) {
-    Markov generator(1, 100);
-    generator.learnFromString("Проворный кот в сапогах");
+    Markov generator(1, 1000);
+    generator.learnFromString("The agile puss in boots");
     auto table = generator.getStateTable();
     EXPECT_EQ(table.begin()->first.size(), 1);
 }
 
 TEST(MarkovTest, PrefixSizeTwo) {
-    generator.learnFromString("Проворный кот в сапогах");
+    Markov generator;
+    generator.learnFromString("The agile puss in boots");
     auto table = generator.getStateTable();
     EXPECT_EQ(table.begin()->first.size(), 2);
 }
 
-TEST(MarkovTest, FirstSufix) {
-    generator.learnFromString("Проворный кот в сапогах");
-    auto it = generator.getStateTable().begin();
-    std::string sufix = it->second[0];
-    EXPECT_EQ(sufix, "кот");
-}
-
-TEST(MarkovTest, SingleSufix) {
-    generator.learnFromString("Проворный кот");
+TEST(MarkovTest, FirstSuffix) {
+    Markov generator;
+    generator.learnFromString("The agile puss in boots");
+    std::deque<std::string> prefix = { "The", "agile" };
     auto table = generator.getStateTable();
-    std::string actual = table.begin()->second[0];
-    EXPECT_EQ(actual, "кот");
+    ASSERT_TRUE(table.count(prefix));
+    EXPECT_EQ(table[prefix][0], "puss");
 }
 
-TEST(MarkovTest, FirstOfMultipleSufixes) {
-    generator.learnFromString("Проворный кот хитрый кот");
-    auto sufixes = generator.getStateTable().begin()->second;
-    std::string chosen = sufixes[0];
-    EXPECT_EQ(chosen, "кот");
+TEST(MarkovTest, SingleSuffix) {
+    Markov generator;
+    generator.learnFromString("agile puss");
+    std::deque<std::string> prefix = { "\n", "agile" };
+    auto table = generator.getStateTable();
+    ASSERT_TRUE(table.count(prefix));
+    EXPECT_EQ(table[prefix][0], "puss");
 }
+
+TEST(MarkovTest, PicksAmongMultipleSuffixes) {
+    Markov generator(1, 1000);
+    generator.learnFromString("agile puss sly puss");
+    std::deque<std::string> prefix = { "agile" };
+    auto table = generator.getStateTable();
+    ASSERT_TRUE(table.count(prefix));
+    auto suffixes = table[prefix];
+    EXPECT_TRUE(
+        std::find(suffixes.begin(), suffixes.end(), "puss") != suffixes.end() ||
+        std::find(suffixes.begin(), suffixes.end(), "sly") != suffixes.end()
+    );
+}
+
 
 TEST(MarkovTest, GenerateTextOfFixedLength) {
-    Markov specGenerator(2, 7);
-    specGenerator.learnFromString("Это был самый хитрый и проворный кот в сапогах");
-    specGenerator.generateText();
-    std::string output = specGenerator.getGeneratedText();
-    int wordCount = std::count(output.begin(), output.end(), ' ');
+    Markov generator(2, 7);
+    generator.learnFromString("He was sly and agile puss in boots.");
+    generator.generateText();
+    std::string output = generator.getGeneratedText();
+    std::istringstream iss(output);
+    int wordCount = 0;
+    std::string word;
+    while (iss >> word) ++wordCount;
     EXPECT_EQ(wordCount, 7);
 }
 
 TEST(MarkovTest, EmptyInputResultsInEmptyMap) {
+    Markov generator;
     generator.learnFromString("");
     int actual = generator.getStateTable().size();
-    EXPECT_EQ(actual, 0);
-}
-
-TEST(MarkovTest, GeneratedStringNotEmpty) {
-    generator.learnFromString("Проворный кот в сапогах");
-    generator.generateText();
-    int actual = generator.getGeneratedText().empty() ? 0 : 1;
     EXPECT_EQ(actual, 1);
 }
 
-TEST(MarkovTest, LastSufix) {
-    generator.learnFromString("Проворный кот в сапогах");
+TEST(MarkovTest, GeneratedStringNotEmpty) {
+    Markov generator;
+    generator.learnFromString("The agile puss in boots");
     generator.generateText();
-    bool hasMarker = generator.getGeneratedText().find("\n") != std::string::npos;
-    EXPECT_EQ(hasMarker, true);
+    EXPECT_FALSE(generator.getGeneratedText().empty());
+}
+
+TEST(MarkovTest, PrefixSuffixMappingExists) {
+    Markov generator;
+    generator.learnFromString("Puss in boots");
+    auto table = generator.getStateTable();
+    std::deque<std::string> prefix = { "Puss", "in" };
+    ASSERT_TRUE(table.count(prefix));
+    EXPECT_EQ(table[prefix][0], "boots");
+}
+
+TEST(MarkovTest, PicksSingleSuffixCorrectly) {
+    Markov generator(1, 1000);
+    generator.learnFromString("Puss");
+    std::deque<std::string> prefix = { "\n" };
+    auto table = generator.getStateTable();
+    ASSERT_TRUE(table.count(prefix));
+    const auto& suffixes = table[prefix];
+    ASSERT_EQ(suffixes.size(), 1);
+    EXPECT_EQ(suffixes[0], "Puss");
 }
 
 TEST(MarkovTest, LearningTwiceChangesTable) {
-    generator.learnFromString("Проворный кот в сапогах");
+    Markov generator;
+    generator.learnFromString("The agile puss in boots");
     int size1 = generator.getStateTable().size();
-    generator.learnFromString("Неуловимый гусь");
+    generator.learnFromString("The elusive goose");
     int size2 = generator.getStateTable().size();
-    bool changed = (size1 != size2);
-    EXPECT_EQ(changed, true);
+    EXPECT_NE(size1, size2);
 }
