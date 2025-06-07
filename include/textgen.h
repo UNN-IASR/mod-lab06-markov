@@ -7,7 +7,6 @@
 #include <deque>
 #include <map>
 #include <ctime>
-#include <windows.h>
 
 class Markov {
 public:
