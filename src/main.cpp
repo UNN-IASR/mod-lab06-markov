@@ -12,6 +12,7 @@ int main() {
         std::cerr << "input file error\n";
         return 1;
     }
+
     if (!output) {
         std::cerr << "output file error\n";
         return 1;
