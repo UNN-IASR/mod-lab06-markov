@@ -1,9 +1,9 @@
 // Copyright 2025 AirFox
 
-#include "../include/textgen.h"
 #include <cstdlib>
 #include <vector>
 #include <string>
+#include "../include/textgen.h"
 
 void build(std::ifstream& in, Chain& chain) {
     Prefix prefix;

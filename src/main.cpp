@@ -1,8 +1,8 @@
 // Copyright 2025 AirFox
 
-#include "../include/textgen.h"
 #include <fstream>
 #include <iostream>
+#include "../include/textgen.h"
 
 int main() {
     std::ifstream input("../../../../src/text.txt");
