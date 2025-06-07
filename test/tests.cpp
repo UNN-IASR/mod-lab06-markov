@@ -8,7 +8,7 @@
 #include <deque>
 #include <cstdlib>
 
-#include "../include/textgen.h"
+#include "textgen.h"
 
 class TextgenTest : public ::testing::Test {
 protected:
@@ -49,9 +49,11 @@ TEST_F(TextgenTest, GenerateProducesOutput) {
     std::ifstream in(test_input_file);
     Chain chain;
     build(in, chain);
+
     std::ofstream out(test_output_file);
     generate(out, chain);
     out.close();
+
     std::ifstream inout(test_output_file);
     std::string word;
     inout >> word;
@@ -62,9 +64,11 @@ TEST_F(TextgenTest, GenerateRespectsChain) {
     std::ifstream in(test_input_file);
     Chain chain;
     build(in, chain);
+
     std::ofstream out(test_output_file);
     generate(out, chain);
     out.close();
+
     std::ifstream inout(test_output_file);
     std::string content;
     std::getline(inout, content);
@@ -85,6 +89,7 @@ TEST_F(TextgenTest, HandlesRepetition) {
     std::ofstream file("rep.txt");
     file << "a a a a a";
     file.close();
+
     std::ifstream in("rep.txt");
     Chain chain;
     build(in, chain);
@@ -96,16 +101,20 @@ TEST_F(TextgenTest, ShortInputGeneration) {
     std::ofstream file("short.txt");
     file << "hi there";
     file.close();
+
     std::ifstream in("short.txt");
     Chain chain;
     build(in, chain);
+
     std::ofstream out("short_out.txt");
     generate(out, chain);
     out.close();
+
     std::ifstream inout("short_out.txt");
     std::string content;
     std::getline(inout, content);
     ASSERT_FALSE(content.empty());
+
     std::remove("short.txt");
     std::remove("short_out.txt");
 }
@@ -123,6 +132,7 @@ TEST_F(TextgenTest, MultipleSuffixes) {
     std::ofstream file("multi.txt");
     file << "a b c\na b d\n";
     file.close();
+
     std::ifstream in("multi.txt");
     Chain chain;
     build(in, chain);
@@ -138,16 +148,19 @@ TEST_F(TextgenTest, StableWithRepetitions) {
     std::ofstream file("repeat.txt");
     file << "x y x y x y x y x y";
     file.close();
+
     std::ifstream in("repeat.txt");
     Chain chain;
     build(in, chain);
     std::ofstream out("repeat_out.txt");
     generate(out, chain);
     out.close();
+
     std::ifstream inout("repeat_out.txt");
     std::string word;
     inout >> word;
     ASSERT_FALSE(word.empty());
+
     std::remove("repeat.txt");
     std::remove("repeat_out.txt");
 }
