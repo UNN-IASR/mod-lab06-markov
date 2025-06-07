@@ -1,4 +1,7 @@
+// Copyright 2025 <Your Name>
+
 #pragma once
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -9,20 +12,20 @@
 #include <ctime>
 
 class Markov {
-public:
-    Markov(int npref, int maxgen);
-    Markov();
-    void learnFromFile(const std::string& inputFileName);
-    void learnFromString(const std::string& inputString);
-    void generateText();
-    void recordGeneratedTextToFile(const std::string& outputFileName);
-    std::map<std::deque<std::string>, std::vector<std::string>>& getStateTable();
-    std::string& getGeneratedText();
+ public:
+  Markov(int npref, int maxgen);
+  Markov();
+  void learnFromFile(const std::string& inputFileName);
+  void learnFromString(const std::string& inputString);
+  void generateText();
+  void recordGeneratedTextToFile(const std::string& outputFileName);
+  std::map<std::deque<std::string>, std::vector<std::string>>& getStateTable();
+  std::string& getGeneratedText();
 
-private:
-    typedef std::deque<std::string> Prefix;
-    int NPREF;
-    int MAXGEN;
-    std::map<Prefix, std::vector<std::string>> statetab;
-    std::string generatedText = "";
+ private:
+  typedef std::deque<std::string> Prefix;
+  int NPREF;
+  int MAXGEN;
+  std::map<Prefix, std::vector<std::string>> statetab;
+  std::string generatedText = "";
 };
