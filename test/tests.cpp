@@ -1,12 +1,10 @@
 // Copyright 2025 <A-Sabu>
-
+#include <gtest/gtest.h>
 #include <algorithm>
 #include <deque>
 #include <sstream>
 #include <string>
-
 #include "textgen.h"
-#include <gtest/gtest.h>
 
 TEST(MarkovTest, PrefixSizeOne) {
     Markov generator(1, 1000);
