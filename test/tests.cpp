@@ -11,7 +11,7 @@
 #include "textgen.h"
 
 class TextgenTest : public ::testing::Test {
-protected:
+ protected:
     const std::string test_input_file = "test_input.txt";
     const std::string test_output_file = "test_output.txt";
 
