@@ -1,9 +1,12 @@
+// Copyright 2025 AirFox
+
 #include "../include/textgen.h"
+#include <fstream>
+#include <iostream>
 
 int main() {
     std::ifstream input("../../../../src/text.txt");
     std::ofstream output("../../../../result/gen.txt");
-
 
     if (!input) {
         std::cerr << "input file error\n";

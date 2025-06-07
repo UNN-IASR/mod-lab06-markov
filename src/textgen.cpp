@@ -1,3 +1,5 @@
+// Copyright 2025 AirFox
+
 #include "../include/textgen.h"
 
 

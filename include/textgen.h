@@ -1,16 +1,19 @@
+// Copyright 2025 AirFox
+
 #pragma once
-#include <iostream>
+
 #include <deque>
-#include <map>
-#include <vector>
-#include <string>
 #include <fstream>
+#include <iostream>
+#include <map>
+#include <string>
+#include <vector>
 
 const int prefixSize = 2;
-const int maxGenWords = 1000; 
+const int maxGenWords = 1000;
 
-typedef std::deque<std::string> Prefix;
-typedef std::map<Prefix, std::vector<std::string>> Chain;
+using Prefix = std::deque<std::string>;
+using Chain = std::map<Prefix, std::vector<std::string>>;
 
 void build(std::ifstream& in, Chain& chain);
 void generate(std::ofstream& out, Chain& chain);
