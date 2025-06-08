@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 #include <map>
-
 #include "../include/textgen.h" // твой проект
 
 
