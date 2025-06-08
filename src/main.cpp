@@ -1,8 +1,8 @@
-// Copyright 2024 
+// Copyright 2024
 
 #include <fstream>
 #include <sstream>
-#include <string>     
+#include <string>
 #include <iostream>
 #include "../include/textgen.h"
 
