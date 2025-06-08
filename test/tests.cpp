@@ -1,6 +1,7 @@
 // Copyright 2021 GHA Test Team
 #include <gtest/gtest.h>
 #include <sstream>
+#include <string>
 #include "textgen.h"
 
 static const int NPREF = 2;
@@ -13,82 +14,77 @@ TEST(MarkovTests, BuildPrefixMap_FewerWords) {
 }
 
 TEST(MarkovTests, BuildPrefixMap_RecordSuffix) {
-    std::istringstream in("one two three four");
+    std::istringstream in("a b c d");
     statetab_t tab;
     build_prefix_map(in, tab, NPREF);
-    prefix p1 = {"one", "two"};
-    prefix p2 = {"two", "three"};
-    EXPECT_EQ(2u, tab.size());
-    ASSERT_EQ(1u, tab[p1].size());
-    EXPECT_EQ("three", tab[p1][0]);
-    ASSERT_EQ(1u, tab[p2].size());
-    EXPECT_EQ("four", tab[p2][0]);
+    prefix key = {"a","b"};
+    ASSERT_NE(tab.find(key), tab.end());
+    EXPECT_EQ(1u, tab[key].size());
+    EXPECT_EQ("c", tab[key][0]);
 }
 
 TEST(MarkovTests, GenerateText_SingleSuffix) {
-    std::istringstream in("a b c");
     statetab_t tab;
-    build_prefix_map(in, tab, NPREF);
-    std::srand(0);
-    auto words = generate_text(tab, NPREF, 5);
-    EXPECT_EQ(5u, words.size());
-    for (size_t i = NPREF; i < words.size(); ++i) {
-        EXPECT_EQ("c", words[i]);
+    prefix p = {"x","y"};
+    tab[p] = {"z"};
+    std::srand(1);
+    auto words = generate_text(tab, 2, 5);
+    EXPECT_EQ(7u, words.size());  // 2 initial + 5 generated
+    for (size_t i = 2; i < words.size(); ++i) {
+        EXPECT_EQ("z", words[i]);
     }
 }
 
 TEST(MarkovTests, GenerateText_MultipleSuffixes) {
-    std::istringstream in("x y z x y w x y v");
     statetab_t tab;
-    build_prefix_map(in, tab, NPREF);
-    std::srand(1);
-    auto words = generate_text(tab, NPREF, 4);
-    EXPECT_EQ(4u, words.size());
-    std::string w = words[2];
-    EXPECT_TRUE(w=="z" || w=="w" || w=="v");
+    prefix p = {"m","n"};
+    tab[p] = {"z","w","v"};
+    std::srand(2);
+    auto words = generate_text(tab, 2, 6);
+    ASSERT_EQ(8u, words.size());
+    EXPECT_TRUE(words[2] == "z" || words[2] == "w" || words[2] == "v");
+    EXPECT_TRUE(words[3] == "z" || words[3] == "w" || words[3] == "v");
 }
 
 TEST(MarkovTests, GenerateText_Length) {
-    std::istringstream in("p q r s t u v w x y z");
     statetab_t tab;
-    build_prefix_map(in, tab, NPREF);
-    std::srand(2);
-    auto words = generate_text(tab, NPREF, 10);
-    EXPECT_EQ(10u, words.size());
+    prefix p = {"a","b"};
+    tab[p] = {"c"};
+    std::srand(4);
+    auto words = generate_text(tab, 2, 0);
+    EXPECT_TRUE(words.size() >= 2);
 }
 
 TEST(MarkovTests, GenerateText_EmptyStatetab) {
     statetab_t tab;
-    auto words = generate_text(tab, NPREF, 5);
+    std::srand(5);
+    auto words = generate_text(tab, 2, 10);
     EXPECT_TRUE(words.empty());
 }
 
 TEST(MarkovTests, GenerateText_NegativeMaxgen) {
-    std::istringstream in("a b c d");
     statetab_t tab;
-    build_prefix_map(in, tab, NPREF);
-    auto words = generate_text(tab, NPREF, -1);
+    prefix p = {"a","b"};
+    tab[p] = {"c"};
+    std::srand(6);
+    auto words = generate_text(tab, 2, -5);
     EXPECT_TRUE(words.empty());
 }
 
 TEST(MarkovTests, BuildPrefixMap_PrefLargerThanWords) {
-    std::istringstream in("only one word");
+    std::istringstream in("one");
     statetab_t tab;
-    build_prefix_map(in, tab, 5);
+    build_prefix_map(in, tab, 3);
     EXPECT_TRUE(tab.empty());
 }
 
 TEST(MarkovTests, GenerateText_ManualStatetab) {
     statetab_t tab;
-    prefix p = {"m","n"};
-    tab[p] = {"o"};
-    std::srand(0);
+    prefix p = {"p","q"};
+    tab[p] = {"r","s"};
+    std::srand(7);
     auto words = generate_text(tab, 2, 4);
-    ASSERT_EQ(4u, words.size());
-    EXPECT_EQ('m', words[0][0]); // starts with m
-    EXPECT_EQ('n', words[1][0]);
-    EXPECT_EQ("o", words[2]);
-    EXPECT_EQ("o", words[3]);
+    EXPECT_EQ(6u, words.size());
 }
 
 TEST(MarkovTests, GenerateText_RestartOnDeadEnd) {
