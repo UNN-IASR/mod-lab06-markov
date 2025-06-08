@@ -1,43 +1,34 @@
-// Copyright 2021 GHA Test Team
+// src/main.cpp
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
 #include <ctime>
-#include <string>
 #include "textgen.h"
 
 static const int NPREF = 2;
 static const int MAXGEN = 1000;
 
 int main() {
-    const std::string input_path = "input.txt";
-    const std::string output_path = "gen.txt";
-
     std::srand(static_cast<unsigned>(std::time(nullptr)));
-
-    std::ifstream infile(input_path);
+    std::ifstream infile("input.txt");
     if (!infile) {
-        std::cerr << "Error opening input file: " << input_path << '\n';
+        std::cerr << "Error opening input.txt\n";
         return 1;
     }
-
     statetab_t tab;
     build_prefix_map(infile, tab, NPREF);
 
     auto words = generate_text(tab, NPREF, MAXGEN);
 
-    std::ofstream outfile(output_path);
+    std::ofstream outfile("gen.txt");
     if (!outfile) {
-        std::cerr << "Error opening output file: " << output_path << '\n';
+        std::cerr << "Error opening gen.txt\n";
         return 1;
     }
-
     for (const auto& w : words) {
-        outfile << w << " ";
+        outfile << w << ' ';
     }
     outfile << '\n';
-
-    std::cout << "Generated " << words.size()
-              << " words into '" << output_path << "'.\n";
+    std::cout << "Generated " << words.size() << " words.\n";
     return 0;
 }
