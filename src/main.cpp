@@ -1,6 +1,5 @@
 // Copyright 2024 StatsenkoArs
 
-#include <string>
 #include "textgen.h"
 
 int main() {
