@@ -1,7 +1,12 @@
 // src/textgen.cpp
+// Copyright 2025 ArriVeder4i
 #include "textgen.h"
-#include <cstdlib>
-#include <iterator>
+
+#include <deque>    // for std::deque
+#include <vector>   // for std::vector
+#include <string>   // for std::string
+#include <cstdlib>  // for std::rand
+#include <iterator> // for std::advance
 
 void build_prefix_map(std::istream& in,
                       statetab_t& statetab,
@@ -26,17 +31,13 @@ std::vector<std::string> generate_text(
     std::vector<std::string> output;
     if (statetab.empty() || maxgen < 0) return output;
 
-    // Стартовый префикс — первый ключ в таблице
     auto it_start = statetab.begin();
     prefix pref = it_start->first;
-    // Сразу добавляем его слова в вывод
     for (const auto& w : pref) {
         output.push_back(w);
     }
-    // Генерация ровно maxgen следующих слов
     for (int i = 0; i < maxgen; ++i) {
         auto it = statetab.find(pref);
-        // Если нет суффиксов — берём случайный префикс с непустым списком
         if (it == statetab.end() || it->second.empty()) {
             do {
                 auto it2 = statetab.begin();
