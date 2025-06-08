@@ -1,8 +1,6 @@
 // Copyright 2024 StatsenkoArs
 
 #include "textgen.h"
-#include <vector>
-#include <string>
 
 Markov::Markov() { }
 Markov::~Markov() { }
