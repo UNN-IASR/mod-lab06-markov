@@ -1,4 +1,5 @@
 // include/textgen.h
+// Copyright 2025 ArriVeder4i
 #ifndef INCLUDE_TEXTGEN_H_
 #define INCLUDE_TEXTGEN_H_
 
