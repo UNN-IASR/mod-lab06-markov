@@ -1,6 +1,9 @@
 // Copyright 2024 StatsenkoArs
 
+#include <string>
+#include <fstream>
 #include "textgen.h"
+
 
 int main() {
     std::string line;
