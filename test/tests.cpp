@@ -1,10 +1,12 @@
 
 // Copyright 2024 StatsenkoArs
 
-#include <vector>
-#include <string>
-#include "textgen.h"
-#include <gtest/gtest.h>
+#include <gtest/gtest.h>  
+#include <vector>        
+#include <string>         
+
+#include "textgen.h"       
+
 
 TEST(gen_prefix, test1) {
     Markov chain;
