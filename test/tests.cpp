@@ -1,4 +1,9 @@
-// Copyright 2024 Korshunov Yuriy
+// Copyright 2024 
+
+#include <string>      
+#include <vector>       
+#include <map>         
+
 #include <gtest/gtest.h>
 #include "../include/textgen.h"
 
