@@ -1,3 +1,4 @@
+// Copyright 2025 ArriVeder4i
 // test/tests.cpp
 #include <gtest/gtest.h>
 #include <sstream>
