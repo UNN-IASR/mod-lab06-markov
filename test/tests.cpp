@@ -1,7 +1,5 @@
 // Copyright 2024
 
-// Copyright 2024
-
 #include <gtest/gtest.h>
 #include <string>
 #include <vector>
