@@ -1,5 +1,7 @@
 // Copyright 2024 StatsenkoArs
 
+#include <vector>
+#include <string>
 #include "textgen.h"
 
 Markov::Markov() { }
