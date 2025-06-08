@@ -1,4 +1,5 @@
 // src/main.cpp
+// Copyright 2025 ArriVeder4i
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -6,7 +7,7 @@
 #include "textgen.h"
 
 static const int NPREF = 2;
-static const int MAXGEN = 1000;
+static const int MAXGEN = 1500;
 
 int main() {
     std::srand(static_cast<unsigned>(std::time(nullptr)));
