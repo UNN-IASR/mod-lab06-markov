@@ -4,7 +4,6 @@
 #include <sstream>
 #include <string>     
 #include <iostream>
-
 #include "../include/textgen.h"
 
 int main() {
