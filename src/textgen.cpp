@@ -15,6 +15,7 @@ void build_prefix_map(std::istream& in,
         if (!(in >> word)) return;
         pref.push_back(word);
     }
+    // Основной цикл чтения
     while (in >> word) {
         statetab[pref].push_back(word);
         pref.pop_front();
@@ -27,17 +28,20 @@ std::vector<std::string> generate_text(
     std::vector<std::string> output;
     if (statetab.empty() || maxgen <= 0) return output;
 
+    // Начинаем всегда с первого ключа
     auto it_start = statetab.begin();
-    std::advance(it_start, static_cast<int>(std::rand() % statetab.size()));
-    std::deque<std::string> pref = it_start->first;
+    prefix pref = it_start->first;
+    for (const auto& w : pref) {
+        output.push_back(w);
+    }
 
-    std::copy(pref.begin(), pref.end(), std::back_inserter(output));
-
-    while (static_cast<int>(output.size()) < maxgen) {
+    // Генерируем до maxgen слов
+    for (int i = 0; i < maxgen; ++i) {
         auto it = statetab.find(pref);
         if (it == statetab.end() || it->second.empty()) {
+            // Если тупик, стартуем заново с случайного префикса
             auto it2 = statetab.begin();
-            std::advance(it2, static_cast<int>(std::rand() % statetab.size()));
+            std::advance(it2, std::rand() % statetab.size());
             pref = it2->first;
             continue;
         }
