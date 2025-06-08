@@ -1,10 +1,10 @@
-// Copyright 2024 
+// Copyright 2024
 
-#include <string>      
-#include <vector>       
-#include <map>         
-
+#include <map>
+#include <vector>
+#include <string>
 #include <gtest/gtest.h>
+
 #include "../include/textgen.h"
 
 TEST(test1, PrefixFormation) {
