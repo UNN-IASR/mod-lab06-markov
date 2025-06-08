@@ -2,6 +2,7 @@
 
 #include "textgen.h"
 #include <vector>
+#include <string>
 
 Markov::Markov() { }
 Markov::~Markov() { }
