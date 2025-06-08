@@ -1,4 +1,4 @@
-// Copyright 2025 <Your Name or Organization>
+// include/textgen.h
 #ifndef INCLUDE_TEXTGEN_H_
 #define INCLUDE_TEXTGEN_H_
 
