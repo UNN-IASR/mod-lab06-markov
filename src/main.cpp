@@ -1,4 +1,10 @@
-// Copyright 2024 Korshunov Yuriy
+// Copyright 2024 
+
+#include <fstream>     
+#include <sstream>      
+#include <string>       
+#include <iostream>     
+
 #include "../include/textgen.h"
 
 int main() {
