@@ -2,7 +2,8 @@
 
 #include <sstream>
 #include <string>
-
+#include <map>
+#include <vector>
 #include "../include/textgen.h"
 
 void Generator::Train(const std::string& text, int prefixSize) {
