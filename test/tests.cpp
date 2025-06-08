@@ -3,8 +3,8 @@
 
 #include <vector>
 #include <string>
-#include <gtest/gtest.h>
 #include "textgen.h"
+#include <gtest/gtest.h>
 
 TEST(gen_prefix, test1) {
     Markov chain;
