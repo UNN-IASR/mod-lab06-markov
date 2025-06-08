@@ -14,20 +14,17 @@ int main() {
     const std::string output_path = "gen.txt";
 
     std::srand(static_cast<unsigned>(std::time(nullptr)));
+
     std::ifstream infile(input_path);
     if (!infile) {
         std::cerr << "Error opening input file: " << input_path << '\n';
         return 1;
     }
 
-    statetab_t statetab;
-    build_prefix_map(infile, statetab, NPREF);
-    if (statetab.empty()) {
-        std::cerr << "No prefixes loaded. Check input content.\n";
-        return 1;
-    }
+    statetab_t tab;
+    build_prefix_map(infile, tab, NPREF);
 
-    auto words = generate_text(statetab, NPREF, MAXGEN);
+    auto words = generate_text(tab, NPREF, MAXGEN);
 
     std::ofstream outfile(output_path);
     if (!outfile) {
