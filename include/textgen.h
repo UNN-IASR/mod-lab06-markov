@@ -1,42 +1,24 @@
-// Copyright 2024 StatsenkoArs
+// Copyright 2024 Korshunov Yuriy
 
-#ifndef INCLUDE_TEXTGEN_H_
-#define INCLUDE_TEXTGEN_H_
+#pragma once
 
-
+#include <stdlib.h>
+#include<string>
+#include<deque>
+#include<map>
+#include<vector>
 #include <fstream>
-#include <string>
-#include <vector>
-#include <deque>
-#include <map>
-#include <ctime>
-#include <random>
+#include <sstream>
+#include<iostream>
 
-const int NPREF = 2;  // количество слов в префиксе
-const int MAXGEN = 1000;  // объем текста на выходе
-typedef std::deque<std::string> prefix;  // очередь префиксов
+typedef std::deque<std::string> Prefix;
 
-class Markov {
+class Generator {
+ private:
+    std::map<Prefix, std::vector<std::string>> chain;
  public:
-    Markov();
-
-    ~Markov();
-
-    std::map<prefix, std::vector<std::string>> statetab;  // префикс-суффиксы
-
-    std::vector<std::string> mySplit(std::string, char);
-
-    std::string gen(std::string text);
-
-    void gen_tab(std::string, int);
-
-    prefix gen_pre(std::vector<std::string>, int, int);
-
-    std::string gen_text(int);
-
-    std::string pick_next(prefix);
-
-    std::string prefixToString(prefix);
+    void Train(const std::string& text, int prefixSize);
+    std::string Generate(int length, unsigned int seed = time(NULL));
+    std::map<Prefix, std::vector<std::string>> getChain();
+    void setChain(std::map<Prefix, std::vector<std::string>> _chain);
 };
-
-#endif  // INCLUDE_TEXTGEN_H_
