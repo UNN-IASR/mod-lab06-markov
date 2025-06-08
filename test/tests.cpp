@@ -2,6 +2,8 @@
 
 #include <gtest/gtest.h>
 #include "textgen.h"
+#include <vector>
+#include <string>
 
 TEST(gen_prefix, test1) {
     Markov chain;
