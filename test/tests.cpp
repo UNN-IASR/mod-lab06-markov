@@ -1,11 +1,14 @@
 // Copyright 2024
 
-#include <map>
-#include <vector>
-#include <string>
-#include <gtest/gtest.h>
+// Copyright 2024
 
-#include "../include/textgen.h"
+#include <gtest/gtest.h>
+#include <string>
+#include <vector>
+#include <map>
+
+#include "../include/textgen.h" // твой проект
+
 
 TEST(test1, PrefixFormation) {
     Generator generator;
