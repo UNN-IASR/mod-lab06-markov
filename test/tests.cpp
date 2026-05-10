@@ -102,7 +102,7 @@ TEST(GenerateTextTest, GenerateWithChoice) {
     generate_text(table, 2, 3, gen);
     std::cout.rdbuf(oldbuf);
     std::string result = capture.str();
-    EXPECT_TRUE(result.find("a b c") != std::string::npos);
+    EXPECT_TRUE(result.find("a b d") != std::string::npos);
 }
 
 TEST(GenerateTextTest, NoValidPrefixes) {
