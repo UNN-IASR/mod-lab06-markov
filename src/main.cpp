@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <random>
 #include "../include/textgen.h"
 
 const int NPREF = 2;
@@ -15,6 +16,8 @@ int main(int argc, char* argv[]) {
     }
     statetab table;
     build_table(input, table, NPREF);
-    generate_text(table, NPREF, MAXGEN);
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    generate_text(table, NPREF, MAXGEN, gen);
     return 0;
 }
