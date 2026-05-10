@@ -13,7 +13,7 @@
 typedef std::deque<std::string> prefix;
 typedef std::map<prefix, std::vector<std::string> > statetab;
 
-void build_table(std::ifstream& input, statetab& table, int npref) {
+void build_table(std::istream& input, statetab& table, int npref) {
     prefix pref;
     std::string word;
     while (input >> word) {

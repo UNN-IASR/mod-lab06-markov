@@ -1,12 +1,13 @@
 //Copyright 2026 EnganK
 
 #include <gtest/gtest.h>
-#include "../include/textgen.h"
 #include <deque>
 #include <map>
 #include <vector>
 #include <string>
 #include <sstream>
+#include <iostream>
+#include "../include/textgen.h"
 
 TEST(BuildTableTest, SinglePrefix) {
     std::istringstream input("a b c");
@@ -127,7 +128,9 @@ TEST(GenerateTextTest, GenerateWithChoice) {
 
     std::cout.rdbuf(oldbuf);
     std::string result = capture.str();
-    EXPECT_TRUE(result.find("a b c") != std::string::npos || result.find("a b d") != std::string::npos);
+    EXPECT_TRUE(
+        result.find("a b c") != std::string::npos ||
+        result.find("a b d") != std::string::npos);
 }
 
 TEST(GenerateTextTest, NoValidPrefixes) {
