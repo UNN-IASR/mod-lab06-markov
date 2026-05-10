@@ -49,7 +49,7 @@ void generate_text(statetab& table, int npref, int maxgen) {
     }
 
     int count = npref;
-    while (count < maxgen) {
+    while (count <= maxgen) {
         auto it = table.find(pref);
         if (it == table.end() || it->second.empty()) break;
 
