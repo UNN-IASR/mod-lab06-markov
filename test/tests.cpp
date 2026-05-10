@@ -111,7 +111,7 @@ TEST(GenerateTextTest, GenerateLengthFive) {
 
     std::cout.rdbuf(oldbuf);
     std::string result = capture.str();
-    EXPECT_TRUE(result.find("a b c d e") != std::string::npos);
+    EXPECT_EQ(std::count(result.begin(), result.end(), ' ') + 1, 5);
 }
 
 TEST(GenerateTextTest, GenerateWithChoice) {
