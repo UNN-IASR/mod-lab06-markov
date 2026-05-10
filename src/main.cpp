@@ -7,7 +7,7 @@ int main() {
 
     std::ifstream file("input.txt");
     if (!file.is_open()) {
-        std::cerr << "Error: Place 'input.txt' in the working directory." << std::endl;
+        std::cerr << "Положите 'input.txt' в каталог" << std::endl;
         return 1;
     }
 
@@ -20,10 +20,10 @@ int main() {
 
     if (!out.is_open()) {
         out.open("gen.txt");
-        std::cout << "Warning: folder 'result' not found in root. Saved to current folder." << std::endl;
+        std::cout << "'result' не найдена в корне" << std::endl;
     }
     else {
-        std::cout << "Success! Text saved to result/gen.txt" << std::endl;
+        std::cout << "Сохранено в result/gen.txt" << std::endl;
     }
 
     out << final_text;

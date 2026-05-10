@@ -10,7 +10,7 @@ void TextGen::clear() {
 }
 
 void TextGen::readText(std::istream& in) {
-    statetab.clear(); 
+    statetab.clear();
     prefix pref;
     std::string word;
 
@@ -18,13 +18,13 @@ void TextGen::readText(std::istream& in) {
         if (in >> word) {
             pref.push_back(word);
         } else {
-            return; 
+            return;
         }
     }
 
     while (in >> word) {
         std::vector<std::string>& suffixes = statetab[pref];
-        
+
         bool found = false;
         for (size_t i = 0; i < suffixes.size(); ++i) {
             if (suffixes[i] == word) {
@@ -32,11 +32,11 @@ void TextGen::readText(std::istream& in) {
                 break;
             }
         }
-        
+
         if (!found) {
             suffixes.push_back(word);
         }
-        
+
         pref.pop_front();
         pref.push_back(word);
     }
@@ -47,12 +47,14 @@ std::string TextGen::generate(int nwords) {
 
     std::string result = "";
     std::mt19937 gen(static_cast<unsigned int>(std::time(0)));
-    
+
     std::map<prefix, std::vector<std::string>>::iterator it = statetab.begin();
-    std::advance(it, std::uniform_int_distribution<>(0, statetab.size() - 1)(gen));
+    std::advance(it, 
+        std::uniform_int_distribution<>(0, statetab.size() - 1)(gen));
     prefix pref = it->first;
 
-    for (std::deque<std::string>::const_iterator s = pref.begin(); s != pref.end(); ++s) {
+    for (std::deque<std::string>::const_iterator s = pref.begin(); 
+    s != pref.end(); ++s) {
         if (!result.empty()) result += " ";
         result += *s;
     }
@@ -63,7 +65,7 @@ std::string TextGen::generate(int nwords) {
 
     while (words_generated < nwords && attempts < max_attempts) {
         attempts++;
-        
+
         if (statetab.find(pref) == statetab.end() || statetab[pref].empty()) {
             std::map<prefix, std::vector<std::string>>::iterator random_it = statetab.begin();
             std::advance(random_it, std::uniform_int_distribution<>(0, statetab.size() - 1)(gen));
@@ -81,6 +83,6 @@ std::string TextGen::generate(int nwords) {
         pref.pop_front();
         pref.push_back(suffix);
     }
-    
+
     return result;
 }

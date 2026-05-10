@@ -39,14 +39,16 @@ TEST_F(TextGenTest, SingleSuffixTest) {
 }
 
 TEST_F(TextGenTest, MultipleSuffixesTest) {
-    std::istringstream iss("I love Masha I love Kirill I love Garden");
+    std::istringstream 
+    iss("I love Masha I love Kirill I love Garden");
     gen.readText(iss);
     std::deque<std::string> key = { "I", "love" };
     EXPECT_GE(gen.statetab[key].size(), 2);
 }
 
 TEST_F(TextGenTest, ExactLengthCharTest) {
-    std::istringstream iss("It's like a long text yeah, it's actually very long");
+    std::istringstream 
+    iss("It's like a long text yeah, it's actually very long");
     gen.readText(iss);
     std::string result = gen.generate(50);
     EXPECT_GE(result.length(), 50);
