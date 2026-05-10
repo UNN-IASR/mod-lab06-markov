@@ -119,3 +119,31 @@ TEST(GenerateTextTest, PrefixSizeMismatch) {
     std::mt19937 gen(42);
     generate_text(table, 2, 5, gen);
 }
+
+TEST(GenerateTextTest, DeterministicOutputWithFixedSeed) {
+    statetab table;
+    prefix p;
+    p.push_back("x");
+    p.push_back("y");
+    table[p] = { "z", "w" };
+    p.clear();
+    p.push_back("y");
+    p.push_back("z");
+    table[p] = { "a" };
+    p.clear();
+    p.push_back("y");
+    p.push_back("w");
+    table[p] = { "b" };
+
+    std::ostringstream capture1, capture2;
+    std::streambuf* oldbuf = std::cout.rdbuf();
+    std::cout.rdbuf(capture1.rdbuf());
+    std::mt19937 gen1(12345);
+    generate_text(table, 2, 4, gen1);
+    std::cout.rdbuf(capture2.rdbuf());
+    std::mt19937 gen2(12345);
+    generate_text(table, 2, 4, gen2);
+    std::cout.rdbuf(oldbuf);
+
+    EXPECT_EQ(capture1.str(), capture2.str());
+}
