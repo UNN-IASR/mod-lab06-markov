@@ -100,11 +100,13 @@ TEST(GenerateTextTest, GenerateLengthFive) {
     p.push_back("e");
     table[p] = { "f" };
 
-    std::ostringstream output;
-    std::streambuf* oldbuf = std::cout.rdbuf();
     std::ostringstream capture;
+    std::streambuf* oldbuf = std::cout.rdbuf();
     std::cout.rdbuf(capture.rdbuf());
 
+    prefix start;
+    start.push_back("a");
+    start.push_back("b");
     generate_text(table, 2, 5);
 
     std::cout.rdbuf(oldbuf);
