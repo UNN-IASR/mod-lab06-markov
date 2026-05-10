@@ -1,9 +1,11 @@
 // Copyright 2021 GHA Test Team
-#include "textgen.h"
+#include <gtest/gtest.h>
+
 #include <deque>
 #include <sstream>
 #include <string>
-#include <gtest/gtest.h>
+
+#include "textgen.h"
 
 class TextGenTest : public ::testing::Test {
  protected:
