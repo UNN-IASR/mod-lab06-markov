@@ -1,7 +1,8 @@
-#include "textgen.h"
+// Copyright 2021 GHA Test Team
 #include <random>
 #include <ctime>
 #include <algorithm>
+#include "textgen.h"
 
 const int TextGen::NPREF;
 

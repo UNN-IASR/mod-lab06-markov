@@ -1,10 +1,12 @@
 // Copyright 2021 GHA Test Team
+#include <sstream>
+#include <deque>
+#include <string>
 #include <gtest/gtest.h>
 #include "textgen.h"
-#include <sstream>
 
 class TextGenTest : public ::testing::Test {
-protected:
+ protected:
     TextGen gen;
 };
 
@@ -30,16 +32,16 @@ TEST_F(TextGenTest, SingleSuffixTest) {
     std::istringstream iss("apple banana orange");
     gen.readText(iss);
     std::deque<std::string> key = { "apple", "banana" };
-    
+
     EXPECT_EQ(gen.statetab[key].size(), 1);
     EXPECT_EQ(gen.statetab[key][0], "orange");
-    
+
     std::string result = gen.generate(3);
     EXPECT_EQ(result, "apple banana orange");
 }
 
 TEST_F(TextGenTest, MultipleSuffixesTest) {
-    std::istringstream 
+    std::istringstream
     iss("I love Masha I love Kirill I love Garden");
     gen.readText(iss);
     std::deque<std::string> key = { "I", "love" };
@@ -47,7 +49,7 @@ TEST_F(TextGenTest, MultipleSuffixesTest) {
 }
 
 TEST_F(TextGenTest, ExactLengthCharTest) {
-    std::istringstream 
+    std::istringstream
     iss("It's like a long text yeah, it's actually very long");
     gen.readText(iss);
     std::string result = gen.generate(50);

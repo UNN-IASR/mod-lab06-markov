@@ -1,6 +1,8 @@
-#include "textgen.h"
+// Copyright 2021 GHA Test Team
 #include <fstream>
 #include <iostream>
+#include <string>
+#include "textgen.h"
 
 int main() {
     TextGen gen;
@@ -21,8 +23,7 @@ int main() {
     if (!out.is_open()) {
         out.open("gen.txt");
         std::cout << "'result' не найдена в корне" << std::endl;
-    }
-    else {
+    } else {
         std::cout << "Сохранено в result/gen.txt" << std::endl;
     }
 
