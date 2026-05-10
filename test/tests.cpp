@@ -1,11 +1,14 @@
+//Copyright 2026 EnganK
+
 #include <gtest/gtest.h>
-#include "../include/textgen.h"
 #include <deque>
 #include <map>
 #include <vector>
 #include <string>
 #include <sstream>
 #include <random>
+#include <iostream>
+#include "../include/textgen.h"
 
 TEST(BuildTableTest, SinglePrefix) {
     std::istringstream input("a b c");
@@ -95,7 +98,7 @@ TEST(GenerateTextTest, GenerateWithChoice) {
     std::ostringstream capture;
     std::streambuf* oldbuf = std::cout.rdbuf();
     std::cout.rdbuf(capture.rdbuf());
-    std::mt19937 gen(42);
+    std::mt19937 gen(0);
     generate_text(table, 2, 3, gen);
     std::cout.rdbuf(oldbuf);
     std::string result = capture.str();
