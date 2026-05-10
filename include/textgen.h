@@ -1,3 +1,4 @@
+// Copyright 2021 GHA Test Team
 #pragma once
 #include <iostream>
 #include <string>
@@ -8,7 +9,7 @@
 typedef std::deque<std::string> prefix;
 
 class TextGen {
-public:
+ public:
     static const int NPREF = 2;
 
     std::map<prefix, std::vector<std::string>> statetab;
