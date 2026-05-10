@@ -111,7 +111,7 @@ TEST(GenerateTextTest, GenerateLengthFive) {
 
     std::cout.rdbuf(oldbuf);
     std::string result = capture.str();
-    EXPECT_EQ(std::count(result.begin(), result.end(), ' '), 5);
+    EXPECT_EQ(std::count(result.begin(), result.end(), ' ') + 1, 5);
 }
 
 TEST(GenerateTextTest, GenerateWithChoice) {
