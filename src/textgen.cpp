@@ -1,3 +1,5 @@
+//Copyright 2026 EnganK
+
 #include "../include/textgen.h"
 #include <iostream>
 #include <fstream>

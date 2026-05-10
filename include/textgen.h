@@ -1,3 +1,5 @@
+//Copyright 2026 EnganK
+
 #pragma once
 #ifndef TEXTGEN_H
 #define TEXTGEN_H

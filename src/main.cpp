@@ -1,16 +1,15 @@
-#include "../include/textgen.h"
+//Copyright 2026 EnganK
+
 #include <fstream>
 #include <iostream>
-#include <filesystem>
+#include "../include/textgen.h"
 
 const int NPREF = 2;
 const int MAXGEN = 1000;
 
 int main(int argc, char* argv[]) {
-    std::cout << "ѕытаемс€ открыть: " << std::filesystem::absolute("../src/input.txt") << "\n";
     std::ifstream input("../src/input.txt");
-    if (!input)
-    {
+    if (!input) {
         std::cout << "Can't find file";
         return 0;
     }

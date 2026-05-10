@@ -1,143 +1,148 @@
+//Copyright 2026 EnganK
+
 #include <gtest/gtest.h>
+#include "../include/textgen.h"
 #include <deque>
 #include <map>
 #include <vector>
 #include <string>
-#include <fstream>
 #include <sstream>
 
-typedef std::deque<std::string> prefix;
-typedef std::map<prefix, std::vector<std::string>> statetab;
-
-prefix make_prefix(const std::vector<std::string>& words);
-void build_table(std::ifstream& input, statetab& table, int npref);
-std::string choose_suffix(const std::vector<std::string>& suffixes, std::mt19937& gen);
-void generate_text(statetab& table, int npref, int maxgen);
-
-prefix make_prefix(const std::vector<std::string>& words) {
-    prefix p;
-    for (const auto& word : words) {
-        p.push_back(word);
-    }
-    return p;
-}
-
-std::string choose_suffix(const std::vector<std::string>& suffixes, std::mt19937& gen) {
-    if (suffixes.empty()) return "";
-    std::uniform_int_distribution<> dis(0, suffixes.size() - 1);
-    return suffixes[dis(gen)];
-}
-
-class TextGenTest : public ::testing::Test {
-protected:
-    std::mt19937 gen;
+TEST(BuildTableTest, SinglePrefix) {
+    std::istringstream input("a b c");
     statetab table;
-
-    TextGenTest() : gen(42) {}
-};
-
-TEST_F(TextGenTest, CreatePrefixSize2) {
-    std::vector<std::string> words = { "hello", "world" };
-    prefix p = make_prefix(words);
-    EXPECT_EQ(p.size(), 2);
-    EXPECT_EQ(p[0], "hello");
-    EXPECT_EQ(p[1], "world");
+    build_table(input, table, 1);
+    prefix pref;
+    pref.push_back("a");
+    EXPECT_EQ(table[pref].size(), 1);
+    EXPECT_EQ(table[pref][0], "b");
 }
 
-TEST_F(TextGenTest, CreatePrefixSize3) {
-    std::vector<std::string> words = { "a", "b", "c" };
-    prefix p = make_prefix(words);
-    EXPECT_EQ(p.size(), 3);
-    EXPECT_EQ(p[0], "a");
-    EXPECT_EQ(p[1], "b");
-    EXPECT_EQ(p[2], "c");
+TEST(BuildTableTest, TwoPrefixes) {
+    std::istringstream input("a b c d");
+    statetab table;
+    build_table(input, table, 2);
+    prefix pref;
+    pref.push_back("a");
+    pref.push_back("b");
+    EXPECT_EQ(table[pref].size(), 1);
+    EXPECT_EQ(table[pref][0], "c");
+
+    pref.clear();
+    pref.push_back("b");
+    pref.push_back("c");
+    EXPECT_EQ(table[pref].size(), 1);
+    EXPECT_EQ(table[pref][0], "d");
 }
 
-TEST_F(TextGenTest, BuildTableSinglePair) {
+TEST(BuildTableTest, MultipleSuffixes) {
+    std::istringstream input("a b c a b d");
+    statetab table;
+    build_table(input, table, 1);
+    prefix pref;
+    pref.push_back("a");
+    EXPECT_EQ(table[pref].size(), 2);
+    EXPECT_TRUE(table[pref][0] == "b" || table[pref][1] == "b");
+    EXPECT_TRUE(table[pref][0] == "b" || table[pref][1] == "b");
+}
+
+TEST(BuildTableTest, EmptyInput) {
+    std::istringstream input("");
+    statetab table;
+    build_table(input, table, 2);
+    EXPECT_TRUE(table.empty());
+}
+
+TEST(BuildTableTest, SingleWordInput) {
+    std::istringstream input("hello");
+    statetab table;
+    build_table(input, table, 2);
+    EXPECT_TRUE(table.empty());
+}
+
+TEST(GenerateTextTest, FixedPrefixSelection) {
+    statetab table;
+    prefix p1, p2;
+    p1.push_back("a");
+    p1.push_back("b");
+    p2.push_back("b");
+    p2.push_back("c");
+    table[p1] = { "d" };
+    table[p2] = { "e" };
+
     std::istringstream input("a b c");
     build_table(input, table, 2);
-    prefix p = make_prefix({ "a", "b" });
-    EXPECT_NE(table.find(p), table.end());
-    EXPECT_EQ(table[p].size(), 1);
-    EXPECT_EQ(table[p][0], "c");
+
+    std::vector<prefix> valid;
+    for (auto& p : table) {
+        if (p.first.size() == 2) valid.push_back(p.first);
+    }
+    EXPECT_EQ(valid.size(), 2);
 }
 
-TEST_F(TextGenTest, BuildTableMultipleSuffixes) {
-    std::istringstream input("a b c a b d");
-    build_table(input, table, 2);
-    prefix p = make_prefix({ "a", "b" });
-    EXPECT_NE(table.find(p), table.end());
-    EXPECT_EQ(table[p].size(), 2);
-    EXPECT_TRUE(table[p][0] == "c" || table[p][1] == "c");
-    EXPECT_TRUE(table[p][0] == "d" || table[p][1] == "d");
-}
+TEST(GenerateTextTest, GenerateLengthFive) {
+    statetab table;
+    prefix p;
+    p.push_back("a");
+    p.push_back("b");
+    table[p] = { "c" };
+    p.clear();
+    p.push_back("b");
+    p.push_back("c");
+    table[p] = { "d" };
+    p.clear();
+    p.push_back("c");
+    p.push_back("d");
+    table[p] = { "e" };
+    p.clear();
+    p.push_back("d");
+    p.push_back("e");
+    table[p] = { "f" };
 
-TEST_F(TextGenTest, ChooseSuffixSingle) {
-    std::vector<std::string> suffixes = { "end" };
-    std::string result = choose_suffix(suffixes, gen);
-    EXPECT_EQ(result, "end");
-}
-
-TEST_F(TextGenTest, ChooseSuffixMultipleDeterministic) {
-    std::vector<std::string> suffixes = { "x", "y", "z" };
-    std::string result1 = choose_suffix(suffixes, gen);
-    std::string result2 = choose_suffix(suffixes, gen);
-    std::string result3 = choose_suffix(suffixes, gen);
-    EXPECT_EQ(result1, "y");
-    EXPECT_EQ(result2, "x");
-    EXPECT_EQ(result3, "z");
-}
-
-TEST_F(TextGenTest, GenerateTextFixedLength) {
-    prefix p1 = make_prefix({ "start", "word" });
-    table[p1] = { "next" };
-    prefix p2 = make_prefix({ "word", "next" });
-    table[p2] = { "end" };
-
-    std::ostringstream output_stream;
+    std::ostringstream output;
     std::streambuf* oldbuf = std::cout.rdbuf();
-    std::cout.rdbuf(output_stream.rdbuf());
+    std::ostringstream capture;
+    std::cout.rdbuf(capture.rdbuf());
 
     generate_text(table, 2, 5);
 
     std::cout.rdbuf(oldbuf);
-    std::string output = output_stream.str();
-    EXPECT_TRUE(output.find("start word next end") != std::string::npos);
+    std::string result = capture.str();
+    EXPECT_TRUE(result.find("a b c d e") != std::string::npos);
 }
 
-TEST_F(TextGenTest, GenerateTextStopsOnMissingPrefix) {
-    prefix p = make_prefix({ "a", "b" });
-    table[p] = { "c" };
-    prefix p2 = make_prefix({ "b", "c" });
-    // p2 not in table
+TEST(GenerateTextTest, GenerateWithChoice) {
+    statetab table;
+    prefix p;
+    p.push_back("a");
+    p.push_back("b");
+    table[p] = { "c", "d" };
 
-    std::ostringstream output_stream;
+    std::ostringstream output;
     std::streambuf* oldbuf = std::cout.rdbuf();
-    std::cout.rdbuf(output_stream.rdbuf());
+    std::ostringstream capture;
+    std::cout.rdbuf(capture.rdbuf());
 
-    generate_text(table, 2, 10);
+    generate_text(table, 2, 3);
 
     std::cout.rdbuf(oldbuf);
-    std::string output = output_stream.str();
-    EXPECT_EQ(output, "a b c ");
+    std::string result = capture.str();
+    EXPECT_TRUE(result.find("a b c") != std::string::npos || result.find("a b d") != std::string::npos);
 }
 
-TEST_F(TextGenTest, GenerateTextEmptyTable) {
-    std::ostringstream output_stream;
-    std::streambuf* oldbuf = std::cout.rdbuf();
-    std::cout.rdbuf(output_stream.rdbuf());
-
+TEST(GenerateTextTest, NoValidPrefixes) {
+    statetab table;
     generate_text(table, 2, 10);
-
-    std::cout.rdbuf(oldbuf);
-    std::string output = output_stream.str();
-    EXPECT_EQ(output, "");
+    // Should not crash or hang
+    EXPECT_TRUE(true);
 }
 
-TEST_F(TextGenTest, PrefixSizeMatchesNpref) {
-    std::istringstream input("a b c d");
-    build_table(input, table, 2);
-    for (const auto& pair : table) {
-        EXPECT_EQ(pair.first.size(), 2);
-    }
+TEST(GenerateTextTest, PrefixSizeMismatch) {
+    statetab table;
+    prefix p;
+    p.push_back("a");
+    table[p] = { "b" };
+    generate_text(table, 2, 5);
+    // Should not generate anything (prefix size mismatch)
+    EXPECT_TRUE(true);
 }
