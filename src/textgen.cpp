@@ -3,7 +3,6 @@
 #include "../include/textgen.h"
 #include <iostream>
 #include <fstream>
-#include <locale>
 #include <deque>
 #include <map>
 #include <vector>
@@ -26,7 +25,6 @@ void build_table(std::istream& input, statetab& table, int npref) {
 }
 
 void generate_text(statetab& table, int npref, int maxgen) {
-    std::locale::global(std::locale("ru_RU.UTF-8"));
     std::random_device rd;
     std::mt19937 gen(rd());
     prefix pref;
