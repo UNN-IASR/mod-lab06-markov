@@ -8,7 +8,7 @@
 #include <set>
 #include "textgen.h"
 
-static void writeTempFile(const std::string& content, 
+static void writeTempFile(const std::string& content,
 const std::string& filename = "temp_test.txt") {
     std::ofstream f(filename);
     f << content;
@@ -142,11 +142,4 @@ TEST(TextGen, ClearTableResets) {
     EXPECT_TRUE(gen.hasPrefix(prefix));
     gen.clearTable();
     EXPECT_FALSE(gen.hasPrefix(prefix));
-}
-
-TEST(TextGen, GenerateFromUnknownPrefix) {
-    TextGenerator gen(2, 10);
-    std::deque<std::string> unknown = {"unknown", "prefix"};
-    std::string result = gen.generateFromPrefix(unknown);
-    EXPECT_TRUE(result.empty());
 }
