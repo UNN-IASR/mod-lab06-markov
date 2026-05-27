@@ -1,197 +1,143 @@
-// Copyright 2021 GHA Test Team
-#include <cassert>
+// Copyright 2026 Belev Timur
 
-#include <deque>
-#include <iostream>
-#include <sstream>
+#include <gtest/gtest.h>
+#include <fstream>
+#include <random>
 #include <string>
-#include <vector>
+#include <deque>
+#include <set>
+#include "textgen.h"
 
-#include "../include/textgen.h"
+static void writeTempFile(const std::string& content, const std::string& filename = "temp_test.txt") {
+    std::ofstream f(filename);
+    f << content;
+    f.close();
+}
 
-using Prefix = std::deque<std::string>;
+TEST(TextGen, CorrectNumberOfWords) {
+    TextGenerator gen(3, 10);
+    writeTempFile("a b c d e f");
+    gen.loadText("temp_test.txt");
+    std::string result = gen.generate();
+    std::deque<std::string> words;
+    std::stringstream ss(result);
+    std::string w;
+    for (int i = 0; i < 3 && ss >> w; ++i) words.push_back(w);
+    EXPECT_EQ(words.size(), 3);
+    EXPECT_TRUE(gen.hasPrefix(words));
+    std::remove("temp_test.txt");
+}
 
-void test_prefix_creation() {
-    std::cout << "Test 1: Prefix creation\n";
-    TextGenerator gen(2, 100);
-
-    Prefix prefix;
-    prefix.push_back("hello");
-    prefix.push_back("world");
-
+TEST(TextGen, SingleMapping) {
+    TextGenerator gen(2, 10);
+    std::deque<std::string> prefix = { "hello", "world" };
     gen.addSuffix(prefix, "test");
-
-    assert(gen.hasPrefix(prefix));
-    std::cout << "  PASSED\n";
-}
-
-void test_prefix_suffix_record() {
-    std::cout << "Test 2: Prefix-suffix record creation\n";
-    TextGenerator gen(2, 100);
-
-    Prefix prefix;
-    prefix.push_back("hello");
-    prefix.push_back("world");
-
-    gen.addSuffix(prefix, "test");
     auto suffixes = gen.getSuffixes(prefix);
-
-    assert(suffixes.size() == 1);
-    assert(suffixes[0] == "test");
-    std::cout << "  PASSED\n";
+    ASSERT_EQ(suffixes.size(), 1);
+    EXPECT_EQ(suffixes[0], "test");
 }
 
-void test_single_suffix_selection() {
-    std::cout << "Test 3: Single suffix selection (using RNG)\n";
-    TextGenerator gen(2, 100);
-
-    Prefix prefix;
-    prefix.push_back("cat");
-    prefix.push_back("sat");
-
-    gen.addSuffix(prefix, "on");
-    auto suffixes = gen.getSuffixes(prefix);
-
-    assert(suffixes.size() == 1);
-    assert(suffixes[0] == "on");
-    std::cout << "  PASSED\n";
-}
-
-void test_multiple_suffix_selection() {
-    std::cout << "Test 4: Multiple suffix selection (using RNG)\n";
-    TextGenerator gen(2, 100);
-
-    Prefix prefix;
-    prefix.push_back("the");
-    prefix.push_back("dog");
-
-    gen.addSuffix(prefix, "ran");
-    gen.addSuffix(prefix, "jumped");
-    gen.addSuffix(prefix, "walked");
-
-    auto suffixes = gen.getSuffixes(prefix);
-    assert(suffixes.size() == 3);
-
-    bool found1 = false, found2 = false, found3 = false;
-    for (int i = 0; i < 50; ++i) {
-        auto result = gen.generateFromPrefix(prefix);
-        if (result.find("ran") != std::string::npos) found1 = true;
-        if (result.find("jumped") != std::string::npos) found2 = true;
-        if (result.find("walked") != std::string::npos) found3 = true;
-        if (found1 && found2 && found3) break;
-    }
-
-    assert(found1 && found2 && found3);
-    std::cout << "  PASSED\n";
-}
-
-void test_text_generation_fixed_length() {
-    std::cout << "Test 5: Text generation with fixed length (manual table)\n";
+TEST(TextGen, SingleSuffix) {
     TextGenerator gen(2, 5);
-
-    Prefix p1, p2, p3;
-    p1.push_back("I"); p1.push_back("am");
-    p2.push_back("am"); p2.push_back("very");
-    p3.push_back("very"); p3.push_back("happy");
-
-    gen.addSuffix(p1, "very");
-    gen.addSuffix(p2, "happy");
-    gen.addSuffix(p3, "today");
-
-    std::string result = gen.generateFromPrefix(p1);
-
-    assert(!result.empty());
-    std::cout << "  Generated: " << result << "\n";
-    std::cout << "  PASSED\n";
-}
-
-void test_different_prefix_sizes() {
-    std::cout << "Test 6: Different prefix sizes\n";
-    TextGenerator gen3(3, 100);
-
-    Prefix prefix;
-    prefix.push_back("one");
-    prefix.push_back("two");
-    prefix.push_back("three");
-
-    gen3.addSuffix(prefix, "four");
-
-    assert(gen3.hasPrefix(prefix));
-    std::cout << "  PASSED\n";
-}
-
-void test_empty_table() {
-    std::cout << "Test 7: Empty table handling\n";
-    TextGenerator gen(2, 100);
-
-    bool exceptionCaught = false;
-    try {
-        gen.generate();
+    std::deque<std::string> prefix = { "foo", "bar" };
+    gen.addSuffix(prefix, "baz");
+    for (int i = 0; i < 10; ++i) {
+        std::string result = gen.generateFromPrefix(prefix);
+        EXPECT_EQ(result.substr(0, 11), "foo bar baz");
     }
-    catch (const std::runtime_error&) {
-        exceptionCaught = true;
+}
+
+TEST(TextGen, MultipleSuffixesRandom) {
+    TextGenerator gen(2, 10);
+    std::deque<std::string> prefix = { "color", "is" };
+    gen.addSuffix(prefix, "red");
+    gen.addSuffix(prefix, "green");
+    gen.addSuffix(prefix, "blue");
+    std::set<std::string> seen;
+    for (int i = 0; i < 50; ++i) {
+        std::string result = gen.generateFromPrefix(prefix);
+        std::stringstream ss(result);
+        std::string w1, w2, suffix;
+        ss >> w1 >> w2 >> suffix;
+        if (!suffix.empty()) seen.insert(suffix);
+        if (seen.size() == 3) break;
     }
-
-    assert(exceptionCaught);
-    std::cout << "  PASSED\n";
+    EXPECT_EQ(seen.size(), 3);
 }
 
-void test_clear_table() {
-    std::cout << "Test 8: Clear table functionality\n";
-    TextGenerator gen(2, 100);
-
-    Prefix prefix;
-    prefix.push_back("test");
-    prefix.push_back("word");
-
-    gen.addSuffix(prefix, "suffix");
-    assert(gen.hasPrefix(prefix));
-
-    gen.clearTable();
-    assert(!gen.hasPrefix(prefix));
-    std::cout << "  PASSED\n";
-}
-
-void test_multiple_suffixes_same_prefix() {
-    std::cout << "Test 9: Multiple suffixes for same prefix\n";
-    TextGenerator gen(2, 100);
-
-    Prefix prefix;
-    prefix.push_back("to");
-    prefix.push_back("be");
-
-    gen.addSuffix(prefix, "or");
-    gen.addSuffix(prefix, "and");
-    gen.addSuffix(prefix, "but");
-
-    auto suffixes = gen.getSuffixes(prefix);
-    assert(suffixes.size() == 3);
-    assert(suffixes[0] == "or");
-    assert(suffixes[1] == "and");
-    assert(suffixes[2] == "but");
-    std::cout << "  PASSED\n";
-}
-
-void test_generation_limit() {
-    std::cout << "Test 10: Generation respects MAXGEN limit\n";
-    TextGenerator gen(2, 3);
-
-    Prefix p1, p2, p3, p4;
-    p1.push_back("a"); p1.push_back("b");
-    p2.push_back("b"); p2.push_back("c");
-    p3.push_back("c"); p3.push_back("d");
-    p4.push_back("d"); p4.push_back("e");
-
-    gen.addSuffix(p1, "c");
-    gen.addSuffix(p2, "d");
-    gen.addSuffix(p3, "e");
-    gen.addSuffix(p4, "f");
-
+TEST(TextGen, FixedLengthFromManualTable) {
+    TextGenerator gen(2, 5);
+    std::deque<std::string> p1 = { "I", "like" };
+    std::deque<std::string> p2 = { "like", "to" };
+    std::deque<std::string> p3 = { "to", "eat" };
+    std::deque<std::string> p4 = { "eat", "apples" };
+    gen.addSuffix(p1, "to");
+    gen.addSuffix(p2, "eat");
+    gen.addSuffix(p3, "apples");
+    gen.addSuffix(p4, ".");
     std::string result = gen.generateFromPrefix(p1);
     std::stringstream ss(result);
-    std::string word;
     int wordCount = 0;
-    while (ss >> word) wordCount++;
-    assert(wordCount <= 5);
-    std::cout << "  PASSED\n";
+    std::string word;
+    while (ss >> word) ++wordCount;
+    EXPECT_GE(wordCount, 5);
+    EXPECT_LE(wordCount, 7);
+}
+
+TEST(TextGen, EmptyInputFile) {
+    TextGenerator gen(2, 10);
+    writeTempFile("");
+    gen.loadText("temp_test.txt");
+    EXPECT_EQ(gen.generate(), "");
+    std::remove("temp_test.txt");
+}
+
+TEST(TextGen, TextShorterThanPrefix) {
+    TextGenerator gen(3, 10);
+    writeTempFile("only two words");
+    EXPECT_THROW(gen.loadText("temp_test.txt"), std::runtime_error);
+    std::remove("temp_test.txt");
+}
+
+TEST(TextGen, NoInfiniteLoop) {
+    TextGenerator gen(1, 100);
+    std::deque<std::string> a = { "a" };
+    std::deque<std::string> b = { "b" };
+    gen.addSuffix(a, "b");
+    gen.addSuffix(b, "a");
+    std::string result = gen.generateFromPrefix(a);
+    std::stringstream ss(result);
+    int cnt = 0;
+    std::string w;
+    while (ss >> w) ++cnt;
+    EXPECT_LE(cnt, 1 + 100);
+}
+
+TEST(TextGen, DistributionOfSuffixes) {
+    TextGenerator gen(2, 100);
+    std::deque<std::string> prefix = { "A", "B" };
+    gen.addSuffix(prefix, "X");
+    gen.addSuffix(prefix, "Y");
+    int countX = 0, countY = 0;
+    const int trials = 200;
+    for (int i = 0; i < trials; ++i) {
+        std::string result = gen.generateFromPrefix(prefix);
+        if (result.find("X") != std::string::npos) ++countX;
+        else if (result.find("Y") != std::string::npos) ++countY;
+    }
+    EXPECT_GT(countX, 10);
+    EXPECT_GT(countY, 10);
+}
+
+TEST(TextGen, MaxWordLimit) {
+    TextGenerator gen(2, 5);
+    writeTempFile("one two three four five six seven eight nine ten");
+    gen.loadText("temp_test.txt");
+    std::string result = gen.generate();
+    std::stringstream ss(result);
+    int wordCount = 0;
+    std::string w;
+    while (ss >> w) ++wordCount;
+    EXPECT_LE(wordCount, 2 + 5);
+    std::remove("temp_test.txt");
 }
