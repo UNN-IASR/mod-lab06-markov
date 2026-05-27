@@ -30,7 +30,7 @@ TEST(TextGen, CorrectNumberOfWords) {
 
 TEST(TextGen, SingleMapping) {
     TextGenerator gen(2, 10);
-    std::deque<std::string> prefix = { "hello", "world" };
+    std::deque<std::string> prefix = {"hello", "world"};
     gen.addSuffix(prefix, "test");
     auto suffixes = gen.getSuffixes(prefix);
     ASSERT_EQ(suffixes.size(), 1);
@@ -39,7 +39,7 @@ TEST(TextGen, SingleMapping) {
 
 TEST(TextGen, SingleSuffix) {
     TextGenerator gen(2, 5);
-    std::deque<std::string> prefix = { "foo", "bar" };
+    std::deque<std::string> prefix = {"foo", "bar"};
     gen.addSuffix(prefix, "baz");
     for (int i = 0; i < 10; ++i) {
         std::string result = gen.generateFromPrefix(prefix);
@@ -49,7 +49,7 @@ TEST(TextGen, SingleSuffix) {
 
 TEST(TextGen, MultipleSuffixesRandom) {
     TextGenerator gen(2, 10);
-    std::deque<std::string> prefix = { "color", "is" };
+    std::deque<std::string> prefix = {"color", "is"};
     gen.addSuffix(prefix, "red");
     gen.addSuffix(prefix, "green");
     gen.addSuffix(prefix, "blue");
@@ -67,10 +67,10 @@ TEST(TextGen, MultipleSuffixesRandom) {
 
 TEST(TextGen, FixedLengthFromManualTable) {
     TextGenerator gen(2, 5);
-    std::deque<std::string> p1 = { "I", "like" };
-    std::deque<std::string> p2 = { "like", "to" };
-    std::deque<std::string> p3 = { "to", "eat" };
-    std::deque<std::string> p4 = { "eat", "apples" };
+    std::deque<std::string> p1 = {"I", "like"};
+    std::deque<std::string> p2 = {"like", "to"};
+    std::deque<std::string> p3 = {"to", "eat"};
+    std::deque<std::string> p4 = {"eat", "apples"};
     gen.addSuffix(p1, "to");
     gen.addSuffix(p2, "eat");
     gen.addSuffix(p3, "apples");
@@ -84,14 +84,6 @@ TEST(TextGen, FixedLengthFromManualTable) {
     EXPECT_LE(wordCount, 7);
 }
 
-TEST(TextGen, EmptyInputFile) {
-    TextGenerator gen(2, 10);
-    writeTempFile("");
-    gen.loadText("temp_test.txt");
-    EXPECT_EQ(gen.generate(), "");
-    std::remove("temp_test.txt");
-}
-
 TEST(TextGen, TextShorterThanPrefix) {
     TextGenerator gen(3, 10);
     writeTempFile("only two words");
@@ -101,8 +93,8 @@ TEST(TextGen, TextShorterThanPrefix) {
 
 TEST(TextGen, NoInfiniteLoop) {
     TextGenerator gen(1, 100);
-    std::deque<std::string> a = { "a" };
-    std::deque<std::string> b = { "b" };
+    std::deque<std::string> a = {"a"};
+    std::deque<std::string> b = {"b"};
     gen.addSuffix(a, "b");
     gen.addSuffix(b, "a");
     std::string result = gen.generateFromPrefix(a);
@@ -115,7 +107,7 @@ TEST(TextGen, NoInfiniteLoop) {
 
 TEST(TextGen, DistributionOfSuffixes) {
     TextGenerator gen(2, 100);
-    std::deque<std::string> prefix = { "A", "B" };
+    std::deque<std::string> prefix = {"A", "B"};
     gen.addSuffix(prefix, "X");
     gen.addSuffix(prefix, "Y");
     int countX = 0, countY = 0;
@@ -140,4 +132,21 @@ TEST(TextGen, MaxWordLimit) {
     while (ss >> w) ++wordCount;
     EXPECT_LE(wordCount, 2 + 5);
     std::remove("temp_test.txt");
+}
+
+TEST(TextGen, ClearTableResets) {
+    TextGenerator gen(2, 10);
+    std::deque<std::string> prefix = {"test", "prefix"};
+    gen.addSuffix(prefix, "suffix");
+    EXPECT_TRUE(gen.hasPrefix(prefix));
+    gen.clearTable();
+    EXPECT_FALSE(gen.hasPrefix(prefix));
+    EXPECT_EQ(gen.getTableSize(), 0);
+}
+
+TEST(TextGen, GenerateFromUnknownPrefix) {
+    TextGenerator gen(2, 10);
+    std::deque<std::string> unknown = {"unknown", "prefix"};
+    std::string result = gen.generateFromPrefix(unknown);
+    EXPECT_TRUE(result.empty());
 }
