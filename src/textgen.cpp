@@ -1,10 +1,10 @@
-// Copyright 2026 Starostin
+// Copyright 2026 Andrew
 
-#include "textgen.h"
 #include <fstream>
 #include <cstdlib>
 #include <vector>
 #include <string>
+#include "textgen.h"
 
 std::vector<std::string> read_file(const std::string& filename) {
     std::ifstream file(filename);
