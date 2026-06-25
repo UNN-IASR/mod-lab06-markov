@@ -18,6 +18,6 @@ int main(int argc, char* argv[]) {
     build_table(input, table, NPREF);
     std::random_device rd;
     std::mt19937 gen(rd());
-    generate_text(table, NPREF, MAXGEN, gen);
+    generate_text(table, NPREF, MAXGEN, gen, true);
     return 0;
 }
