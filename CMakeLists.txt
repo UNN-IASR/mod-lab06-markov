@@ -14,7 +14,7 @@ enable_testing()
 find_package(GTest REQUIRED)
 
 set(TEST_BINARY_DIR "${CMAKE_BINARY_DIR}/tests")  # Папка tests в корне build/
-add_executable(mod-lab06-markov.test src/test.cpp src/textgen.cpp)
+add_executable(mod-lab06-markov.test test/test.cpp src/textgen.cpp)
 set_target_properties(mod-lab06-markov.test PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${TEST_BINARY_DIR}")
 
 
