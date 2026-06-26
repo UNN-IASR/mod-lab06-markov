@@ -25,5 +25,5 @@ target_link_libraries(mod-lab06-markov.test
 
 add_test(
     NAME MarkovTest
-    COMMAND ./test/mod-lab06-markov.test
+    COMMAND ./mod-lab06-markov.test
 )
