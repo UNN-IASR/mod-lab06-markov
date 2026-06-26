@@ -24,4 +24,5 @@ target_link_libraries(mod-lab06-markov.test
 )
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/test)
-add_test(NAME MarkovTests COMMAND mod-lab06-markov.test)
+add_test(NAME MarkovTests COMMAND $<TARGET_FILE:mod-lab06-markov.test>)
+
