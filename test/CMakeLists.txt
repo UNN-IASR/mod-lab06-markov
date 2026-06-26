@@ -1,8 +1,13 @@
-add_executable(${PROJECT_NAME}.test
-  AllTests.cpp
-  tests.cpp)
-target_compile_definitions(${PROJECT_NAME}.test 
-  PRIVATE TEST_DIR="${CMAKE_CURRENT_LIST_DIR}/test")
+cmake_minimum_required (VERSION 3.10.2)
+project (mod-lab06-markov)
 
-install(TARGETS ${PROJECT_NAME}.test
-        DESTINATION "${tool_dest}")
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -g")
+
+
+set(tool_dest "bin")
+set(lib_dest "lib")
+set(include_dest "include/")
+
+add_subdirectory(src)
+add_subdirectory(test)
