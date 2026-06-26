@@ -24,7 +24,8 @@ void build_table(std::istream& input, statetab& table, int npref) {
     }
 }
 
-void generate_text(statetab& table, int npref, int maxgen, std::mt19937& gen, bool write_to_file = false) {
+void generate_text(statetab& table, int npref, int maxgen,
+    std::mt19937& gen, bool write_to_file = false) {
     prefix pref;
     std::vector<prefix> valid_prefixes;
     for (auto& p : table) {
