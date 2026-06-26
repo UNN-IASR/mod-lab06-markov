@@ -23,6 +23,4 @@ target_link_libraries(mod-lab06-markov.test
   GTest::Main
 )
 
-
-
-
+add_test(NAME MarkovTests COMMAND mod-lab06-markov.test)
