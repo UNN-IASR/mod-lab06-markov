@@ -23,8 +23,6 @@ target_link_libraries(mod-lab06-markov.test
   GTest::Main
 )
 
-ТЕПЕРЬ ЭТОТ ФАЙЛ НЕВАЛИДЕН
 
-add_test(NAME MarkovTests COMMAND ${CMAKE_CURRENT_BINARY_DIR}/test/TEST TEST TEST)
 
 
