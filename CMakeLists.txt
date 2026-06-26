@@ -22,5 +22,6 @@ target_link_libraries(mod-lab06-markov.test
   GTest::GTest
   GTest::Main
 )
-add_test(NAME MarkovTests COMMAND ${CMAKE_BINARY_DIR}/mod-lab06-markov.test)
+add_test(NAME MarkovTests COMMAND ${CMAKE_CURRENT_BINARY_DIR}/test/mod-lab06-markov.test)
+
 
